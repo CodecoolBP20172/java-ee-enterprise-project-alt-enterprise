@@ -4,7 +4,7 @@ import org.mindrot.jbcrypt.BCrypt;
 
 public abstract class User {
 
-    private int userId;
+    private long userId;
     private String userName;
     private String password;
     private AccessRights accessRights;
