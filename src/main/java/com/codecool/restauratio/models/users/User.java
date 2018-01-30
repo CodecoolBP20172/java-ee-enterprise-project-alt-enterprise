@@ -15,7 +15,7 @@ public abstract class User {
         this.accessRights = accessRights;
     }
 
-    public int getUserId() {
+    public long getUserId() {
         return userId;
     }
 
