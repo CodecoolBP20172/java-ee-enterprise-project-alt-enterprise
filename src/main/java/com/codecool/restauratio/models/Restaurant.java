@@ -1,17 +1,30 @@
 package com.codecool.restauratio.models;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.util.List;
 
+@Entity
 public class Restaurant {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
     private String description;
     private String location;
+
+
     private List<Food> menu;
     private int capacity;
     private boolean isAvailable;
     private List<String> review;
     private List<Integer> ratings;
+
+    public Restaurant() {
+    }
 
     public Restaurant(String name, String description, String location, List<Food> menu, int capacity) {
         this.name = name;
@@ -21,7 +34,7 @@ public class Restaurant {
         this.capacity = capacity;
         this.isAvailable = true;
     }
-    
+
     public void addFoodToMenu(Food food) {
         if (!menu.contains(food)) {
             menu.add(food);
@@ -53,7 +66,7 @@ public class Restaurant {
     }
 
     boolean isAvailable() {
-        return isAvailable;
+       return isAvailable;
     }
 
     List<String> getReview() {

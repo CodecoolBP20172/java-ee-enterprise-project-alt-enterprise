@@ -6,6 +6,10 @@ import java.util.List;
 @Entity
 public class Order extends Request{
     private String adress;
+
+    public Order() {
+    }
+
     private List<Food> foodList;
     
     public Order(String address, List<Food> foodList) {

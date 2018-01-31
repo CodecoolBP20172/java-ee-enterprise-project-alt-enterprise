@@ -4,9 +4,13 @@ import org.mindrot.jbcrypt.BCrypt;
 
 import javax.persistence.*;
 
-@MappedSuperclass
+@Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class User {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    protected String id;
     protected String userName;
     protected String password;
 
@@ -22,7 +26,13 @@ public abstract class User {
     protected User() {
     }
 
-    public abstract long getUserId();
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getUserName() {
         return userName;
@@ -47,4 +57,6 @@ public abstract class User {
     public boolean checkPassword(String candidatePassword){
         return BCrypt.checkpw(candidatePassword, password);
     }
+
+
 }
