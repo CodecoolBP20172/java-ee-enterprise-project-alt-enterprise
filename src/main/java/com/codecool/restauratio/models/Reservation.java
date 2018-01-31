@@ -7,11 +7,7 @@ public class Reservation extends Request{
 
     private int numberOfPeople;
 
-    private Reservation() {
-        this.numberOfPeople = 0;
-    }
-
-    private Reservation(int numberOfPeople) {
+    public Reservation(int numberOfPeople) {
         this.numberOfPeople = numberOfPeople;
     }
 }
