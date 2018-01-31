@@ -4,9 +4,11 @@ import com.codecool.restauratio.models.users.User;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import java.util.List;
 
 @Entity
+@Table(name = "`order`")
 public class Order extends Request{
     private String adress;
     // private List<Food> foodList;
