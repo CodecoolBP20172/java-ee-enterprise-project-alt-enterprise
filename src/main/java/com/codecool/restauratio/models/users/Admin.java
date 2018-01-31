@@ -1,11 +1,15 @@
 package com.codecool.restauratio.models.users;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @Entity
 public class Admin extends User{
 
-    // annotate with id+generatedvalue
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long adminId;
 
     public Admin(String userName, String password) {
@@ -19,4 +23,5 @@ public class Admin extends User{
     public long getUserId() {
         return adminId;
     }
+
 }

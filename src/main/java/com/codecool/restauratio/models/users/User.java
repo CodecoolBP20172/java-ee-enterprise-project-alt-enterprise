@@ -4,15 +4,11 @@ import org.mindrot.jbcrypt.BCrypt;
 
 import javax.persistence.*;
 
-@Entity
+@MappedSuperclass
 public abstract class User {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int Id;
-
-    private String userName;
-    private String password;
+    protected String userName;
+    protected String password;
 
     @Enumerated(EnumType.STRING)
     private AccessRights accessRights;
