@@ -14,6 +14,5 @@ public abstract class Request {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private Date creationDate;
-    private User user;
-    private Restaurant restaurant;
+
 }

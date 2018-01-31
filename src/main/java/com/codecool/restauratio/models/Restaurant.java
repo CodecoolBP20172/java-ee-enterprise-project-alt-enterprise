@@ -1,34 +1,60 @@
 package com.codecool.restauratio.models;
 
+import com.codecool.restauratio.models.users.User;
+
+import javax.persistence.*;
 import java.util.List;
 
+@Entity
 public class Restaurant {
-    private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
     private String name;
     private String description;
     private String location;
-    private List<Food> menu;
-    private int capacity;
+
+    // Many to many
+    // private List<Food> menu;
+    private long capacity;
     private boolean isAvailable;
-    private List<String> review;
+
+    @OneToMany(mappedBy = "reservationRestaurant")
+    private List<Reservation> reservations;
+
+    @OneToMany(mappedBy = "orderRestaurant")
+    private List<Order> orders;
+
+    @ElementCollection
+    @CollectionTable(name="Reviews")
+    private List<String> reviews;
+
+    @ElementCollection
+    @CollectionTable(name="Ratings")
     private List<Integer> ratings;
+
+    @ManyToOne
+    private User owner;
 
     public Restaurant(String name, String description, String location, List<Food> menu, int capacity) {
         this.name = name;
         this.description = description;
         this.location = location;
-        this.menu = menu;
+        //this.menu = menu;
         this.capacity = capacity;
         this.isAvailable = true;
     }
-    
-    public void addFoodToMenu(Food food) {
-        if (!menu.contains(food)) {
-            menu.add(food);
-        }
+
+    public Restaurant() {
     }
+
+//    public void addFoodToMenu(Food food) {
+//        if (!menu.contains(food)) {
+//            menu.add(food);
+//        }
+//    }
     
-    int getId() {
+    long getId() {
         return id;
     }
 
@@ -44,11 +70,11 @@ public class Restaurant {
         return location;
     }
 
-    List<Food> getMenu() {
-        return menu;
-    }
+//    List<Food> getMenu() {
+//        return menu;
+//    }
 
-    int getCapacity() {
+    long getCapacity() {
         return capacity;
     }
 
@@ -57,7 +83,7 @@ public class Restaurant {
     }
 
     List<String> getReview() {
-        return review;
+        return reviews;
     }
 
     int getAverageRating() {
@@ -68,16 +94,16 @@ public class Restaurant {
         return sum/ratings.size();
     }
 
-    void setMenu(List<Food> menu) {
-        this.menu = menu;
-    }
+//    void setMenu(List<Food> menu) {
+//        this.menu = menu;
+//    }
 
     void setAvailable(boolean available) {
         isAvailable = available;
     }
 
     void addReview(String review) {
-        this.review.add(review);
+        this.reviews.add(review);
     }
 
     void setRating(int rating) {
