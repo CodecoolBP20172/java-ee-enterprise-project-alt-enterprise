@@ -1,7 +1,10 @@
 package com.codecool.restauratio.models;
 
+import javax.persistence.Entity;
+
+@Entity
 public class Reservation extends Request{
-    private int id;
+
     private int numberOfPeople;
 
     private Reservation() {
@@ -10,10 +13,5 @@ public class Reservation extends Request{
 
     private Reservation(int numberOfPeople) {
         this.numberOfPeople = numberOfPeople;
-    }
-
-    @Override
-    public int getId() {
-        return this.id;
     }
 }
