@@ -2,16 +2,28 @@ package com.codecool.restauratio.models.users;
 
 import org.mindrot.jbcrypt.BCrypt;
 
+import javax.persistence.*;
+
+@Entity
 public abstract class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int Id;
 
     private String userName;
     private String password;
+
+    @Enumerated(EnumType.STRING)
     private AccessRights accessRights;
 
     public User(String userName, String password, AccessRights accessRights) {
         this.userName = userName;
         this.password = BCrypt.hashpw(password, BCrypt.gensalt());
         this.accessRights = accessRights;
+    }
+
+    protected User() {
     }
 
     public abstract long getUserId();

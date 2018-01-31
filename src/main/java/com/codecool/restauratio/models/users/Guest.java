@@ -2,7 +2,7 @@ package com.codecool.restauratio.models.users;
 
 import java.util.List;
 import java.util.ArrayList;
-
+/*
 public class Guest extends User{
 
     // annotate with id+generatedvalue
@@ -31,3 +31,4 @@ public class Guest extends User{
         return guestId;
     }
 }
+*/

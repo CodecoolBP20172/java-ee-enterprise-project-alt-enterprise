@@ -1,5 +1,7 @@
 package com.codecool.restauratio;
 
+import com.codecool.restauratio.models.users.Admin;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -11,17 +13,22 @@ public class RestApp {
 
         EntityTransaction transaction = em.getTransaction();
 
-        //instantiate objects
+        Admin admin1 = new Admin("Xattus", "egy123");
+        Admin admin2 = new Admin("Soma", "egy1234");
 
         transaction.begin();
-        //persist objects em.persist(object)
+        em.persist(admin1);
+        em.persist(admin2);
         transaction.commit();
     }
 
     public static void main(String[] args) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("jpaexamplePU");
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("restaurantSetterPU");
         EntityManager em = emf.createEntityManager();
 
         populateDb(em);
+
+        em.close();
+        emf.close();
     }
 }
