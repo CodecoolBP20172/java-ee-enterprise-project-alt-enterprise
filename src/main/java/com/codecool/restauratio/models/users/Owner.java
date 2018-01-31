@@ -7,6 +7,9 @@ import java.util.List;
 
 public class Owner extends User{
 
+    // annotate with id+generatedvalue
+    private long ownerId;
+
     // annotate with OneToMany to restaurant table
     private List<Restaurant> restaurants;
 
@@ -15,5 +18,12 @@ public class Owner extends User{
         restaurants = new ArrayList<Restaurant>();
     }
 
+    public List<Restaurant> getRestaurants() {
+        return restaurants;
+    }
 
+    @Override
+    public long getUserId() {
+        return ownerId;
+    }
 }
