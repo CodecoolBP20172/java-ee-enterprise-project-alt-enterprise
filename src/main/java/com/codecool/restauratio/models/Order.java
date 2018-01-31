@@ -6,4 +6,9 @@ public class Order extends Request{
     private int id;
     private String adress;
     private List<Food> foodList;
+
+    @Override
+    public int getId() {
+        return this.id;
+    }
 }

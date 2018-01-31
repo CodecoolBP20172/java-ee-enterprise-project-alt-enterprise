@@ -8,4 +8,6 @@ public abstract class Request {
     private Date creationDate;
     private User user;
     private Restaurant restaurant;
+
+    public abstract int getId();
 }
