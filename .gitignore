@@ -29,6 +29,14 @@ cmake-build-debug/
 # Mongo Explorer plugin:
 .idea/**/mongoSettings.xml
 
+
+# hibernate overhead
+create-schema.ddl
+drop-schema.ddl
+
+# persistanceUnit for privacy
+persistance.xml
+
 ## File-based project format:
 *.iws
 
