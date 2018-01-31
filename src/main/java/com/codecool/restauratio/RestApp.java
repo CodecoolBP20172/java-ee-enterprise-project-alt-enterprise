@@ -11,7 +11,7 @@ public class RestApp {
 
         EntityTransaction transaction = em.getTransaction();
 
-        //instantiate objects    
+        //instantiate objects
 
         transaction.begin();
         //persist objects em.persist(object)
