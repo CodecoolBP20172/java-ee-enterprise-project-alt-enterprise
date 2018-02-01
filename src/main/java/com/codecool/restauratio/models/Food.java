@@ -1,11 +1,16 @@
 package com.codecool.restauratio.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
+@NamedQueries({
+        @NamedQuery(
+                name = "getAllFood",
+                query = "SELECT f FROM Food f"),
+        @NamedQuery(
+                name = "getFoodById",
+                query = "select f FROM Food f where f.id = :id")
+})
 public class Food {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
