@@ -15,11 +15,11 @@ public class UserDao {
     }
     public User getUserById(Integer userId) {
         EntityManager em = DatabaseUtility.getEntityManager();
-        return em.find(User.class,1);
+        return em.find(User.class,userId);
     }
     public String getUserPasswordById(Integer userId) {
         EntityManager em = DatabaseUtility.getEntityManager();
-        User currentUser= em.find(User.class,1);
+        User currentUser= em.find(User.class,userId);
         return currentUser.getPassword();
     }
 }
