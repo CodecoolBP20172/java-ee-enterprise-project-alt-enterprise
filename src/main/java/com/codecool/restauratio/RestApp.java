@@ -96,17 +96,5 @@ public class RestApp {
                 return "<html><body><h1>" + res.raw().getStatus() + "</h1><p>SERVICE UNAVAILABLE</p></body></html>";
             }
         });
-
-        RestaurantDao restdao = new RestaurantDao();
-        OrderDao ordDao = new OrderDao();
-        ReservationDao reservDao = new ReservationDao();
-        UserDao usDao = new UserDao();
-
-        ReservationDao resdao = new ReservationDao();
-        System.out.println(restdao.getAll());
-        System.out.println(restdao.getRestaurantById(1));
-        System.out.println(ordDao.getOrderById(1));
-        System.out.println(resdao.getAll());
-
     }
 }
