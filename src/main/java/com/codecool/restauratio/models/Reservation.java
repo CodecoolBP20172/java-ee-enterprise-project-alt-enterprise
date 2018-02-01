@@ -6,6 +6,11 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
+@NamedQueries({
+        @NamedQuery(
+                name = "getAllReservation",
+                query = "SELECT o FROM Order o")
+})
 public class Reservation extends Request{
 
     @Column(name = "number_of_people")
