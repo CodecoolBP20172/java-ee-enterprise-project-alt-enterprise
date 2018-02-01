@@ -10,6 +10,11 @@ import java.util.List;
 
 public class RestaurantDao {
 
+    public void add(Restaurant restaurant) {
+        EntityManager em = DatabaseUtility.getEntityManager();
+        em.persist(restaurant);
+    }
+
     public List<Restaurant> getAll() {
         EntityManager em = DatabaseUtility.getEntityManager();
         return em.createNamedQuery("getAllRestaurants").getResultList();

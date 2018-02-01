@@ -10,6 +10,11 @@ import java.util.List;
 
 @Entity
 @Table(name = "`user`")
+@NamedQueries({
+        @NamedQuery(
+                name = "getAllUser",
+                query = "SELECT u FROM User u"),
+})
 public class User {
 
     @Id
@@ -83,5 +88,12 @@ public class User {
 
     public void addReservation(Reservation res) {
         this.reservations.add(res);
+    }
+
+    @Override
+    public String toString() {
+        return "User = " +
+                "userName: '" + userName + '\'' +
+                ", restaurants: " + restaurants;
     }
 }

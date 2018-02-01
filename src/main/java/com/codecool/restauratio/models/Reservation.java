@@ -6,6 +6,14 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
+@NamedQueries({
+        @NamedQuery(
+                name = "getAllReservations",
+                query = "SELECT r FROM Reservation r"),
+        @NamedQuery(
+                name = "getReservationById",
+                query = "select r FROM Reservation r where r.id = :id")
+})
 public class Reservation extends Request{
 
     @Column(name = "number_of_people")
@@ -51,5 +59,13 @@ public class Reservation extends Request{
 
     public void setGuest(User guest) {
         this.guest = guest;
+    }
+
+    @Override
+    public String toString() {
+        return "Reservation = " +
+                "numberOfPeople: " + numberOfPeople +
+                ", Restaurant: " + reservationRestaurant.getName() +
+                ", guest: " + guest.getUserName();
     }
 }

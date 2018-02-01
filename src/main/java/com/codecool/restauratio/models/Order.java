@@ -11,13 +11,10 @@ import java.util.List;
 @NamedQueries({
         @NamedQuery(
                 name = "getAllOrder",
-                query = "SELECT o FROM Order o"),
-        @NamedQuery(
-                name = "getOrderById",
-                query = "select o FROM Order o where o.id = :id")
+                query = "SELECT o FROM Order o")
 })
 public class Order extends Request{
-    private String adress;
+    private String address;
 
     @ManyToMany
     @JoinTable(
@@ -39,19 +36,19 @@ public class Order extends Request{
 
     public Order(Date date, String address, List<Food> foodList, User user, Restaurant restaurant) {
         super(date);
-        this.adress = address;
+        this.address = address;
         this.foodList = foodList;
         this.orderRestaurant = restaurant;
         this.user = user;
 
     }
 
-    public String getAdress() {
-        return adress;
+    public String getAddress() {
+        return address;
     }
 
-    public void setAdress(String adress) {
-        this.adress = adress;
+    public void setAddress(String adress) {
+        this.address = adress;
     }
 
     public List<Food> getFoodList() {
@@ -76,5 +73,14 @@ public class Order extends Request{
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    @Override
+    public String toString() {
+        return "Order = " +
+                "address: '" + address + '\'' +
+                ", foodList: " + foodList +
+                ", orderRestaurant: " + orderRestaurant.getName() +
+                ", user: " + user.getUserName();
     }
 }
