@@ -1,5 +1,7 @@
 package com.codecool.restauratio;
 
+import com.codecool.restauratio.controller.RestaurantController;
+import com.codecool.restauratio.models.Food;
 import com.codecool.restauratio.dao.OrderDao;
 import com.codecool.restauratio.dao.ReservationDao;
 import com.codecool.restauratio.dao.RestaurantDao;
@@ -11,6 +13,8 @@ import com.codecool.restauratio.utils.DatabaseUtility;
 import com.codecool.restauratio.models.Food;
 import com.codecool.restauratio.models.Reservation;
 import com.codecool.restauratio.models.users.User;
+import org.eclipse.jetty.http.HttpStatus;
+import spark.template.thymeleaf.ThymeleafTemplateEngine;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -19,6 +23,10 @@ import javax.persistence.Persistence;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import static javax.swing.text.html.HTML.Tag.HEAD;
+import static spark.Spark.*;
+import static spark.debug.DebugScreen.enableDebugScreen;
 
 public class RestApp {
 
@@ -45,9 +53,9 @@ public class RestApp {
         list3.add(f2);
         list3.add(f3);
 
-        Restaurant r = new Restaurant("restaurant", "good", "here", list, 100);
-        Restaurant r2 = new Restaurant("r2", "pretty", "there", list2, 50);
-        Restaurant r3 = new Restaurant("r3", "bad", "where", list3, 10);
+        Restaurant r = new Restaurant("Halászcsárda", "good", "here", list, 100, user1);
+        Restaurant r2 = new Restaurant("Csirkés", "pretty", "there", list2, 50, user2);
+        Restaurant r3 = new Restaurant("Titiz", "bad", "where", list3, 10, user2);
 
         Order o1 = new Order(date, "here", list, user1, r);
         Order o2 = new Order(date, "there", list3, user2, r2);
@@ -73,10 +81,32 @@ public class RestApp {
         EntityManager em = DatabaseUtility.getEntityManager();
         populateDb(em);
 
+
+        enableDebugScreen();
+
+        exception(Exception.class, (e, req, res) -> e.printStackTrace());
+        staticFileLocation("/public");
+        port(8888);
+
+        get("/", (req, res) -> {
+            try {
+                return new ThymeleafTemplateEngine().render(RestaurantController.renderRestaurants(req, res));
+            } catch (Exception e) {
+                res.status(HttpStatus.SERVICE_UNAVAILABLE_503);
+                return "<html><body><h1>" + res.raw().getStatus() + "</h1><p>SERVICE UNAVAILABLE</p></body></html>";
+            }
+        });
+
         RestaurantDao restdao = new RestaurantDao();
         OrderDao ordDao = new OrderDao();
         ReservationDao reservDao = new ReservationDao();
         UserDao usDao = new UserDao();
+
+        ReservationDao resdao = new ReservationDao();
+        System.out.println(restdao.getAll());
+        System.out.println(restdao.getRestaurantById(1));
+        System.out.println(ordDao.getOrderById(1));
+        System.out.println(resdao.getAll());
 
     }
 }

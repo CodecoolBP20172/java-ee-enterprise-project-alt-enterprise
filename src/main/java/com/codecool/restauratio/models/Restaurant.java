@@ -1,7 +1,9 @@
 package com.codecool.restauratio.models;
 
 import com.codecool.restauratio.models.users.User;
+
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -21,8 +23,8 @@ public class Restaurant {
     @ManyToMany
     @JoinTable(
             name = "Restaurant_Food",
-            joinColumns = { @JoinColumn(name = "restaurant_id")},
-            inverseJoinColumns = { @JoinColumn(name = "food_id")}
+            joinColumns = {@JoinColumn(name = "restaurant_id")},
+            inverseJoinColumns = {@JoinColumn(name = "food_id")}
     )
     private List<Food> menu;
     private long capacity;
@@ -35,23 +37,29 @@ public class Restaurant {
     private List<Order> orders;
 
     @ElementCollection
-    @CollectionTable(name="Reviews")
+    @CollectionTable(name = "Reviews")
     private List<String> reviews;
 
     @ElementCollection
-    @CollectionTable(name="Ratings")
+    @CollectionTable(name = "Ratings")
     private List<Integer> ratings;
 
     @ManyToOne
     private User owner;
 
-    public Restaurant(String name, String description, String location, List<Food> menu, int capacity) {
+    public Restaurant(String name, String description, String location, List<Food> menu, int capacity, User owner) {
         this.name = name;
         this.description = description;
         this.location = location;
         this.menu = menu;
         this.capacity = capacity;
+        this.owner = owner;
         this.isAvailable = true;
+        this.ratings = new ArrayList<>();
+        this.reviews = new ArrayList<>();
+    }
+
+    public Restaurant() {
     }
 
     public void addFoodToMenu(Food food) {
@@ -60,72 +68,78 @@ public class Restaurant {
         }
     }
 
-    public Restaurant() {
-    }
-    
-    long getRestaurant_id() {
+    public long getRestaurant_id() {
         return restaurant_id;
     }
 
-    String getName() {
+    public String getName() {
         return name;
     }
 
-    String getDescription() {
+    public String getDescription() {
         return description;
     }
 
-    String getLocation() {
+    public String getLocation() {
         return location;
     }
 
-    List<Food> getMenu() {
+    public List<Food> getMenu() {
         return menu;
     }
 
-    long getCapacity() {
-        return capacity;
-    }
-
-    boolean isAvailable() {
-       return isAvailable;
-    }
-
-    List<String> getReview() {
-        return reviews;
-    }
-
-    int getAverageRating() {
-        int sum = 0;
-        for (Integer rating:ratings) {
-            sum += rating;
-        }
-        return sum/ratings.size();
-    }
-
-    void setMenu(List<Food> menu) {
+    public void setMenu(List<Food> menu) {
         this.menu = menu;
     }
 
-    void setAvailable(boolean available) {
+    public void setAvailable(boolean available) {
         isAvailable = available;
     }
 
-    void addReview(String review) {
+    public long getCapacity() {
+        return capacity;
+    }
+
+    public boolean isAvailable() {
+       return isAvailable;
+    }
+
+    public List<String> getReview() {
+        return reviews;
+    }
+
+    public int getAverageRating() {
+        if (ratings.size() == 0) {
+            return 0;
+        }
+        int sum = 0;
+        for (Integer rating : ratings) {
+            sum += rating;
+        }
+        return sum / ratings.size();
+    }
+
+    public void addReview(String review) {
         this.reviews.add(review);
     }
 
-    void setRating(int rating) {
+    public void setRating(int rating) {
         if (rating < 1 || rating > 5) {
-            throw  new IllegalArgumentException("Rating must be between 1 and 5!");
+            throw new IllegalArgumentException("Rating must be between 1 and 5!");
         }
         ratings.add(rating);
     }
 
+
     @Override
     public String toString() {
-        return "[" +
-                "name='" + name + '\'' +
-                ']';
+        return "Restaurant = " +
+                "name: '" + name + '\'' +
+                ", description: '" + description + '\'' +
+                ", location: '" + location + '\'' +
+                ", capacity: " + capacity +
+                ", isAvailable: " + isAvailable +
+                ", ratings: " + getAverageRating() +
+                ", owner: " + owner.getUserName();
     }
 }
