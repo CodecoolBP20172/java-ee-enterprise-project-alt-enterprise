@@ -9,10 +9,7 @@ import java.util.Date;
 @NamedQueries({
         @NamedQuery(
                 name = "getAllReservations",
-                query = "SELECT r FROM Reservation r"),
-        @NamedQuery(
-                name = "getReservationById",
-                query = "select r FROM Reservation r where r.id = :id")
+                query = "SELECT r FROM Reservation r")
 })
 public class Reservation extends Request{
 
@@ -27,16 +24,16 @@ public class Reservation extends Request{
     private User guest;
 
 
-    public Reservation(Date date, int numberOfPeople, Restaurant r, User g) {
+    protected Reservation() {
+    }
+
+    public Reservation(Date date, int numberOfPeople, Restaurant restaurant, User guest) {
         super(date);
-        this.numberOfPeople = numberOfPeople;
-        this.reservationRestaurant = r;
-        this.guest = g;
+        setNumberOfPeople(numberOfPeople);
+        setReservationRestaurant(restaurant);
+        setGuest(guest);
     }
 
-
-    public Reservation() {
-    }
 
     public int getNumberOfPeople() {
         return numberOfPeople;
@@ -45,6 +42,7 @@ public class Reservation extends Request{
     public void setNumberOfPeople(int numberOfPeople) {
         this.numberOfPeople = numberOfPeople;
     }
+
     public Restaurant getReservationRestaurant() {
         return reservationRestaurant;
     }
