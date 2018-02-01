@@ -1,6 +1,7 @@
 package com.codecool.restauratio;
 
 import com.codecool.restauratio.dao.OrderDao;
+import com.codecool.restauratio.dao.ReservationDao;
 import com.codecool.restauratio.dao.RestaurantDao;
 import com.codecool.restauratio.models.Order;
 import com.codecool.restauratio.models.Request;
@@ -43,9 +44,9 @@ public class RestApp {
         list3.add(f2);
         list3.add(f3);
 
-        Restaurant r = new Restaurant("restaurant", "good", "here", list, 100);
-        Restaurant r2 = new Restaurant("r2", "pretty", "there", list2, 50);
-        Restaurant r3 = new Restaurant("r3", "bad", "where", list3, 10);
+        Restaurant r = new Restaurant("restaurant", "good", "here", list, 100, user1);
+        Restaurant r2 = new Restaurant("r2", "pretty", "there", list2, 50, user2);
+        Restaurant r3 = new Restaurant("r3", "bad", "where", list3, 10, user2);
 
         Order o1 = new Order(date, "here", list, user1, r);
         Order o2 = new Order(date, "there", list3, user2, r2);
@@ -72,10 +73,12 @@ public class RestApp {
         populateDb(em);
 
         RestaurantDao restdao = new RestaurantDao();
+        OrderDao ordDao = new OrderDao();
+        ReservationDao resdao = new ReservationDao();
         System.out.println(restdao.getAll());
         System.out.println(restdao.getRestaurantById(1));
-        OrderDao ordDao = new OrderDao();
         System.out.println(ordDao.getOrderById(1));
+        System.out.println(resdao.getAll());
 
     }
 }
