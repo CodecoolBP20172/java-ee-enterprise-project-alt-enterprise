@@ -1,15 +1,22 @@
 package com.codecool.restauratio.models.users;
 
+import com.codecool.restauratio.models.Order;
+import com.codecool.restauratio.models.Request;
+import com.codecool.restauratio.models.Reservation;
+
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.OneToMany;
 import java.util.List;
 import java.util.ArrayList;
-/*
+
 public class Guest extends User{
 
-    // annotate with id+generatedvalue
-    private long guestId;
-
     // annotate to reservation and order tables with OneToMany
+    @OneToMany(mappedBy = "user")
     private List<Reservation> reservations;
+
     private List<Order> orders;
 
     public Guest(String userName, String password) {
@@ -25,10 +32,4 @@ public class Guest extends User{
     public List<Order> getOrders() {
         return orders;
     }
-
-    @Override
-    public long getUserId() {
-        return guestId;
-    }
 }
-*/

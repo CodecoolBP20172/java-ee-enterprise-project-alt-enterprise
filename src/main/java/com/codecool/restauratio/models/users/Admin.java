@@ -8,20 +8,11 @@ import javax.persistence.Id;
 @Entity
 public class Admin extends User{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long adminId;
-
     public Admin(String userName, String password) {
         super(userName, password, AccessRights.ADMIN);
     }
 
     public Admin() {
-    }
-
-    @Override
-    public long getUserId() {
-        return adminId;
     }
 
 }
