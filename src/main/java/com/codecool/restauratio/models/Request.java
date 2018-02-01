@@ -5,7 +5,7 @@ import com.codecool.restauratio.models.users.User;
 import javax.persistence.*;
 import java.util.Date;
 
-@Entity
+@MappedSuperclass
 public abstract class Request {
 
     @Id

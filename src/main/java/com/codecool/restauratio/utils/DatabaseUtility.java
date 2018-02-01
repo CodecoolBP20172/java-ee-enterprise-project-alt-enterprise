@@ -9,7 +9,7 @@ public class DatabaseUtility {
 
     public static EntityManager getEntityManager() {
         if (em == null) {
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("restaurantSetterPU");
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("restaurantPU");
             em = emf.createEntityManager();
         }
         return em;

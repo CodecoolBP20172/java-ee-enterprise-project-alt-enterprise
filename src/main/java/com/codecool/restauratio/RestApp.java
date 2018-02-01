@@ -71,9 +71,11 @@ public class RestApp {
         EntityManager em = emf.createEntityManager();
 
         populateDb(em);
+        em.close();
+        emf.close();
 
-        RestaurantDao restdao = new RestaurantDao();
-        System.out.println(restdao.getAll());
+//        RestaurantDao restdao = new RestaurantDao();
+//        System.out.println(restdao.getAll());
     }
 
 
