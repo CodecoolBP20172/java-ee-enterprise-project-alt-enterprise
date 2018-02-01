@@ -1,7 +1,9 @@
 package com.codecool.restauratio;
 
+import com.codecool.restauratio.dao.RestaurantDao;
 import com.codecool.restauratio.models.Order;
 import com.codecool.restauratio.models.Request;
+import com.codecool.restauratio.models.Restaurant;
 import com.codecool.restauratio.models.users.Admin;
 import com.codecool.restauratio.utils.DatabaseUtility;
 import com.codecool.restauratio.models.users.Guest;
@@ -10,7 +12,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
-import java.util.List;
 
 public class RestApp {
 
@@ -34,6 +35,8 @@ public class RestApp {
         EntityManager em = DatabaseUtility.getEntityManager();
         populateDb(em);
 
+        RestaurantDao restdao = new RestaurantDao();
+        System.out.println(restdao.getAll());
     }
 
 
