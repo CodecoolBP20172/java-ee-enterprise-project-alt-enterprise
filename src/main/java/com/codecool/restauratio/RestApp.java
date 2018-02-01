@@ -23,8 +23,7 @@ public class RestApp {
     }
 
     public static void main(String[] args) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("restaurantSetterPU");
-        EntityManager em = emf.createEntityManager();
+
 
         populateDb(em);
 
