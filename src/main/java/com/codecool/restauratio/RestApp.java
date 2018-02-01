@@ -2,29 +2,20 @@ package com.codecool.restauratio;
 
 import com.codecool.restauratio.controller.RestaurantController;
 import com.codecool.restauratio.models.Food;
-import com.codecool.restauratio.dao.OrderDao;
-import com.codecool.restauratio.dao.ReservationDao;
-import com.codecool.restauratio.dao.RestaurantDao;
-import com.codecool.restauratio.dao.UserDao;
 import com.codecool.restauratio.models.Order;
-import com.codecool.restauratio.models.Request;
 import com.codecool.restauratio.models.Restaurant;
 import com.codecool.restauratio.utils.DatabaseUtility;
-import com.codecool.restauratio.models.Food;
 import com.codecool.restauratio.models.Reservation;
 import com.codecool.restauratio.models.users.User;
 import org.eclipse.jetty.http.HttpStatus;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static javax.swing.text.html.HTML.Tag.HEAD;
 import static spark.Spark.*;
 import static spark.debug.DebugScreen.enableDebugScreen;
 
