@@ -8,10 +8,10 @@ import java.util.List;
 @NamedQueries({
         @NamedQuery(
                 name = "getAllRestaurants",
-                query = "SELECT Restaurant FROM Restaurant"),
+                query = "SELECT r FROM Restaurant r"),
         @NamedQuery(
                 name = "getRestaurantById",
-                query = "select Restaurant FROM Restaurant where Restaurant.id = :id")
+                query = "select r FROM Restaurant r where r.id = :id")
 })
 public class Restaurant {
     @Id
@@ -65,12 +65,6 @@ public class Restaurant {
 
     public Restaurant() {
     }
-
-//    public void addFoodToMenu(Food food) {
-//        if (!menu.contains(food)) {
-//            menu.add(food);
-//        }
-//    }
     
     long getRestaurant_id() {
         return restaurant_id;
@@ -88,9 +82,9 @@ public class Restaurant {
         return location;
     }
 
-//    List<Food> getMenu() {
-//        return menu;
-//    }
+    List<Food> getMenu() {
+        return menu;
+    }
 
     long getCapacity() {
         return capacity;
@@ -112,9 +106,9 @@ public class Restaurant {
         return sum/ratings.size();
     }
 
-//    void setMenu(List<Food> menu) {
-//        this.menu = menu;
-//    }
+    void setMenu(List<Food> menu) {
+        this.menu = menu;
+    }
 
     void setAvailable(boolean available) {
         isAvailable = available;
@@ -129,5 +123,12 @@ public class Restaurant {
             throw  new IllegalArgumentException("Rating must be between 1 and 5!");
         }
         ratings.add(rating);
+    }
+
+    @Override
+    public String toString() {
+        return "[" +
+                "name='" + name + '\'' +
+                ']';
     }
 }

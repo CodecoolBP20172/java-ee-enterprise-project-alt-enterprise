@@ -67,16 +67,11 @@ public class RestApp {
     }
 
     public static void main(String[] args) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("restaurantPU");
-        EntityManager em = emf.createEntityManager();
-
+        EntityManager em = DatabaseUtility.getEntityManager();
         populateDb(em);
-        em.close();
-        emf.close();
 
-//        RestaurantDao restdao = new RestaurantDao();
-//        System.out.println(restdao.getAll());
+        RestaurantDao restdao = new RestaurantDao();
+        System.out.println(restdao.getAll());
+
     }
-
-
 }
