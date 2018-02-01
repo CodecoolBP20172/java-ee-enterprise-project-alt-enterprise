@@ -8,6 +8,14 @@ import java.util.List;
 
 @Entity
 @Table(name = "`order`")
+@NamedQueries({
+        @NamedQuery(
+                name = "getAllOrder",
+                query = "SELECT o FROM Order o"),
+        @NamedQuery(
+                name = "getOrderById",
+                query = "select o FROM Order o where o.id = :id")
+})
 public class Order extends Request{
     private String adress;
 
