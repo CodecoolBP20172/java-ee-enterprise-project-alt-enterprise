@@ -50,9 +50,9 @@ public class RestApp {
         list3.add(f2);
         list3.add(f3);
 
-        Restaurant r = new Restaurant("restaurant", "good", "here", list, 100);
-        Restaurant r2 = new Restaurant("r2", "pretty", "there", list2, 50);
-        Restaurant r3 = new Restaurant("r3", "bad", "where", list3, 10);
+        Restaurant r = new Restaurant("Halászcsárda", "good", "here", list, 100);
+        Restaurant r2 = new Restaurant("Csirkés", "pretty", "there", list2, 50);
+        Restaurant r3 = new Restaurant("Titiz", "bad", "where", list3, 10);
 
         Order o1 = new Order(date, "here", list, user1, r);
         Order o2 = new Order(date, "there", list3, user2, r2);
