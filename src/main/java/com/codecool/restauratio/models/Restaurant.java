@@ -1,21 +1,33 @@
 package com.codecool.restauratio.models;
 
 import com.codecool.restauratio.models.users.User;
-
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
+@NamedQueries({
+        @NamedQuery(
+                name = "getAllRestaurants",
+                query = "SELECT r FROM Restaurant r"),
+        @NamedQuery(
+                name = "getRestaurantById",
+                query = "select r FROM Restaurant r where r.id = :id")
+})
 public class Restaurant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private long restaurant_id;
     private String name;
     private String description;
     private String location;
 
-    // Many to many
-    // private List<Food> menu;
+    @ManyToMany
+    @JoinTable(
+            name = "Restaurant_Food",
+            joinColumns = { @JoinColumn(name = "restaurant_id")},
+            inverseJoinColumns = { @JoinColumn(name = "food_id")}
+    )
+    private List<Food> menu;
     private long capacity;
     private boolean isAvailable;
 
@@ -40,53 +52,53 @@ public class Restaurant {
         this.name = name;
         this.description = description;
         this.location = location;
-        //this.menu = menu;
+        this.menu = menu;
         this.capacity = capacity;
         this.isAvailable = true;
     }
 
+    public void addFoodToMenu(Food food) {
+        if (!menu.contains(food)) {
+            menu.add(food);
+        }
+    }
+
     public Restaurant() {
     }
-
-//    public void addFoodToMenu(Food food) {
-//        if (!menu.contains(food)) {
-//            menu.add(food);
-//        }
-//    }
     
-    long getId() {
-        return id;
+    public long getRestaurant_id() {
+        return restaurant_id;
     }
 
-    String getName() {
+    public String getName() {
         return name;
     }
 
-    String getDescription() {
+    public String getDescription() {
         return description;
     }
 
-    String getLocation() {
+    public String getLocation() {
         return location;
     }
 
-//    List<Food> getMenu() {
-//        return menu;
-//    }
+    public List<Food> getMenu() {
+        return menu;
+    }
 
-    long getCapacity() {
+    public long getCapacity() {
         return capacity;
     }
 
-    boolean isAvailable() {
-        return isAvailable;
+    public boolean isAvailable() {
+       return isAvailable;
     }
 
-    List<String> getReview() {
+    public List<String> getReview() {
         return reviews;
     }
 
-    int getAverageRating() {
+    public int getAverageRating() {
         int sum = 0;
         for (Integer rating:ratings) {
             sum += rating;
@@ -94,22 +106,29 @@ public class Restaurant {
         return sum/ratings.size();
     }
 
-//    void setMenu(List<Food> menu) {
-//        this.menu = menu;
-//    }
+    public void setMenu(List<Food> menu) {
+        this.menu = menu;
+    }
 
-    void setAvailable(boolean available) {
+    public void setAvailable(boolean available) {
         isAvailable = available;
     }
 
-    void addReview(String review) {
+    public void addReview(String review) {
         this.reviews.add(review);
     }
 
-    void setRating(int rating) {
+    public void setRating(int rating) {
         if (rating < 1 || rating > 5) {
             throw  new IllegalArgumentException("Rating must be between 1 and 5!");
         }
         ratings.add(rating);
+    }
+
+    @Override
+    public String toString() {
+        return "[" +
+                "name='" + name + '\'' +
+                ']';
     }
 }

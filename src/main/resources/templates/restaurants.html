@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8"/>
     <title>Restauráció - Restaurants</title>
@@ -50,32 +50,21 @@
             </div>
         </nav>
     </div>
-    <div>
-        <a href="#" class="btn-default text-center form-control restaurantButton">Restaurant 1</a>
-    </div>
-    <div class="container-fluid restaurantDiv" id="restaurantDiv0">
-        <div class="row">
-            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                <img src="/img/placeholder.jpg" class="img-thumbnail"/>
-            </div>
-            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                <p>INFO</p>
+    <div th:each="restaurant, iter : ${restaurants}">
+        <div>
+            <a href="#" class="btn-default text-center form-control restaurantButton" th:text="${restaurant.getName()}">Restaurant</a>
+        </div>
+        <div class="container-fluid restaurantDiv" th:id="'restaurantDiv' + ${restaurant.getRestaurant_id()}" >
+            <div class="row">
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                    <img src="/img/placeholder.jpg" class="img-thumbnail"/>
+                </div>
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                    <p>INFO</p>
+                </div>
             </div>
         </div>
-    </div>
-    <br/>
-    <div>
-        <a href="#" class="btn-default text-center form-control restaurantButton">Restaurant 2</a>
-    </div>
-    <div class="container-fluid restaurantDiv" id="restaurantDiv1">
-        <div class="row">
-            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                <img src="/img/placeholder.jpg" class="img-thumbnail"/>
-            </div>
-            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                <p>INFO</p>
-            </div>
-        </div>
+        <br/>
     </div>
 
 </body>

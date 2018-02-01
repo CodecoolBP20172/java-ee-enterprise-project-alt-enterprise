@@ -2,9 +2,14 @@ package com.codecool.restauratio;
 
 import com.codecool.restauratio.controller.RestaurantController;
 import com.codecool.restauratio.models.Food;
+import com.codecool.restauratio.dao.OrderDao;
+import com.codecool.restauratio.dao.RestaurantDao;
 import com.codecool.restauratio.models.Order;
-import com.codecool.restauratio.models.Reservation;
+import com.codecool.restauratio.models.Request;
 import com.codecool.restauratio.models.Restaurant;
+import com.codecool.restauratio.utils.DatabaseUtility;
+import com.codecool.restauratio.models.Food;
+import com.codecool.restauratio.models.Reservation;
 import com.codecool.restauratio.models.users.User;
 import org.eclipse.jetty.http.HttpStatus;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
@@ -32,27 +37,47 @@ public class RestApp {
         Date date = new Date();
 
         Food f = new Food(1500, "Melák Menü", "szenya, rántotthus, rántottsajt", "király");
+        Food f2 = new Food(200, "buja burger", "burger", "jó");
+        Food f3 = new Food(4000, "Tele Tál Falafel", "minden ami blefér", "ragya");
 
         List<Food> list = new ArrayList<>();
         list.add(f);
+        List<Food> list2 = new ArrayList<>();
+        list2.add(f);
+        list2.add(f2);
+        List<Food> list3 = new ArrayList<>();
+        list3.add(f);
+        list3.add(f2);
+        list3.add(f3);
 
         Restaurant r = new Restaurant("restaurant", "good", "here", list, 100);
+        Restaurant r2 = new Restaurant("r2", "pretty", "there", list2, 50);
+        Restaurant r3 = new Restaurant("r3", "bad", "where", list3, 10);
 
-        Order order = new Order("here", list, user1, r);
+        Order o1 = new Order(date, "here", list, user1, r);
+        Order o2 = new Order(date, "there", list3, user2, r2);
 
-        Reservation reservation = new Reservation(100, r, user2);
-
+        Reservation reservation = new Reservation(date, 100, r, user2);
 
         transaction.begin();
         em.persist(user1);
+        em.persist(user2);
+        em.persist(f);
+        em.persist(f2);
+        em.persist(f3);
+        em.persist(r);
+        em.persist(r2);
+        em.persist(r3);
+        em.persist(o1);
+        em.persist(o2);
+        em.persist(reservation);
         transaction.commit();
     }
 
     public static void main(String[] args) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("restaurantPU");
-        EntityManager em = emf.createEntityManager();
-
+        EntityManager em = DatabaseUtility.getEntityManager();
         populateDb(em);
+
         enableDebugScreen();
 
         exception(Exception.class, (e, req, res) -> e.printStackTrace());
@@ -66,22 +91,7 @@ public class RestApp {
             } catch (Exception e) {
                 res.status(HttpStatus.SERVICE_UNAVAILABLE_503);
                 return "<html><body><h1>" + res.raw().getStatus() + "</h1><p>SERVICE UNAVAILABLE</p></body></html>";
-        }});
-
-
-                // TODO Write route methods for basic views.
-//        get("/", (Request request, Response response) -> {
-//                    try {
-////                        return new ThymeleafTemplateEngine().render(.renderProducts(request, response));
-//                    } catch (Exception e) {
-//                        response.status(HttpStatus.SERVICE_UNAVAILABLE_503);
-//                        return "<html><body><h1>" + response.raw().getStatus() + "</h1><p>SERVICE UNAVAILABLE</p></body></html>";
-//                    }
-//
-//                }
-//        );
-
-                em.close();
-                emf.close();
-        }
+            }
+        });
     }
+}
