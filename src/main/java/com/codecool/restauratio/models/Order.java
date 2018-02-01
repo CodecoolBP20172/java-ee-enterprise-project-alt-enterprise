@@ -11,10 +11,7 @@ import java.util.List;
 @NamedQueries({
         @NamedQuery(
                 name = "getAllOrder",
-                query = "SELECT o FROM Order o"),
-        @NamedQuery(
-                name = "getOrderById",
-                query = "select o FROM Order o where o.id = :id")
+                query = "SELECT o FROM Order o")
 })
 public class Order extends Request{
     private String adress;

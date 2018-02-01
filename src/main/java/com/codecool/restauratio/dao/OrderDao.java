@@ -4,7 +4,7 @@ import com.codecool.restauratio.models.Order;
 import com.codecool.restauratio.utils.DatabaseUtility;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 public class OrderDao {
@@ -15,10 +15,10 @@ public class OrderDao {
     }
     public Order getOrderById(Integer orderId) {
         EntityManager em = DatabaseUtility.getEntityManager();
-        Query queryOrdersById = em.createNamedQuery(
-                "getOrderById"
+        TypedQuery<Order> queryOrdersById = em.createNamedQuery(
+                "getOrderById", Order.class
         );
         queryOrdersById.setParameter("id", orderId);
-        return (Order) queryOrdersById.getSingleResult();
+        return queryOrdersById.getSingleResult();
     }
 }
