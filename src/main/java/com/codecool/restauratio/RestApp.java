@@ -5,6 +5,10 @@ import com.codecool.restauratio.models.Order;
 import com.codecool.restauratio.models.Reservation;
 import com.codecool.restauratio.models.Restaurant;
 import com.codecool.restauratio.models.users.User;
+import org.eclipse.jetty.http.HttpStatus;
+import spark.Request;
+import spark.Response;
+import spark.template.thymeleaf.ThymeleafTemplateEngine;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -13,6 +17,9 @@ import javax.persistence.Persistence;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import static spark.Spark.*;
+import static spark.debug.DebugScreen.enableDebugScreen;
 
 public class RestApp {
 
@@ -47,6 +54,27 @@ public class RestApp {
         EntityManager em = emf.createEntityManager();
 
         populateDb(em);
+        enableDebugScreen();
+
+        exception(Exception.class, (e, req, res) -> e.printStackTrace());
+        staticFileLocation("/public");
+        port(8888);
+
+
+        get("/", (req, res) -> "Hello World");
+
+
+        // TODO Write route methods for basic views.
+//        get("/", (Request request, Response response) -> {
+//                    try {
+////                        return new ThymeleafTemplateEngine().render(.renderProducts(request, response));
+//                    } catch (Exception e) {
+//                        response.status(HttpStatus.SERVICE_UNAVAILABLE_503);
+//                        return "<html><body><h1>" + response.raw().getStatus() + "</h1><p>SERVICE UNAVAILABLE</p></body></html>";
+//                    }
+//
+//                }
+//        );
 
         em.close();
         emf.close();
