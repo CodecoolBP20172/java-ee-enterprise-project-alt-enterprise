@@ -32,4 +32,11 @@ public class Food {
         this.ingredients = ingredients;
         this.review = review;
     }
+
+    @Override
+    public String toString() {
+        return "Food: " +
+                " name: '" + name +
+                ", price: " + price + '\'';
+    }
 }

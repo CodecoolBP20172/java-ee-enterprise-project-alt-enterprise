@@ -84,4 +84,11 @@ public class User {
     public void addReservation(Reservation res) {
         this.reservations.add(res);
     }
+
+    @Override
+    public String toString() {
+        return "User = " +
+                "userName: '" + userName + '\'' +
+                ", restaurants: " + restaurants;
+    }
 }
