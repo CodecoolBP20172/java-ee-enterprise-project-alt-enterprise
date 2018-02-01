@@ -9,13 +9,18 @@ import java.util.List;
 public class Restaurant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private long restaurant_id;
     private String name;
     private String description;
     private String location;
 
-    // Many to many
-    // private List<Food> menu;
+    @ManyToMany
+    @JoinTable(
+            name = "Restaurant_Food",
+            joinColumns = { @JoinColumn(name = "restaurant_id")},
+            inverseJoinColumns = { @JoinColumn(name = "food_id")}
+    )
+    private List<Food> menu;
     private long capacity;
     private boolean isAvailable;
 
@@ -40,7 +45,7 @@ public class Restaurant {
         this.name = name;
         this.description = description;
         this.location = location;
-        //this.menu = menu;
+        this.menu = menu;
         this.capacity = capacity;
         this.isAvailable = true;
     }
@@ -54,8 +59,8 @@ public class Restaurant {
 //        }
 //    }
     
-    long getId() {
-        return id;
+    long getRestaurant_id() {
+        return restaurant_id;
     }
 
     String getName() {

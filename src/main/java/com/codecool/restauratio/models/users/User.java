@@ -19,9 +19,9 @@ public class User {
     private String userName;
     @Column(unique = true, nullable = false)
     private String password;
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     private boolean isAdmin;
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     private boolean isOwner;
 
 
@@ -79,5 +79,9 @@ public class User {
 
     public boolean checkPassword(String candidatePassword){
         return BCrypt.checkpw(candidatePassword, password);
+    }
+
+    public void addReservation(Reservation res) {
+        this.reservations.add(res);
     }
 }
