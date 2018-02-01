@@ -1,7 +1,15 @@
 package com.codecool.restauratio.models;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class Food {
-    private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int food_id;
     private int price;
     private String name;
     private String ingredients;
@@ -9,8 +17,8 @@ public class Food {
     //this is a placeholder below until we decide if we wanna use javax.imageio package or some other way to store images
     private String picture;
 
-    private Food() {
-        this.id = 0;
+    public Food() {
+        this.food_id = 0;
         this.price = 0;
         this.name = "";
         this.ingredients = "";
