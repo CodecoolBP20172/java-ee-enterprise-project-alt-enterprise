@@ -1,5 +1,6 @@
 package com.codecool.restauratio;
 
+import com.codecool.restauratio.dao.OrderDao;
 import com.codecool.restauratio.dao.RestaurantDao;
 import com.codecool.restauratio.models.Order;
 import com.codecool.restauratio.models.Request;
@@ -71,7 +72,9 @@ public class RestApp {
         populateDb(em);
 
         RestaurantDao restdao = new RestaurantDao();
-        System.out.println(restdao.getAll());
+        //System.out.println(restdao.getAll());
+        OrderDao ordDao = new OrderDao();
+        System.out.println(ordDao.getOrderById(1));
 
     }
 }
