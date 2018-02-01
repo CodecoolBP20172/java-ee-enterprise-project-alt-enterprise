@@ -1,12 +1,17 @@
 package com.codecool.restauratio.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
+@NamedQueries({
+        @NamedQuery(
+                name = "getAllRestaurants",
+                query = "SELECT Restaurant FROM Restaurant"),
+        @NamedQuery(
+                name = "getRestaurantById",
+                query = "select Restaurant FROM Restaurant where Restaurant.id = :id")
+})
 public class Restaurant {
 
     @Id
