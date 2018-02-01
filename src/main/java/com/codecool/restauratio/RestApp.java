@@ -1,13 +1,12 @@
 package com.codecool.restauratio;
 
+import com.codecool.restauratio.controller.RestaurantController;
 import com.codecool.restauratio.models.Food;
 import com.codecool.restauratio.models.Order;
 import com.codecool.restauratio.models.Reservation;
 import com.codecool.restauratio.models.Restaurant;
 import com.codecool.restauratio.models.users.User;
 import org.eclipse.jetty.http.HttpStatus;
-import spark.Request;
-import spark.Response;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
 
 import javax.persistence.EntityManager;
@@ -61,10 +60,16 @@ public class RestApp {
         port(8888);
 
 
-        get("/", (req, res) -> "Hello World");
+        get("/", (req, res) -> {
+            try {
+                return new ThymeleafTemplateEngine().render(RestaurantController.renderRestaurants(req, res));
+            } catch (Exception e) {
+                res.status(HttpStatus.SERVICE_UNAVAILABLE_503);
+                return "<html><body><h1>" + res.raw().getStatus() + "</h1><p>SERVICE UNAVAILABLE</p></body></html>";
+        }});
 
 
-        // TODO Write route methods for basic views.
+                // TODO Write route methods for basic views.
 //        get("/", (Request request, Response response) -> {
 //                    try {
 ////                        return new ThymeleafTemplateEngine().render(.renderProducts(request, response));
@@ -76,7 +81,7 @@ public class RestApp {
 //                }
 //        );
 
-        em.close();
-        emf.close();
+                em.close();
+                emf.close();
+        }
     }
-}
