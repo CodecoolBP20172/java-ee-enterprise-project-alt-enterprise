@@ -9,9 +9,6 @@ import java.util.List;
         @NamedQuery(
                 name = "getAllRestaurants",
                 query = "SELECT r FROM Restaurant r"),
-        @NamedQuery(
-                name = "getRestaurantById",
-                query = "select r FROM Restaurant r where r.id = :id")
 })
 public class Restaurant {
     @Id
