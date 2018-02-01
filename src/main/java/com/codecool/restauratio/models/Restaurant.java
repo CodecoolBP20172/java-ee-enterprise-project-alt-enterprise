@@ -71,47 +71,47 @@ public class Restaurant {
         }
     }
 
-    long getRestaurant_id() {
+    public long getRestaurant_id() {
         return restaurant_id;
     }
 
-    String getName() {
+    public String getName() {
         return name;
     }
 
-    String getDescription() {
+    public String getDescription() {
         return description;
     }
 
-    String getLocation() {
+    public String getLocation() {
         return location;
     }
 
-    List<Food> getMenu() {
+    public List<Food> getMenu() {
         return menu;
     }
 
-    void setMenu(List<Food> menu) {
+    public void setMenu(List<Food> menu) {
         this.menu = menu;
     }
 
-    long getCapacity() {
-        return capacity;
-    }
-
-    boolean isAvailable() {
-        return isAvailable;
-    }
-
-    void setAvailable(boolean available) {
+    public void setAvailable(boolean available) {
         isAvailable = available;
     }
 
-    List<String> getReview() {
+    public long getCapacity() {
+        return capacity;
+    }
+
+    public boolean isAvailable() {
+       return isAvailable;
+    }
+
+    public List<String> getReview() {
         return reviews;
     }
 
-    int getAverageRating() {
+    public int getAverageRating() {
         if (ratings.size() == 0) {
             return 0;
         }
@@ -122,11 +122,11 @@ public class Restaurant {
         return sum / ratings.size();
     }
 
-    void addReview(String review) {
+    public void addReview(String review) {
         this.reviews.add(review);
     }
 
-    void setRating(int rating) {
+    public void setRating(int rating) {
         if (rating < 1 || rating > 5) {
             throw new IllegalArgumentException("Rating must be between 1 and 5!");
         }

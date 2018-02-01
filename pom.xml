@@ -11,7 +11,7 @@
    <properties>
        <maven.compiler.source>1.8</maven.compiler.source>
        <maven.compiler.target>1.8</maven.compiler.target>
-       <version.java>1.7</version.java>
+       <version.java>1.8</version.java>
        <version.eclipselink>2.6.2</version.eclipselink>
        <version.hibernate.validator>5.1.2.Final</version.hibernate.validator>
        <version.el>3.0.1-b03</version.el>
@@ -25,6 +25,28 @@
    </properties>
 
     <dependencies>
+
+        <dependency>
+            <groupId>com.sparkjava</groupId>
+            <artifactId>spark-core</artifactId>
+            <version>2.5</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sparkjava</groupId>
+            <artifactId>spark-template-thymeleaf</artifactId>
+            <version>2.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>1.7.21</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sparkjava</groupId>
+            <artifactId>spark-debug-tools</artifactId>
+            <version>0.5</version>
+        </dependency>
+
         <dependency>
             <groupId>org.hibernate.javax.persistence</groupId>
             <artifactId>hibernate-jpa-2.1-api</artifactId>

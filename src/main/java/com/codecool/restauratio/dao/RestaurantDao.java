@@ -10,7 +10,6 @@ import java.util.List;
 
 public class RestaurantDao {
 
-
     public void add(Restaurant restaurant) {
         EntityManager em = DatabaseUtility.getEntityManager();
         em.persist(restaurant);
