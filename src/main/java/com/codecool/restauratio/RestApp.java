@@ -72,6 +72,7 @@ public class RestApp {
 
         RestaurantDao restdao = new RestaurantDao();
         System.out.println(restdao.getAll());
+        System.out.println(restdao.getRestaurantById(1));
 
     }
 }
