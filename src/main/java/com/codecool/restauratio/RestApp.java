@@ -1,11 +1,13 @@
 package com.codecool.restauratio;
 
 import com.codecool.restauratio.models.users.Admin;
+import com.codecool.restauratio.utils.DatabaseUtility;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import java.util.List;
 
 public class RestApp {
 
@@ -23,11 +25,8 @@ public class RestApp {
     }
 
     public static void main(String[] args) {
-
-
+        EntityManager em = DatabaseUtility.getEntityManager();
         populateDb(em);
 
-        em.close();
-        emf.close();
     }
 }
