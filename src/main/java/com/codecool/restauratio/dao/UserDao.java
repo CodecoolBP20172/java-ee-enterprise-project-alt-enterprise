@@ -1,25 +1,48 @@
 package com.codecool.restauratio.dao;
 
-import com.codecool.restauratio.models.Reservation;
+import com.codecool.restauratio.customException.ConnectToDBFailed;
 import com.codecool.restauratio.models.users.User;
 import com.codecool.restauratio.utils.DatabaseUtility;
 
 import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
 import java.util.List;
 
 public class UserDao {
-    public List getAll() {
-        EntityManager em = DatabaseUtility.getEntityManager();
-        return em.createNamedQuery("getAllUser").getResultList();
+    private static EntityManager em = DatabaseUtility.getEntityManager();
+
+    public List<User> getAll() throws ConnectToDBFailed {
+        try {
+            return em.createNamedQuery("getAllUser").getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ConnectToDBFailed(e.getMessage());
+        }
     }
-    public User getUserById(Integer userId) {
-        EntityManager em = DatabaseUtility.getEntityManager();
-        return em.find(User.class,userId);
+
+    public User getById(Integer userId) throws ConnectToDBFailed {
+        try {
+            return em.find(User.class, userId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ConnectToDBFailed(e.getMessage());
+        }
     }
-    public String getUserPasswordById(Integer userId) {
-        EntityManager em = DatabaseUtility.getEntityManager();
-        User currentUser= em.find(User.class,userId);
-        return currentUser.getPassword();
+
+    public void add(User user) throws ConnectToDBFailed {
+        try {
+            em.persist(user);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ConnectToDBFailed(e.getMessage());
+        }
+    }
+
+    public void remove(User user) throws ConnectToDBFailed {
+        try {
+            em.remove(user);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ConnectToDBFailed(e.getMessage());
+        }
     }
 }

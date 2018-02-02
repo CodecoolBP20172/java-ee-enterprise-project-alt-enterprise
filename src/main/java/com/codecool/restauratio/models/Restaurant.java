@@ -15,7 +15,7 @@ import java.util.List;
 public class Restaurant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long restaurant_id;
+    private long id;
     private String name;
     private String description;
     private String location;
@@ -47,19 +47,19 @@ public class Restaurant {
     @ManyToOne
     private User owner;
 
+    protected Restaurant() {
+    }
+
     public Restaurant(String name, String description, String location, List<Food> menu, int capacity, User owner) {
-        this.name = name;
-        this.description = description;
-        this.location = location;
-        this.menu = menu;
-        this.capacity = capacity;
-        this.owner = owner;
+        setName(name);
+        setDescription(description);
+        setLocation(location);
+        setMenu(menu);
+        setCapacity(capacity);
+        setOwner(owner);
         this.isAvailable = true;
         this.ratings = new ArrayList<>();
         this.reviews = new ArrayList<>();
-    }
-
-    public Restaurant() {
     }
 
     public void addFoodToMenu(Food food) {
@@ -68,16 +68,28 @@ public class Restaurant {
         }
     }
 
-    public long getRestaurant_id() {
-        return restaurant_id;
+    public long getId() {
+        return id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getName() {
         return name;
     }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public String getDescription() {
         return description;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public String getLocation() {
@@ -96,8 +108,16 @@ public class Restaurant {
         isAvailable = available;
     }
 
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+
     public long getCapacity() {
         return capacity;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
     }
 
     public boolean isAvailable() {
@@ -106,6 +126,10 @@ public class Restaurant {
 
     public List<String> getReview() {
         return reviews;
+    }
+
+    public void addReview(String review) {
+        this.reviews.add(review);
     }
 
     public int getAverageRating() {
@@ -119,11 +143,7 @@ public class Restaurant {
         return sum / ratings.size();
     }
 
-    public void addReview(String review) {
-        this.reviews.add(review);
-    }
-
-    public void setRating(int rating) {
+    public void addRating(int rating) throws IllegalArgumentException {
         if (rating < 1 || rating > 5) {
             throw new IllegalArgumentException("Rating must be between 1 and 5!");
         }
@@ -134,9 +154,9 @@ public class Restaurant {
     @Override
     public String toString() {
         return "Restaurant = " +
-                "name: '" + name + '\'' +
-                ", description: '" + description + '\'' +
-                ", location: '" + location + '\'' +
+                "name: " + name +
+                ", description: " + description +
+                ", location: " + location +
                 ", capacity: " + capacity +
                 ", isAvailable: " + isAvailable +
                 ", ratings: " + getAverageRating() +

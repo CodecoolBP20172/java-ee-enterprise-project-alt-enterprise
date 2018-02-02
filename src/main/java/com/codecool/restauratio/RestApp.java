@@ -1,6 +1,7 @@
 package com.codecool.restauratio;
 
 import com.codecool.restauratio.controller.RestaurantController;
+import com.codecool.restauratio.customException.ConnectToDBFailed;
 import com.codecool.restauratio.models.Food;
 import com.codecool.restauratio.models.Order;
 import com.codecool.restauratio.models.Restaurant;
@@ -82,7 +83,7 @@ public class RestApp {
         get("/", (req, res) -> {
             try {
                 return new ThymeleafTemplateEngine().render(RestaurantController.renderRestaurants(req, res));
-            } catch (Exception e) {
+            } catch (ConnectToDBFailed e) {
                 res.status(HttpStatus.SERVICE_UNAVAILABLE_503);
                 return "<html><body><h1>" + res.raw().getStatus() + "</h1><p>SERVICE UNAVAILABLE</p></body></html>";
             }

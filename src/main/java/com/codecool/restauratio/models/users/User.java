@@ -6,6 +6,7 @@ import com.codecool.restauratio.models.Restaurant;
 import org.mindrot.jbcrypt.BCrypt;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -40,14 +41,18 @@ public class User {
     private List<Order> orders;
 
 
-    public User(String userName, String password, boolean isAdmin, boolean isOwner) {
-        this.userName = userName;
-        this.password = BCrypt.hashpw(password, BCrypt.gensalt());
-        this.isAdmin = isAdmin;
-        this.isOwner = isOwner;
+    protected User() {
     }
 
-    protected User() {
+    public User(String userName, String password, boolean isAdmin, boolean isOwner) {
+        setUserName(userName);
+        setPassword(BCrypt.hashpw(password, BCrypt.gensalt()));
+        setAdmin(isAdmin);
+        setOwner(isOwner);
+        reservations = new ArrayList<>();
+        if (isOwner) {
+            restaurants = new ArrayList<>();
+        }
     }
 
     public long getUserId(){
@@ -60,6 +65,10 @@ public class User {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getPassword() {
@@ -90,10 +99,16 @@ public class User {
         this.reservations.add(res);
     }
 
+    public void addRestaurant(Restaurant rest) {
+        if (restaurants != null) {
+            this.restaurants.add(rest);
+        }
+    }
+
     @Override
     public String toString() {
         return "User = " +
-                "userName: '" + userName + '\'' +
+                "userName: " + userName +
                 ", restaurants: " + restaurants;
     }
 }

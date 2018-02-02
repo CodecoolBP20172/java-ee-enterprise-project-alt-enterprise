@@ -31,15 +31,15 @@ public class Order extends Request{
     @ManyToOne
     private User user;
 
-    public Order() {
+    protected Order() {
     }
 
     public Order(Date date, String address, List<Food> foodList, User user, Restaurant restaurant) {
         super(date);
-        this.address = address;
-        this.foodList = foodList;
-        this.orderRestaurant = restaurant;
-        this.user = user;
+        setUser(user);
+        setAddress(address);
+        setOrderRestaurant(restaurant);
+        setFoodList(foodList);
 
     }
 
@@ -78,9 +78,9 @@ public class Order extends Request{
     @Override
     public String toString() {
         return "Order = " +
-                "address: '" + address + '\'' +
-                ", foodList: " + foodList +
+                "user: " + user.getUserName() +
+                ", address: " + address +
                 ", orderRestaurant: " + orderRestaurant.getName() +
-                ", user: " + user.getUserName();
+                ", foodList: " + foodList;
     }
 }

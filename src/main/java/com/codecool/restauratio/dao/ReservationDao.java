@@ -1,29 +1,50 @@
 package com.codecool.restauratio.dao;
 
+import com.codecool.restauratio.customException.ConnectToDBFailed;
 import com.codecool.restauratio.models.Reservation;
 import com.codecool.restauratio.utils.DatabaseUtility;
+
 import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
 import java.util.List;
 
 public class ReservationDao {
-        public Reservation getReservationById(Integer orderId) {
-            EntityManager em = DatabaseUtility.getEntityManager();
-            TypedQuery<Reservation> queryReservationById = em.createNamedQuery(
-                    "getReservationById", Reservation.class
-            );
-            queryReservationById.setParameter("id", orderId);
-            return queryReservationById.getSingleResult();
-        }
+    private static EntityManager em = DatabaseUtility.getEntityManager();
 
-        public void add(Reservation reservation) {
-            EntityManager em = DatabaseUtility.getEntityManager();
-            em.persist(reservation);
-        }
 
-        public List<Reservation> getAll() {
-            EntityManager em = DatabaseUtility.getEntityManager();
+    public List<Reservation> getAll() throws ConnectToDBFailed {
+        try {
             return em.createNamedQuery("getAllReservations").getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ConnectToDBFailed(e.getMessage());
         }
+    }
+
+    public Reservation getById(Integer orderId) throws ConnectToDBFailed {
+        try {
+            return em.find(Reservation.class, orderId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ConnectToDBFailed(e.getMessage());
+        }
+    }
+
+    public void add(Reservation reservation) throws ConnectToDBFailed {
+        try {
+            em.persist(reservation);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ConnectToDBFailed(e.getMessage());
+        }
+    }
+
+    public void remove(Reservation reservation) throws ConnectToDBFailed {
+        try {
+            em.remove(reservation);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ConnectToDBFailed(e.getMessage());
+        }
+    }
 
 }
