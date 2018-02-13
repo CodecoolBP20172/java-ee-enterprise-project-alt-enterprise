@@ -50,4 +50,7 @@ public class UserService {
         }
     }
 
+    private boolean changePassword(int useriD, String newPsw, String newPsw2){ return true;}
+
+    private void deleteRestaurant(int userId, int restaurantId) {}
 }
