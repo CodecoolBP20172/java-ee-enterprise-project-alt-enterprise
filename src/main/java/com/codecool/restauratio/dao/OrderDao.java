@@ -8,7 +8,7 @@ import javax.persistence.EntityManager;
 import java.util.List;
 
 public class OrderDao {
-    private static EntityManager em = DatabaseUtility.getEntityManager();
+    private static EntityManager em = DatabaseUtility.getEntityManager("restaurantPU");
 
 
     public List<Order> getAll() throws ConnectToDBFailed {

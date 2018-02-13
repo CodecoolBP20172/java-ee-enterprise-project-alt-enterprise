@@ -10,7 +10,7 @@ import javax.persistence.TypedQuery;
 import java.util.List;
 
 public class FoodDao {
-    private static EntityManager em = DatabaseUtility.getEntityManager();
+    private static EntityManager em = DatabaseUtility.getEntityManager("restaurantPU");
     private static EntityTransaction transaction = em.getTransaction();
 
     public List<Food> getAll() throws ConnectToDBFailed {

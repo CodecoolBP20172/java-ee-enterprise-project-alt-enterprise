@@ -10,7 +10,7 @@ import java.util.List;
 
 public class RestaurantDao {
 
-    private static EntityManager em = DatabaseUtility.getEntityManager();
+    private static EntityManager em = DatabaseUtility.getEntityManager("restaurantPU");
 
     public List<Restaurant> getAll() throws ConnectToDBFailed {
         try {
