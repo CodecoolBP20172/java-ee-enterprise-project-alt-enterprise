@@ -19,7 +19,7 @@ public class UserDao {
         }
     }
 
-    public User getById(Integer userId) throws ConnectToDBFailed {
+    public User getById(long userId) throws ConnectToDBFailed {
         try {
             return em.find(User.class, userId);
         } catch (Exception e) {
