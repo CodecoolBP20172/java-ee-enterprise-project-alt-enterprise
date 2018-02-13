@@ -1,8 +1,8 @@
 $(document).ready(function(){
     $( ".restaurantButton" ).each(function( index ) {
         $(this).on("click", function() {
-            var realIndex = index + 1;
-            var buttonName = "restaurantDiv" + realIndex;
+            var id = $(this).attr('id');
+            var buttonName = "restaurantDiv" + id;
             $("#" + buttonName).toggle(500);
         });
     });

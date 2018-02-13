@@ -52,7 +52,7 @@
     </div>
     <div th:each="restaurant, iter : ${restaurants}">
         <div>
-            <a href="#" class="btn-default text-center form-control restaurantButton" th:text="${restaurant.getName()}">Restaurant</a>
+            <a href="#" class="btn-default text-center form-control restaurantButton" th:id="${restaurant.getId()}" th:text="${restaurant.getName()}">Restaurant</a>
         </div>
         <div class="container-fluid restaurantDiv" th:id="'restaurantDiv' + ${restaurant.getId()}" >
             <div class="row">
