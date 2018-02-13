@@ -70,7 +70,7 @@ public class RestApp {
     }
 
     public static void main(String[] args) {
-        EntityManager em = DatabaseUtility.getEntityManager();
+        EntityManager em = DatabaseUtility.getEntityManager("restaurantPU");
         populateDb(em);
 
 
