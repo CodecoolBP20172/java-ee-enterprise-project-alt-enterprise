@@ -1,5 +1,6 @@
 package com.codecool.restauratio;
 
+import com.codecool.restauratio.controller.LoginController;
 import com.codecool.restauratio.controller.RestaurantController;
 import com.codecool.restauratio.customException.ConnectToDBFailed;
 import com.codecool.restauratio.models.Food;
@@ -88,5 +89,10 @@ public class RestApp {
                 return "<html><body><h1>" + res.raw().getStatus() + "</h1><p>SERVICE UNAVAILABLE</p></body></html>";
             }
         });
+
+        get("/login", (request, response) -> new ThymeleafTemplateEngine().render( LoginController.renderLogin( request, response, true ) ));
+
+        get("/register", (request, response) -> new ThymeleafTemplateEngine().render( LoginController.renderRegister( request, response, true ) ));
+
     }
 }
