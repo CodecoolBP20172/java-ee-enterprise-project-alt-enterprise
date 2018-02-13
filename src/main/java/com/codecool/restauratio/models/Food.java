@@ -25,7 +25,7 @@ public class Food {
     protected Food() {
     }
 
-    public Food(double price, String name, String ingredients, String review) {
+    public Food(String name, double price, String ingredients, String review) {
         setName(name);
         setPrice(price);
         setIngredients(ingredients);
