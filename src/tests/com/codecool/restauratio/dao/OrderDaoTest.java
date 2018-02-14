@@ -5,9 +5,8 @@ import com.codecool.restauratio.models.Food;
 import com.codecool.restauratio.models.Order;
 import com.codecool.restauratio.models.Restaurant;
 import com.codecool.restauratio.models.users.User;
-import com.codecool.restauratio.utils.DatabaseUtility;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import javax.persistence.EntityManager;
@@ -25,6 +24,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class OrderDaoTest {
     private OrderDao orderDao;
     private Order testOrder;
+    private static EntityManager em;
+    private static OrderDao orderDao;
 
 //    @BeforeAll
 //    static void initializeTests() {
@@ -66,7 +67,7 @@ public class OrderDaoTest {
         testOrder = new Order(date, testAddress, testOrderFoodList, testOrderUser, testRestaurant);
         //persisting order to test database
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("testRestaurantPU");
-        EntityManager em = emf.createEntityManager();
+        em = emf.createEntityManager();
         EntityTransaction transaction = em.getTransaction();
         transaction.begin();
         em.persist(testFood1);
@@ -79,6 +80,11 @@ public class OrderDaoTest {
         transaction.commit();
         //initializing order dao
         orderDao = new OrderDao(em);
+    }
+
+    @AfterAll
+    static void CloseEm() {
+        em.close();
     }
 
     @Test

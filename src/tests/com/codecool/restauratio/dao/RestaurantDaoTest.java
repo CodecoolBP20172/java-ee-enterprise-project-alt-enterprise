@@ -4,7 +4,8 @@ import com.codecool.restauratio.customException.ConnectToDBFailed;
 import com.codecool.restauratio.models.Food;
 import com.codecool.restauratio.models.Restaurant;
 import com.codecool.restauratio.models.users.User;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import javax.persistence.EntityManager;
@@ -20,12 +21,13 @@ import static org.junit.jupiter.api.Assertions.*;
 class RestaurantDaoTest {
     private RestaurantDao restaurantDao;
     private Restaurant testRestaurant;
+    private static EntityManager em;
 
-    @BeforeEach
-    void prepareDB() {
+    @BeforeAll
+    static void prepareDB() {
         // DB variables initialize
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("testRestaurantPU");
-        EntityManager em = emf.createEntityManager();
+        em = emf.createEntityManager();
         EntityTransaction transaction = em.getTransaction();
 
         // setting up testdata
@@ -48,6 +50,11 @@ class RestaurantDaoTest {
         transaction.commit();
 //        em.close();
         restaurantDao = new RestaurantDao(em);
+    }
+
+    @AfterAll
+    static void CloseEm() {
+        em.close();
     }
 
     @Test

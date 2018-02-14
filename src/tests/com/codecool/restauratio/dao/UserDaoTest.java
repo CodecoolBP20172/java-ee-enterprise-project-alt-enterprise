@@ -2,12 +2,14 @@ package com.codecool.restauratio.dao;
 
 import com.codecool.restauratio.customException.ConnectToDBFailed;
 import com.codecool.restauratio.models.users.User;
-import com.codecool.restauratio.utils.DatabaseUtility;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -18,7 +20,8 @@ class UserDaoTest {
 
     @BeforeAll
     static void populateDB() {
-        em = DatabaseUtility.getEntityManager("testRestaurantPU");
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("testRestaurantPU");
+        em = emf.createEntityManager();
         EntityTransaction transaction = em.getTransaction();
         transaction.begin();
         User admin = new User("admin", "iamtheadmin", true, false);
@@ -27,6 +30,11 @@ class UserDaoTest {
         em.persist(owner);
         transaction.commit();
         userDao = new UserDao(em);
+    }
+
+    @AfterAll
+    static void CloseEm() {
+        em.close();
     }
 
     @Test
