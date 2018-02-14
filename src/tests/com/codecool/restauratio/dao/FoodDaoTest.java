@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class FoodDaoTest {
     private static EntityManager em;
-    private  static FoodDao foodDao = new FoodDao();
+    private static FoodDao foodDao;
 
     @BeforeAll
     static void populateDB() {
@@ -25,6 +25,7 @@ class FoodDaoTest {
         Food testFood = new Food("Pizza", 12.0, "ingredients", "review");
         em.persist(testFood);
         transaction.commit();
+        foodDao = new FoodDao(em);
     }
 
     @Test

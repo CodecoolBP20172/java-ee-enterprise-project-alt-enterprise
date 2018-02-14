@@ -10,8 +10,15 @@ import javax.persistence.TypedQuery;
 import java.util.List;
 
 public class FoodDao {
-    private static EntityManager em = DatabaseUtility.getEntityManager("restaurantPU");
-    private static EntityTransaction transaction = em.getTransaction();
+    private EntityManager em = DatabaseUtility.getEntityManager("restaurantPU");
+    private EntityTransaction transaction = em.getTransaction();
+
+    public FoodDao() {
+    }
+
+    public FoodDao(EntityManager em) {
+        this.em = em;
+    }
 
     public List<Food> getAll() throws ConnectToDBFailed {
         try {
