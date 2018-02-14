@@ -26,4 +26,8 @@ public class RestaurantController {
         return new ModelAndView(params, "restaurants");
     }
 
+    public static void makeReservationAtRestaurant(Request req, Response res) throws ConnectToDBFailed {
+
+    }
+
 }

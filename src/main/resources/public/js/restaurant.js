@@ -10,4 +10,9 @@ $(document).ready(function(){
     $(".restaurantDiv").each(function () {
         $(this).hide();
     })
+
+    $("#reservationButtonContainer").each(function () {
+        $(this)
+    })
+
 });
