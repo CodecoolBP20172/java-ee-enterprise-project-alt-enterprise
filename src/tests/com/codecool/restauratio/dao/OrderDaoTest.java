@@ -7,6 +7,7 @@ import com.codecool.restauratio.models.Restaurant;
 import com.codecool.restauratio.models.users.User;
 import com.codecool.restauratio.utils.DatabaseUtility;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import javax.persistence.EntityManager;
@@ -81,20 +82,19 @@ public class OrderDaoTest {
 
     @Test
     void getById() throws ConnectToDBFailed {
-        Order order = orderDao.getById(1);
-        assertNotNull(order);
+        assertNotNull(orderDao.getById(1));
     }
 
     @Test
     void add() throws ConnectToDBFailed {
-        testOrder.setAddress("Test street 13.");
+        testOrder.setAddress("Test street 1.");
         orderDao.add(testOrder);
         List<Order> orders= orderDao.getAll();
         assertTrue(orders.contains(testOrder));
     }
 
     @Test
-    void remove() throws ConnectToDBFailed {
+    void remove() throws ConnectToDBFailed, IllegalAccessException, InstantiationException {
         int originalOrdersLength =  orderDao.getAll().size();
         orderDao.remove(testOrder);
         int modifiedOrdersLength = orderDao.getAll().size();
