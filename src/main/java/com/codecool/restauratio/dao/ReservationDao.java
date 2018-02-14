@@ -42,7 +42,9 @@ public class ReservationDao {
 
     public void add(Reservation reservation) throws ConnectToDBFailed {
         try {
+            transaction.begin();
             em.persist(reservation);
+            transaction.commit();
         } catch (Exception e) {
             e.printStackTrace();
             throw new ConnectToDBFailed(e.getMessage());
@@ -51,7 +53,9 @@ public class ReservationDao {
 
     public void remove(Reservation reservation) throws ConnectToDBFailed {
         try {
+            transaction.begin();
             em.remove(reservation);
+            transaction.commit();
         } catch (Exception e) {
             e.printStackTrace();
             throw new ConnectToDBFailed(e.getMessage());
