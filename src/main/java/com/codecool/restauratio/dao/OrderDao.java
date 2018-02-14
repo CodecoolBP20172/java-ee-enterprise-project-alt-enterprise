@@ -13,11 +13,14 @@ public class OrderDao {
     private static EntityTransaction transaction;
 
     public OrderDao() {
+        this.em  = DatabaseUtility.getEntityManager("restaurantPU");
+        this.transaction = em.getTransaction();
     }
 
     public OrderDao(EntityManager em) {
         this.em = em;
         transaction = em.getTransaction();
+        this.transaction = em.getTransaction();
     }
 
     public List<Order> getAll() throws ConnectToDBFailed {

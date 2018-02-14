@@ -6,12 +6,23 @@ import com.codecool.restauratio.models.Restaurant;
 import com.codecool.restauratio.utils.DatabaseUtility;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import java.util.List;
 
 public class RestaurantDao {
 
-    private static EntityManager em = DatabaseUtility.getEntityManager("restaurantPU");
+    private EntityManager em;
+    private EntityTransaction transaction;
 
+    public RestaurantDao() {
+        this.em  = DatabaseUtility.getEntityManager("restaurantPU");
+        this.transaction = em.getTransaction();
+    }
+
+    public RestaurantDao(EntityManager em) {
+        this.em = em;
+        this.transaction = em.getTransaction();
+    }
     public List<Restaurant> getAll() throws ConnectToDBFailed {
         try {
             return em.createNamedQuery("getAllRestaurants").getResultList();
