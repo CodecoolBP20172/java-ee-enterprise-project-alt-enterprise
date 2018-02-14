@@ -14,9 +14,11 @@
         <property name="javax.persistence.schema-generation.scripts.create-target" value="src/main/resources/META-INF/create-schema.ddl"/>
         <property name="javax.persistence.schema-generation.scripts.drop-target" value="src/main/resources/META-INF/drop-schema.ddl"/>
         <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
-        <property name="javax.persistence.jdbc.user" value="randomcodecooler"/>
+        <property name="javax.persistence.jdbc.user" value="papigery"/>
         <property name="javax.persistence.jdbc.password" value="nagyonbiztonsagos"/>
         <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/restaurantDB"/>
+    </properties>
+</persistence-unit>
 <persistence-unit name="testRestaurantPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
     <properties>
@@ -27,7 +29,7 @@
         <property name="javax.persistence.schema-generation.scripts.create-target" value="src/main/resources/META-INF/create-schema.ddl"/>
         <property name="javax.persistence.schema-generation.scripts.drop-target" value="src/main/resources/META-INF/drop-schema.ddl"/>
         <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
-        <property name="javax.persistence.jdbc.user" value="postgres"/>
+        <property name="javax.persistence.jdbc.user" value="papigery"/>
         <property name="javax.persistence.jdbc.password" value="postgres"/>
         <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/testrestaurantdb"/>
         <!--<property name="javax.persistence.sql-load-script-source" value="insert.sql"/>-->
