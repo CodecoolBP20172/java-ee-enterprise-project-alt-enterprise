@@ -14,38 +14,28 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class OrderDaoTest {
-    private OrderDao orderDao;
-    private Order testOrder;
+class OrderDaoTest {
     private static EntityManager em;
     private static OrderDao orderDao;
 
-//    @BeforeAll
-//    static void initializeTests() {
-//
-//    }
-
-    @BeforeEach
-    void populateTestDB() {
+    @BeforeAll
+    static void populateTestDB() {
         //initializing date
         Date date = new Date();
         //initializing test foods and list for restaurant creation
-        ArrayList<Food> testFoodList = new ArrayList<>();
         Food testFood1 = new Food("testFood1", 10, "testIngredients1", "testReview1");
         Food testFood2 = new Food("testFood2", 20, "testIngredients2", "testReview2");
         Food testFood3 = new Food("testFood3", 30, "testIngredients3", "testReview3");
-        testFoodList.add(testFood1);
-        testFoodList.add(testFood2);
-        testFoodList.add(testFood3);
-        //initializing test restaurant
+        //initializing test owner
+        ArrayList<Food> testFoodList = new ArrayList<>(Arrays.asList(testFood1, testFood2, testFood3));
         User testOwner = new User("testOwner", "testOwnerPw", false, true);
+        //initializing test restaurant
         Restaurant testRestaurant = new Restaurant("testRestaurant",
                 "testRestaurantDescription",
                 "1037 Lajos Utca 27.",
@@ -55,16 +45,13 @@ public class OrderDaoTest {
         //initializing user address (user input originally)
         String testAddress = "1037 Lajos Utca 28.";
         //initializing food list for order
-        List<Food> testOrderFoodList = new ArrayList<>();
-        testOrderFoodList.add(testFood1);
-        testOrderFoodList.add(testFood2);
+        List<Food> firstTestOrderFoodList = new ArrayList<>(Arrays.asList(testFood1, testFood2));
+        List<Food> secondTestOrderFoodList = new ArrayList<>(Arrays.asList(testFood1, testFood3));
         //initializing test user who orders
-        User testOrderUser = new User("testOrderUser",
-                "testOrderUserPw",
-                false,
-                false);
+        User testOrderUser = new User("testOrderUser", "testOrderUserPw", false, false);
         //initializing test order
-        testOrder = new Order(date, testAddress, testOrderFoodList, testOrderUser, testRestaurant);
+        Order firstTestOrder = new Order(date, testAddress, firstTestOrderFoodList, testOrderUser, testRestaurant);
+        Order secondTestOrder = new Order(date, testAddress, secondTestOrderFoodList, testOrderUser, testRestaurant);
         //persisting order to test database
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("testRestaurantPU");
         em = emf.createEntityManager();
@@ -74,9 +61,10 @@ public class OrderDaoTest {
         em.persist(testFood2);
         em.persist(testFood3);
         em.persist(testOwner);
-        em.persist(testOrderUser);
         em.persist(testRestaurant);
-        em.persist(testOrder);
+        em.persist(testOrderUser);
+        em.persist(firstTestOrder);
+        em.persist(secondTestOrder);
         transaction.commit();
         //initializing order dao
         orderDao = new OrderDao(em);
@@ -89,8 +77,8 @@ public class OrderDaoTest {
 
     @Test
     void getAll() throws ConnectToDBFailed {
-        List<Order> order = orderDao.getAll();
-        assertEquals(1,order.get(0).getId());
+        List<Order> orders = orderDao.getAll();
+        assertEquals(1, orders.get(0).getId());
     }
 
     @Test
@@ -100,17 +88,18 @@ public class OrderDaoTest {
 
     @Test
     void add() throws ConnectToDBFailed {
-        testOrder.setAddress("Test street 1.");
-        orderDao.add(testOrder);
-        List<Order> orders= orderDao.getAll();
-        assertTrue(orders.contains(testOrder));
+        Order lastOrder = orderDao.getById(1);
+        lastOrder.setAddress("Lófasz utca 13.");
+        orderDao.add(lastOrder);
+        List<Order> orders = orderDao.getAll();
+        assertTrue(orders.contains(lastOrder));
     }
 
     @Test
-    void remove() throws ConnectToDBFailed, IllegalAccessException, InstantiationException {
-        int originalOrdersLength =  orderDao.getAll().size();
-        orderDao.remove(testOrder);
-        int modifiedOrdersLength = orderDao.getAll().size();
-        assertEquals(originalOrdersLength-1, modifiedOrdersLength );
+    void remove() throws ConnectToDBFailed {
+        Order lastOrder = orderDao.getById(2);
+        orderDao.remove(lastOrder);
+        List<Order> orders = orderDao.getAll();
+        assertFalse(orders.contains(lastOrder));
     }
 }

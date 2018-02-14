@@ -19,9 +19,9 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class RestaurantDaoTest {
-    private RestaurantDao restaurantDao;
-    private Restaurant testRestaurant;
     private static EntityManager em;
+    private static RestaurantDao restaurantDao;
+    private static Restaurant testRestaurant;
 
     @BeforeAll
     static void prepareDB() {
