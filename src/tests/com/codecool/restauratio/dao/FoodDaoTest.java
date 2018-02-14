@@ -11,7 +11,7 @@ import javax.persistence.EntityTransaction;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 class FoodDaoTest {
     private static EntityManager em;
@@ -22,8 +22,10 @@ class FoodDaoTest {
         em = DatabaseUtility.getEntityManager("testRestaurantPU");
         EntityTransaction transaction = em.getTransaction();
         transaction.begin();
-        Food testFood = new Food("Pizza", 12.0, "ingredients", "review");
-        em.persist(testFood);
+        Food pizza = new Food("Pizza", 12.0, "ingredients", "review");
+        Food fries = new Food("frenchFries", 7.0, "potato", "fine");
+        em.persist(pizza);
+        em.persist(fries);
         transaction.commit();
         foodDao = new FoodDao(em);
     }
@@ -31,19 +33,30 @@ class FoodDaoTest {
     @Test
     void getAll() throws ConnectToDBFailed {
         List<Food> foods = foodDao.getAll();
-        System.out.println(foods);
         assertEquals("Pizza",foods.get(0).getName());
     }
 
     @Test
-    void getById() {
+    void getById() throws ConnectToDBFailed {
+        int pizzaId = 1;
+        Food food = foodDao.getById(pizzaId);
+        assertNotNull(food);
     }
 
     @Test
-    void add() {
+    void add() throws ConnectToDBFailed {
+        Food newFood = new Food("Hamburger", 10.0, "Ham", "good");
+        foodDao.add(newFood);
+        List<Food> foods = foodDao.getAll();
+        assertTrue(foods.contains(newFood));
+
     }
 
     @Test
-    void remove() {
+    void remove() throws ConnectToDBFailed {
+        Food fries = foodDao.getById(2);
+        foodDao.remove(fries);
+        List<Food> foods = foodDao.getAll();
+        assertFalse(foods.contains(fries));
     }
 }
