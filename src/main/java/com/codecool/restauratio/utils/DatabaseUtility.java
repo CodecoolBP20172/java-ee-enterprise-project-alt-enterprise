@@ -14,6 +14,4 @@ public class DatabaseUtility {
         }
         return em;
     }
-
-
 }

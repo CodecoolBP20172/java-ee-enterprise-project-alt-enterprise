@@ -3,6 +3,7 @@ package com.codecool.restauratio.controller;
 import com.codecool.restauratio.customException.ConnectToDBFailed;
 import com.codecool.restauratio.dao.RestaurantDao;
 import com.codecool.restauratio.models.Restaurant;
+import com.codecool.restauratio.services.RestaurantService;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
@@ -13,11 +14,11 @@ import java.util.Map;
 
 public class RestaurantController {
 
+    private static RestaurantService restService = new RestaurantService ();
+
     public static ModelAndView renderRestaurants(Request req, Response res) throws ConnectToDBFailed {
         Map<String, Object> params = new HashMap<>();
-        RestaurantDao restdao = new RestaurantDao();
-        List<Restaurant> restaurantList = restdao.getAll();
-        params.put("restaurants", restaurantList);
+        params.put("restaurants", restService.getRestaurants());
         // to be loaded with restaurant object
         return new ModelAndView(params, "restaurants");
     }
