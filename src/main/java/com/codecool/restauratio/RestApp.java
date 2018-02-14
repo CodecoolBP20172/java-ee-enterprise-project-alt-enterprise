@@ -1,14 +1,18 @@
 package com.codecool.restauratio;
 
+import com.codecool.restauratio.controller.LoginController;
 import com.codecool.restauratio.controller.RestaurantController;
 import com.codecool.restauratio.customException.ConnectToDBFailed;
 import com.codecool.restauratio.models.Food;
 import com.codecool.restauratio.models.Order;
 import com.codecool.restauratio.models.Restaurant;
+import com.codecool.restauratio.services.UserService;
 import com.codecool.restauratio.utils.DatabaseUtility;
 import com.codecool.restauratio.models.Reservation;
 import com.codecool.restauratio.models.users.User;
 import org.eclipse.jetty.http.HttpStatus;
+import spark.Request;
+import spark.Response;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
 
 import javax.persistence.EntityManager;
@@ -71,6 +75,7 @@ public class RestApp {
 
     public static void main(String[] args) {
         EntityManager em = DatabaseUtility.getEntityManager();
+        UserService userService = new UserService();
         populateDb(em);
 
 
@@ -80,6 +85,7 @@ public class RestApp {
         staticFileLocation("/public");
         port(8888);
 
+
         get("/", (req, res) -> {
             try {
                 return new ThymeleafTemplateEngine().render(RestaurantController.renderRestaurants(req, res));
@@ -87,6 +93,48 @@ public class RestApp {
                 res.status(HttpStatus.SERVICE_UNAVAILABLE_503);
                 return "<html><body><h1>" + res.raw().getStatus() + "</h1><p>SERVICE UNAVAILABLE</p></body></html>";
             }
+        });
+
+        get("/login", (request, response) -> new ThymeleafTemplateEngine().render( LoginController.renderLogin( request, response, true ) ));
+
+        get("/register", (request, response) -> new ThymeleafTemplateEngine().render( LoginController.renderRegister( request, response, true ) ));
+
+        post("/user/register", (Request req, Response res) -> {
+
+            if(!userService.isUserExist(req.queryParams("username"))){
+
+                int userId = userService.registerUser(req.queryParams("username"), req.queryParams("password"), false, false);
+                req.session().attribute("id",userId);
+                req.session().attribute("username",req.queryParams("username"));
+                res.redirect("/");
+            }else{
+                res.redirect("/register?inuse=true");
+            }
+            return null;
+        });
+
+        post("/user/login", (Request req, Response res) -> {
+
+            String username = req.queryParams("username");
+            String password = req.queryParams("password");
+
+            if(userService.login(username, password)){
+
+                req.session().attribute("id",userService.getUserId(username));
+                req.session().attribute("username", username);
+                System.out.println("sessionId: " + req.session().attribute("id"));
+                res.redirect("/");
+            }else{
+                res.redirect("/login?incorrect=true");
+            }
+            return null;
+        });
+
+        get("/logout", (Request req, Response res) -> {
+            req.session().removeAttribute("id");
+            req.session().removeAttribute("username");
+            res.redirect("/");
+            return null;
         });
     }
 }
