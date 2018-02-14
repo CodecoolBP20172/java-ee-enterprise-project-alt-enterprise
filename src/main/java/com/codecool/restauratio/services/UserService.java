@@ -50,6 +50,10 @@ public class UserService {
         }
     }
 
+    private int getUserId(int id) throws ConnectToDBFailed {
+        return (int) userDao.getById(id).getUserId();
+    }
+
     private boolean changePassword(int useriD, String newPsw, String newPsw2){ return true;}
 
     private void deleteRestaurant(int userId, int restaurantId) {}
