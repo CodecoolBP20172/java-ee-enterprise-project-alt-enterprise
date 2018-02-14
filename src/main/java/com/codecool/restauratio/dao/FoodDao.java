@@ -18,7 +18,7 @@ public class FoodDao {
         this.transaction = em.getTransaction();
     }
 
-    public FoodDao(EntityManager em) {
+    FoodDao(EntityManager em) {
         this.em = em;
         this.transaction = em.getTransaction();
     }
@@ -32,7 +32,7 @@ public class FoodDao {
         }
     }
 
-    public Food getById(long id) throws ConnectToDBFailed {
+    public Food getById(int id) throws ConnectToDBFailed {
         try {
             TypedQuery<Food> query = em.createNamedQuery("getFoodById", Food.class);
             query.setParameter("id", id);
@@ -57,7 +57,9 @@ public class FoodDao {
 
     public void remove(Food food) throws ConnectToDBFailed {
         try {
+            transaction.begin();
             em.remove(food);
+            transaction.commit();
         } catch (Exception e) {
             e.printStackTrace();
             throw new ConnectToDBFailed(e.getMessage());

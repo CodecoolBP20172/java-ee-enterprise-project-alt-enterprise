@@ -3,7 +3,6 @@ package com.codecool.restauratio.dao;
 import com.codecool.restauratio.customException.ConnectToDBFailed;
 import com.codecool.restauratio.models.users.User;
 import com.codecool.restauratio.utils.DatabaseUtility;
-import org.hibernate.Transaction;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -14,11 +13,11 @@ public class UserDao {
     private EntityTransaction transaction;
 
     public UserDao() {
-        this.em  = DatabaseUtility.getEntityManager("restaurantPU");
+        this.em = DatabaseUtility.getEntityManager("restaurantPU");
         this.transaction = em.getTransaction();
     }
 
-    public UserDao(EntityManager em) {
+    UserDao(EntityManager em) {
         this.em = em;
         this.transaction = em.getTransaction();
     }
@@ -43,7 +42,9 @@ public class UserDao {
 
     public void add(User user) throws ConnectToDBFailed {
         try {
+            transaction.begin();
             em.persist(user);
+            transaction.commit();
         } catch (Exception e) {
             e.printStackTrace();
             throw new ConnectToDBFailed(e.getMessage());
@@ -52,7 +53,9 @@ public class UserDao {
 
     public void remove(User user) throws ConnectToDBFailed {
         try {
+            transaction.begin();
             em.remove(user);
+            transaction.commit();
         } catch (Exception e) {
             e.printStackTrace();
             throw new ConnectToDBFailed(e.getMessage());
