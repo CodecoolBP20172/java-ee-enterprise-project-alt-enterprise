@@ -9,8 +9,8 @@ import javax.persistence.EntityTransaction;
 import java.util.List;
 
 public class OrderDao {
-    private EntityManager em;
-    private EntityTransaction transaction;
+    private static EntityManager em = DatabaseUtility.getEntityManager("restaurantPU");
+    private static EntityTransaction transaction;
 
     public OrderDao() {
         this.em  = DatabaseUtility.getEntityManager("restaurantPU");
@@ -19,6 +19,7 @@ public class OrderDao {
 
     public OrderDao(EntityManager em) {
         this.em = em;
+        transaction = em.getTransaction();
         this.transaction = em.getTransaction();
     }
 
@@ -42,7 +43,9 @@ public class OrderDao {
 
     public void add(Order order) throws ConnectToDBFailed {
         try {
+            transaction.begin();
             em.persist(order);
+            transaction.commit();
         } catch (Exception e) {
             e.printStackTrace();
             throw new ConnectToDBFailed(e.getMessage());
@@ -51,7 +54,9 @@ public class OrderDao {
 
     public void remove(Order order) throws ConnectToDBFailed {
         try {
+            transaction.begin();
             em.remove(order);
+            transaction.commit();
         } catch (Exception e) {
             e.printStackTrace();
             throw new ConnectToDBFailed(e.getMessage());
