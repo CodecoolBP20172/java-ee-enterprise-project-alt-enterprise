@@ -14,23 +14,25 @@ public class UserService {
     private UserDao userDao = new UserDao();
 
     // returns with the id of the created user
-    private int registerUser(String userName, String psw, boolean isAdmin, boolean isOwner) throws ConnectToDBFailed, FailedDataVertification {
+    public int registerUser(String userName, String psw, boolean isAdmin, boolean isOwner) throws ConnectToDBFailed, FailedDataVertification {
         User user = new User(userName, psw, isAdmin, isOwner);
         userDao.add(user);
-        User testUser = userDao.getById(user.getUserId());
-        if(testUser.getUserId() == user.getUserId()) {
-            return (int) user.getUserId();
-        } else {
-            throw new FailedDataVertification("User id in memory and in the database are not the same");
-        }
+        System.out.println("user registered in service");
+//        User testUser = userDao.getById(user.getUserId());
+//        if(testUser.getUserId() == user.getUserId()) {
+//            return (int) user.getUserId();
+//        } else {
+//            throw new FailedDataVertification("User id in memory and in the database are not the same");
+//        }
+        return (int)user.getUserId();
     }
 
     // returns userId if the credential verification is successful else throws an exception
-    private int login(String userName, String psw) throws ConnectToDBFailed, FailedDataVertification {
+    public boolean login(String userName, String psw) throws ConnectToDBFailed, FailedDataVertification {
         List<User> allUsers = userDao.getAll();
         for (User currentUser : allUsers) {
-            if (currentUser.getUserName().equals(userName) & currentUser.getPassword().equals(psw)) {
-                return (int) currentUser.getUserId();
+            if (currentUser.getUserName().equals(userName) & currentUser.checkPassword(psw)) {
+                return true;
             }
         }
         throw new FailedDataVertification("Wrong username or password");
@@ -50,8 +52,23 @@ public class UserService {
         }
     }
 
-    private int getUserId(int id) throws ConnectToDBFailed {
-        return (int) userDao.getById(id).getUserId();
+    public int getUserId(String username) throws ConnectToDBFailed, FailedDataVertification {
+        for (User user: userDao.getAll()){
+            if (user.getUserName().equals(username)){
+                return (int)user.getUserId();
+            }
+        }
+        throw new FailedDataVertification("Username or password incorrect");
+    }
+
+    // returns a boolean that indicates whether the user exists or not
+    public boolean isUserExist(String username) throws ConnectToDBFailed {
+        for (User user : userDao.getAll()){
+            if (user.getUserName().equals(username)){
+                return true;
+            }
+        }
+        return false;
     }
 
     private boolean changePassword(int useriD, String newPsw, String newPsw2){ return true;}

@@ -6,10 +6,13 @@ import com.codecool.restauratio.customException.ConnectToDBFailed;
 import com.codecool.restauratio.models.Food;
 import com.codecool.restauratio.models.Order;
 import com.codecool.restauratio.models.Restaurant;
+import com.codecool.restauratio.services.UserService;
 import com.codecool.restauratio.utils.DatabaseUtility;
 import com.codecool.restauratio.models.Reservation;
 import com.codecool.restauratio.models.users.User;
 import org.eclipse.jetty.http.HttpStatus;
+import spark.Request;
+import spark.Response;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
 
 import javax.persistence.EntityManager;
@@ -72,6 +75,7 @@ public class RestApp {
 
     public static void main(String[] args) {
         EntityManager em = DatabaseUtility.getEntityManager();
+        UserService userService = new UserService();
         populateDb(em);
 
 
@@ -80,6 +84,7 @@ public class RestApp {
         exception(Exception.class, (e, req, res) -> e.printStackTrace());
         staticFileLocation("/public");
         port(8888);
+
 
         get("/", (req, res) -> {
             try {
@@ -94,5 +99,33 @@ public class RestApp {
 
         get("/register", (request, response) -> new ThymeleafTemplateEngine().render( LoginController.renderRegister( request, response, true ) ));
 
+        post("/user/register", (Request req, Response res) -> {
+
+            if(!userService.isUserExist(req.queryParams("username"))){
+
+                int userId = userService.registerUser(req.queryParams("username"), req.queryParams("password"), false, false);
+                req.session().attribute("id",userId);
+                res.redirect("/");
+            }else{
+                res.redirect("/user/register");
+            }
+            return null;
+        });
+
+        post("/user/login", (Request req, Response res) -> {
+
+            String username = req.queryParams("username");
+            String password = req.queryParams("password");
+
+            if(userService.login(username, password)){
+
+                req.session().attribute("id",userService.getUserId(username));
+                System.out.println("sessionId: " + req.session().attribute("id"));
+                res.redirect("/");
+            }else{
+                res.redirect("/user/login");
+            }
+            return null;
+        });
     }
 }

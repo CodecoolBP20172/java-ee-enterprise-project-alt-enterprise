@@ -29,7 +29,7 @@
 <body>
 
 <div th:if="${login}" class="container">
-    <form class="form-signin" action="#" method="post">
+    <form class="form-signin" action="/user/login" method="post">
         <div class="jumbotron text-center">
             <h1 class="form-signin-heading">Please login to your account</h1>
             <a href="/"><h3>Back to Home</h3></a>
@@ -44,7 +44,7 @@
 </div>
 
 <div th:if="${register}" class="container">
-    <form class="form-signin" action="#" method="post">
+    <form class="form-signin" action="/user/register" method="post">
         <div class="jumbotron text-center">
             <h1 class="form-signin-heading">Create your account</h1>
             <a href="/"><h3>Back to Home</h3></a>
