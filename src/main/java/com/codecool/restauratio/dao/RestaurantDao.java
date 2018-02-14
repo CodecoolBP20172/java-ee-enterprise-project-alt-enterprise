@@ -32,7 +32,7 @@ public class RestaurantDao {
         }
     }
 
-    public Restaurant getById(long id) throws ConnectToDBFailed {
+    public Restaurant getById(int id) throws ConnectToDBFailed {
         try {
             return em.find(Restaurant.class, id);
         } catch (Exception e) {
@@ -43,7 +43,9 @@ public class RestaurantDao {
 
     public void add(Restaurant restaurant) throws ConnectToDBFailed {
         try {
+            transaction.begin();
             em.persist(restaurant);
+            transaction.commit();
         } catch (Exception e) {
             e.printStackTrace();
             throw new ConnectToDBFailed(e.getMessage());
@@ -52,7 +54,9 @@ public class RestaurantDao {
 
     public void remove(Restaurant restaurant) throws ConnectToDBFailed {
         try {
+            transaction.begin();
             em.remove(restaurant);
+            transaction.commit();
         } catch (Exception e) {
             e.printStackTrace();
             throw new ConnectToDBFailed(e.getMessage());

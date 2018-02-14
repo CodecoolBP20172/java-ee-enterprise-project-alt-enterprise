@@ -77,7 +77,6 @@ public class OrderDaoTest {
         em.persist(testRestaurant);
         em.persist(testOrder);
         transaction.commit();
-        em.close();
         //initializing order dao
         orderDao = new OrderDao(em);
     }
