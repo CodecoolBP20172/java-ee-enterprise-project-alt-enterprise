@@ -95,6 +95,8 @@ public class RestApp {
             }
         });
 
+        // LOGIN ROUTES
+
         get("/login", (request, response) -> new ThymeleafTemplateEngine().render( LoginController.renderLogin( request, response, true ) ));
 
         get("/register", (request, response) -> new ThymeleafTemplateEngine().render( LoginController.renderRegister( request, response, true ) ));
@@ -136,5 +138,10 @@ public class RestApp {
             res.redirect("/");
             return null;
         });
+
+        // RESTAURANT ROUTE
+
+        get( "/restaurants/:restId", (request, response) -> new ThymeleafTemplateEngine().render( RestaurantController.renderRestaurant(request, response, request.params( ":restId" )) ));
+
     }
 }

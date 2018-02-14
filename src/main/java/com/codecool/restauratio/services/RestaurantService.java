@@ -26,7 +26,7 @@ public class RestaurantService {
         reservDao.add(currentReservation);
     }
 
-    public List getRestaurants () {
+    public List<Restaurant> getRestaurants () {
         List <Restaurant> restaurantList = null;
         try {
             restaurantList = restDao.getAll();
@@ -35,8 +35,10 @@ public class RestaurantService {
             System.out.println("Connection to db failed");
             return restaurantList;
         }
+    }
 
-
+    public Restaurant getRestaurantId(int id) throws ConnectToDBFailed {
+        return restDao.getById(id);
     }
 
 }
