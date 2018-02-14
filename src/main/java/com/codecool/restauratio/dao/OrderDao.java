@@ -5,11 +5,22 @@ import com.codecool.restauratio.models.Order;
 import com.codecool.restauratio.utils.DatabaseUtility;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import java.util.List;
 
 public class OrderDao {
-    private static EntityManager em = DatabaseUtility.getEntityManager("restaurantPU");
+    private EntityManager em;
+    private EntityTransaction transaction;
 
+    public OrderDao() {
+        this.em  = DatabaseUtility.getEntityManager("restaurantPU");
+        this.transaction = em.getTransaction();
+    }
+
+    public OrderDao(EntityManager em) {
+        this.em = em;
+        this.transaction = em.getTransaction();
+    }
 
     public List<Order> getAll() throws ConnectToDBFailed {
         try {
