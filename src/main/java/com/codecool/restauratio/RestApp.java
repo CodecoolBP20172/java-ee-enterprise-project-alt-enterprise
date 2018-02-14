@@ -105,9 +105,10 @@ public class RestApp {
 
                 int userId = userService.registerUser(req.queryParams("username"), req.queryParams("password"), false, false);
                 req.session().attribute("id",userId);
+                req.session().attribute("username",req.queryParams("username"));
                 res.redirect("/");
             }else{
-                res.redirect("/user/register");
+                res.redirect("/register?inuse=true");
             }
             return null;
         });
@@ -124,7 +125,7 @@ public class RestApp {
                 System.out.println("sessionId: " + req.session().attribute("id"));
                 res.redirect("/");
             }else{
-                res.redirect("/user/login");
+                res.redirect("/login?incorrect=true");
             }
             return null;
         });

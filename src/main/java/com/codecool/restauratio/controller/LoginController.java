@@ -13,6 +13,8 @@ public class LoginController {
 
         Map params = new HashMap<>();
         params.put( "login", isLogin );
+        params.put( "incorrect", Boolean.parseBoolean(request.queryParams("incorrect")));
+
 
         return new ModelAndView( params, "login" );
     }
@@ -20,6 +22,8 @@ public class LoginController {
     public static ModelAndView renderRegister(Request request, Response response, Boolean isRegister) {
         Map params = new HashMap<>();
         params.put( "register", isRegister );
+        params.put( "inuse", Boolean.parseBoolean(request.queryParams("inuse")));
+
 
         return new ModelAndView( params, "login" );
     }

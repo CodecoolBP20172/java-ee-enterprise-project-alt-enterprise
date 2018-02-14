@@ -35,7 +35,7 @@ public class UserService {
                 return true;
             }
         }
-        throw new FailedDataVertification("Wrong username or password");
+        return false;
     }
 
     // returns the id of the created restaurant pared with this user
