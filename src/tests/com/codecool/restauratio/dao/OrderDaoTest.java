@@ -11,7 +11,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -21,12 +23,16 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class OrderDaoTest {
-    private static EntityManager em;
-    private static OrderDao orderDao;
-    private static Order testOrder;
+    private OrderDao orderDao;
+    private Order testOrder;
 
-    @BeforeAll
-    static void populateTestDB() {
+//    @BeforeAll
+//    static void initializeTests() {
+//
+//    }
+
+    @BeforeEach
+    void populateTestDB() {
         //initializing date
         Date date = new Date();
         //initializing test foods and list for restaurant creation
@@ -59,7 +65,8 @@ public class OrderDaoTest {
         //initializing test order
         testOrder = new Order(date, testAddress, testOrderFoodList, testOrderUser, testRestaurant);
         //persisting order to test database
-        em = DatabaseUtility.getEntityManager("testRestaurantPU");
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("testRestaurantPU");
+        EntityManager em = emf.createEntityManager();
         EntityTransaction transaction = em.getTransaction();
         transaction.begin();
         em.persist(testFood1);
