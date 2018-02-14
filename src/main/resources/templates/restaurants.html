@@ -52,31 +52,26 @@
             </div>
         </nav>
     </div>
-    <div th:each="restaurant, iter : ${restaurants}">
-        <div>
-            <a href="#" class="btn-default text-center form-control restaurantButton" th:id="${restaurant.getId()}" th:text="${restaurant.getName()}">Restaurant</a>
-        </div>
-        <div class="container-fluid restaurantDiv" th:id="'restaurantDiv' + ${restaurant.getId()}" >
-            <div class="row">
-                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                    <img src="/img/placeholder.jpg" class="img-thumbnail"/>
-                </div>
-                <div style="margin-top: 30px" class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                    <p th:text="'Restaurant name: ' + ${restaurant.getName()}">Name</p>
-                    <p th:text="'Description: ' + ${restaurant.getDescription()}">Description</p>
-                    <p th:text="'Location: ' + ${restaurant.getLocation()}">Location</p>
-                    <p th:text="'Capacity: ' + ${restaurant.getCapacity()}">Capacity</p>
-                </div>
-                <div style="margin-top: 30px" class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                    <p th:text="'Restaurant name: ' + ${restaurant.getName()}">Name</p>
-                    <p th:text="'Description: ' + ${restaurant.getDescription()}">Description</p>
-                    <p th:text="'Location: ' + ${restaurant.getLocation()}">Location</p>
-                    <p th:text="'Capacity: ' + ${restaurant.getCapacity()}">Capacity</p>
+    <div id="restaurants" class="row list-group">
+
+        <div class="item col-xs-4 col-lg-4" th:each="restaurant, iter : ${restaurants}">
+            <div class="thumbnail">
+                <img class="group list-group-image" src="http://placehold.it/400x250/000/fff"/>
+                <div class="caption">
+                    <h2 class="group inner list-group-item-heading" th:text="${restaurant.getName()}">Restaurant name</h2>
+                    <p class="group inner list-group-item-text" th:text="${restaurant.getDescription()}">Restaurant
+                        description... </p>
+                    <div class="row">
+                        <div class="col-xs-12 col-md-6">
+                            <p class="lead" th:text="${restaurant.getLocation()}">hehe</p>
+                        </div>
+                        <div>
+                            <a class="btn btn-default btn-lg" style="float: right; margin-right: 20px" th:href="@{~/restaurants/} + ${restaurant.getId()}">Visit Restaurant</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <br/>
     </div>
-
 </body>
 </html>
