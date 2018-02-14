@@ -120,11 +120,19 @@ public class RestApp {
             if(userService.login(username, password)){
 
                 req.session().attribute("id",userService.getUserId(username));
+                req.session().attribute("username", username);
                 System.out.println("sessionId: " + req.session().attribute("id"));
                 res.redirect("/");
             }else{
                 res.redirect("/user/login");
             }
+            return null;
+        });
+
+        get("/logout", (Request req, Response res) -> {
+            req.session().removeAttribute("id");
+            req.session().removeAttribute("username");
+            res.redirect("/");
             return null;
         });
     }

@@ -18,6 +18,9 @@ public class RestaurantController {
 
     public static ModelAndView renderRestaurants(Request req, Response res) throws ConnectToDBFailed {
         Map<String, Object> params = new HashMap<>();
+
+        params.put("username", req.session().attribute("username"));
+        params.put("loggedin", req.session().attribute("id") != null);
         params.put("restaurants", restService.getRestaurants());
         // to be loaded with restaurant object
         return new ModelAndView(params, "restaurants");
