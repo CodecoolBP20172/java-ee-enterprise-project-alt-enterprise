@@ -10,6 +10,7 @@ import com.codecool.restauratio.services.UserService;
 import com.codecool.restauratio.utils.DatabaseUtility;
 import com.codecool.restauratio.models.Reservation;
 import com.codecool.restauratio.models.users.User;
+import com.codecool.restauratio.utils.JsonHandler;
 import org.eclipse.jetty.http.HttpStatus;
 import spark.Request;
 import spark.Response;
@@ -20,6 +21,7 @@ import javax.persistence.EntityTransaction;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import static spark.Spark.*;
 import static spark.debug.DebugScreen.enableDebugScreen;
@@ -51,7 +53,7 @@ public class RestApp {
 
         Restaurant r = new Restaurant("Halászcsárda", "good", "here", list, 100, user1);
         Restaurant r2 = new Restaurant("Csirkés", "pretty", "there", list2, 50, user2);
-        Restaurant r3 = new Restaurant("Titiz", "bad", "where", list3, 10, user2);
+        Restaurant r3 = new Restaurant("Titiz", "bad", "Mány", list3, 10, user2);
 
         Order o1 = new Order(date, "here", list, user1, r);
         Order o2 = new Order(date, "there", list3, user2, r2);
@@ -136,5 +138,7 @@ public class RestApp {
             res.redirect("/");
             return null;
         });
+
+        post("/api/get_restaurant_by_location", RestaurantController::restaurantBrowseByLocation);
     }
 }
