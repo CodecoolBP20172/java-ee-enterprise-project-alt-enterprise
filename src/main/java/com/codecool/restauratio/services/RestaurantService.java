@@ -7,15 +7,19 @@ import com.codecool.restauratio.dao.UserDao;
 import com.codecool.restauratio.models.Reservation;
 import com.codecool.restauratio.models.Restaurant;
 import com.codecool.restauratio.models.users.User;
+import com.codecool.restauratio.utils.JsonHandler;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class RestaurantService {
 
     RestaurantDao restDao = new RestaurantDao();
     UserDao usDao = new UserDao();
     ReservationDao reservDao = new ReservationDao();
+    JsonHandler ajaxHandler = new JsonHandler();
 
 
     void makeReservation (int numberOfPPL, long restaurantId, int userId) throws ConnectToDBFailed {
@@ -35,8 +39,18 @@ public class RestaurantService {
             System.out.println("Connection to db failed");
             return restaurantList;
         }
+    }
 
+    public String restaurantLocationBrowser (String location) {
+        List<Restaurant> restaurantList;
+        try {
+            restaurantList = restDao.getByLocation(location);
+        } catch (ConnectToDBFailed e) {
+            System.out.println("Connection to db failed");
+            return null;
+        }
 
+        return JsonHandler.toJson(JsonHandler.restaurantModel(restaurantList));
     }
 
 }
