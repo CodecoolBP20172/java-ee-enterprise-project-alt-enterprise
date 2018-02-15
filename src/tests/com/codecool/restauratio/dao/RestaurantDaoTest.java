@@ -71,14 +71,15 @@ class RestaurantDaoTest {
     }
 
     @Test
-    void add() throws ConnectToDBFailed {
+    void add() throws ConnectToDBFailed, NoSuchMethodException {
         testRestaurant.setName("BabaKaja");
-        restaurantDao.add(testRestaurant);
+        restaurantDao.transactionProcess(testRestaurant, "add");
+        //restaurantDao.add(testRestaurant);
         assertTrue(restaurantDao.getAll().contains(testRestaurant));
     }
 
     @Test
-    void remove() throws ConnectToDBFailed {
+    void remove() throws ConnectToDBFailed, NoSuchMethodException {
         ArrayList<Food> testFoodList = new ArrayList<>();
         Food testFood1 = new Food("testFood1", 10, "testIngredients1", "testReview1");
         testFoodList.add(testFood1);
@@ -89,7 +90,8 @@ class RestaurantDaoTest {
                 testFoodList,
                 15,
                 testOwner);
-        restaurantDao.remove(testRestaurant);
+        restaurantDao.transactionProcess(testRestaurant, "remove");
+        //restaurantDao.remove(testRestaurant);
         assertFalse(restaurantDao.getAll().contains(testRestaurant));
     }
 }

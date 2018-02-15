@@ -1,26 +1,47 @@
 package com.codecool.restauratio.dao;
 
 import com.codecool.restauratio.customException.ConnectToDBFailed;
+import com.codecool.restauratio.dao.transactionAnnotation.TransactionAnnotation;
 import com.codecool.restauratio.models.Food;
+import com.codecool.restauratio.models.users.User;
 import com.codecool.restauratio.utils.DatabaseUtility;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
+import java.lang.reflect.Method;
 import java.util.List;
 
-public class FoodDao {
+public class FoodDao extends Dao{
     private EntityManager em;
-    private EntityTransaction transaction;
 
     public FoodDao() {
         this.em  = DatabaseUtility.getEntityManager("restaurantPU");
-        this.transaction = em.getTransaction();
     }
 
     FoodDao(EntityManager em) {
         this.em = em;
-        this.transaction = em.getTransaction();
+    }
+
+    private Method methodFinder(Class obj, String name) {
+        for (Method method : obj.getDeclaredMethods()) {
+            if (!method.isAnnotationPresent(TransactionAnnotation.class)) {
+                continue;
+            }
+            if (method.isAnnotationPresent(TransactionAnnotation.class) & method.getName().equals(name)) {
+                return method;
+            }
+        }
+        return null;
+    }
+
+    public void transactionProcess(Food food, String name) throws ConnectToDBFailed, NullPointerException, NoSuchMethodException {
+        Method m = null;
+        m = methodFinder(this.getClass(), name);
+        if(m == null) {
+            throw new NullPointerException();
+        }
+        super.transactionProcess(food, m, this, em);
     }
 
     public List<Food> getAll() throws ConnectToDBFailed {
@@ -43,26 +64,14 @@ public class FoodDao {
         }
     }
 
+    @TransactionAnnotation
     public void add(Food food) throws ConnectToDBFailed {
-        try {
-            transaction.begin();
-            em.persist(food);
-            transaction.commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new ConnectToDBFailed(e.getMessage());
-        }
+        em.persist(food);
     }
 
 
+    @TransactionAnnotation
     public void remove(Food food) throws ConnectToDBFailed {
-        try {
-            transaction.begin();
-            em.remove(food);
-            transaction.commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new ConnectToDBFailed(e.getMessage());
-        }
+        em.remove(food);
     }
 }

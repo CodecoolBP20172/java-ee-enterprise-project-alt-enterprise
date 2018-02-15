@@ -51,7 +51,7 @@ class UserDaoTest {
     }
 
     @Test
-    void add() throws ConnectToDBFailed {
+    void add() throws ConnectToDBFailed, NoSuchMethodException {
         User user = new User("user", "iamasimpleuser", false, false);
         userDao.transactionProcess(user, "add");
         //userDao.add(user);
@@ -60,7 +60,7 @@ class UserDaoTest {
     }
 
     @Test
-    void remove() throws ConnectToDBFailed {
+    void remove() throws ConnectToDBFailed, NoSuchMethodException {
         User owner = userDao.getById(2);
         userDao.transactionProcess(owner, "remove");
         //userDao.remove(owner);

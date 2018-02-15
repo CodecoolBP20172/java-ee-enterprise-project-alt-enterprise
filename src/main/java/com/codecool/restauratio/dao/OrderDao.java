@@ -1,25 +1,43 @@
 package com.codecool.restauratio.dao;
 
 import com.codecool.restauratio.customException.ConnectToDBFailed;
+import com.codecool.restauratio.dao.transactionAnnotation.TransactionAnnotation;
 import com.codecool.restauratio.models.Order;
+import com.codecool.restauratio.models.users.User;
 import com.codecool.restauratio.utils.DatabaseUtility;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import java.lang.reflect.Method;
 import java.util.List;
 
-public class OrderDao {
+public class OrderDao extends Dao{
     private EntityManager em;
-    private EntityTransaction transaction;
 
     public OrderDao() {
         this.em  = DatabaseUtility.getEntityManager("restaurantPU");
-        this.transaction = em.getTransaction();
     }
 
     public OrderDao(EntityManager em) {
         this.em = em;
-        this.transaction = em.getTransaction();
+    }
+
+    private Method methodFinder(Class obj, String name) {
+        for (Method method : obj.getDeclaredMethods()) {
+            if (!method.isAnnotationPresent(TransactionAnnotation.class)) {
+                continue;
+            }
+            if (method.isAnnotationPresent(TransactionAnnotation.class) & method.getName().equals(name)) {
+                return method;
+            }
+        }
+        return null;
+    }
+
+    public void transactionProcess(Order order, String name) throws ConnectToDBFailed, NullPointerException, NoSuchMethodException {
+        Method m = null;
+        m = methodFinder(this.getClass(), name);
+        super.transactionProcess(order, m, this, em);
     }
 
     public List<Order> getAll() throws ConnectToDBFailed {
@@ -40,25 +58,13 @@ public class OrderDao {
         }
     }
 
+    @TransactionAnnotation
     public void add(Order order) throws ConnectToDBFailed {
-        try {
-            transaction.begin();
             em.persist(order);
-            transaction.commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new ConnectToDBFailed(e.getMessage());
-        }
     }
 
+    @TransactionAnnotation
     public void remove(Order order) throws ConnectToDBFailed {
-        try {
-            transaction.begin();
             em.remove(order);
-            transaction.commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new ConnectToDBFailed(e.getMessage());
-        }
     }
 }

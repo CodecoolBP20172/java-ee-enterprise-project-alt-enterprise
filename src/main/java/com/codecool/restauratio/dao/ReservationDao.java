@@ -1,25 +1,43 @@
 package com.codecool.restauratio.dao;
 
 import com.codecool.restauratio.customException.ConnectToDBFailed;
+import com.codecool.restauratio.dao.transactionAnnotation.TransactionAnnotation;
 import com.codecool.restauratio.models.Reservation;
+import com.codecool.restauratio.models.users.User;
 import com.codecool.restauratio.utils.DatabaseUtility;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import java.lang.reflect.Method;
 import java.util.List;
 
-public class ReservationDao {
+public class ReservationDao extends Dao{
     private EntityManager em;
-    private EntityTransaction transaction;
 
     public ReservationDao() {
         this.em  = DatabaseUtility.getEntityManager("restaurantPU");
-        this.transaction = em.getTransaction();
     }
 
     public ReservationDao(EntityManager em) {
         this.em = em;
-        this.transaction = em.getTransaction();
+    }
+
+    private Method methodFinder(Class obj, String name) {
+        for (Method method : obj.getDeclaredMethods()) {
+            if (!method.isAnnotationPresent(TransactionAnnotation.class)) {
+                continue;
+            }
+            if (method.isAnnotationPresent(TransactionAnnotation.class) & method.getName().equals(name)) {
+                return method;
+            }
+        }
+        return null;
+    }
+
+    public void transactionProcess(Reservation reservation, String name) throws ConnectToDBFailed, NullPointerException, NoSuchMethodException {
+        Method m = null;
+        m = methodFinder(this.getClass(), name);
+        super.transactionProcess(reservation, m, this, em);
     }
 
     public List<Reservation> getAll() throws ConnectToDBFailed {
@@ -40,26 +58,14 @@ public class ReservationDao {
         }
     }
 
+    @TransactionAnnotation
     public void add(Reservation reservation) throws ConnectToDBFailed {
-        try {
-            transaction.begin();
             em.persist(reservation);
-            transaction.commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new ConnectToDBFailed(e.getMessage());
-        }
     }
 
+    @TransactionAnnotation
     public void remove(Reservation reservation) throws ConnectToDBFailed {
-        try {
-            transaction.begin();
             em.remove(reservation);
-            transaction.commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new ConnectToDBFailed(e.getMessage());
-        }
     }
 
 }

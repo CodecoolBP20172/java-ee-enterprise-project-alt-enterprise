@@ -6,39 +6,31 @@ import com.codecool.restauratio.models.users.User;
 import com.codecool.restauratio.utils.DatabaseUtility;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import java.lang.reflect.Method;
 import java.util.List;
 
 public class UserDao extends Dao{
     private EntityManager em;
-    private EntityTransaction transaction;
 
     public UserDao() {
-        super.setEm(DatabaseUtility.getEntityManager("restaurantPU"));
-        super.setTransaction(super.getEm().getTransaction());
-        em = super.getEm();
-        transaction = super.getTransaction();
+        em = DatabaseUtility.getEntityManager("restaurantPU");
     }
 
     UserDao(EntityManager em) {
-        super.setEm(em);
-        super.setTransaction(em.getTransaction());
         this.em = em;
-        this.transaction = em.getTransaction();
     }
 
-//    private Method methodFinder(Class obj, String name) {
-//        for (Method method : obj.getDeclaredMethods()) {
-//            if (!method.isAnnotationPresent(TransactionAnnotation.class)) {
-//                continue;
-//            }
-//            if (method.isAnnotationPresent(TransactionAnnotation.class) & method.getName().equals(name)) {
-//                return method;
-//            }
-//        }
-//        return null;
-//    }
+    private Method methodFinder(Class obj, String name) {
+        for (Method method : obj.getDeclaredMethods()) {
+            if (!method.isAnnotationPresent(TransactionAnnotation.class)) {
+                continue;
+            }
+            if (method.isAnnotationPresent(TransactionAnnotation.class) & method.getName().equals(name)) {
+                return method;
+            }
+        }
+        return null;
+    }
 //
 //    public void transactionProcess(User user, String name) throws ConnectToDBFailed, NullPointerException {
 //        Class obj = this.getClass();
@@ -60,8 +52,10 @@ public class UserDao extends Dao{
 //    }
 
 
-    public void transactionProcess(User user, String name) throws ConnectToDBFailed, NullPointerException {
-        this.transactionProcess(user, name, this);
+    public void transactionProcess(User user, String name) throws ConnectToDBFailed, NullPointerException, NoSuchMethodException {
+        Method m = null;
+        m = methodFinder(this.getClass(), name);
+        super.transactionProcess(user, m, this, em);
     }
 
     public List<User> getAll() throws ConnectToDBFailed {

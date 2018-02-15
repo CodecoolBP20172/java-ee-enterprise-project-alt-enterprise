@@ -51,18 +51,20 @@ class FoodDaoTest {
     }
 
     @Test
-    void add() throws ConnectToDBFailed {
+    void add() throws ConnectToDBFailed, NoSuchMethodException {
         Food newFood = new Food("Hamburger", 10.0, "Ham", "good");
-        foodDao.add(newFood);
+        foodDao.transactionProcess(newFood, "add");
+        //foodDao.add(newFood);
         List<Food> foods = foodDao.getAll();
         assertTrue(foods.contains(newFood));
 
     }
 
     @Test
-    void remove() throws ConnectToDBFailed {
+    void remove() throws ConnectToDBFailed, NoSuchMethodException {
         Food fries = foodDao.getById(2);
-        foodDao.remove(fries);
+        foodDao.transactionProcess(fries, "remove");
+        //foodDao.remove(fries);
         List<Food> foods = foodDao.getAll();
         assertFalse(foods.contains(fries));
     }

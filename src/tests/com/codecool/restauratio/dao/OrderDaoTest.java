@@ -87,18 +87,20 @@ class OrderDaoTest {
     }
 
     @Test
-    void add() throws ConnectToDBFailed {
+    void add() throws ConnectToDBFailed, NoSuchMethodException {
         Order lastOrder = orderDao.getById(1);
         lastOrder.setAddress("Lófasz utca 13.");
-        orderDao.add(lastOrder);
+        orderDao.transactionProcess(lastOrder, "add");
+        //orderDao.add(lastOrder);
         List<Order> orders = orderDao.getAll();
         assertTrue(orders.contains(lastOrder));
     }
 
     @Test
-    void remove() throws ConnectToDBFailed {
+    void remove() throws ConnectToDBFailed, NoSuchMethodException {
         Order lastOrder = orderDao.getById(2);
-        orderDao.remove(lastOrder);
+        orderDao.transactionProcess(lastOrder, "remove");
+        //orderDao.remove(lastOrder);
         List<Order> orders = orderDao.getAll();
         assertFalse(orders.contains(lastOrder));
     }

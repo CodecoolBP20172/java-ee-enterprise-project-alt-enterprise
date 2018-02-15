@@ -77,21 +77,23 @@ class ReservationDaoTest {
     }
 
     @Test
-    void add() throws ConnectToDBFailed, ParseException {
+    void add() throws ConnectToDBFailed, ParseException, NoSuchMethodException {
         Reservation reservation = reservationDao.getById(1);
         reservation.setNumberOfPeople(4);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         Date date = sdf.parse("2018-03-26 20:30");
         reservation.setCreationDate(date);
-        reservationDao.add(reservation);
+        reservationDao.transactionProcess(reservation, "add");
+        //reservationDao.add(reservation);
         List<Reservation> reservations = reservationDao.getAll();
         assertTrue(reservations.contains(reservation));
     }
 
     @Test
-    void remove() throws ConnectToDBFailed {
+    void remove() throws ConnectToDBFailed, NoSuchMethodException {
         Reservation reservation = reservationDao.getById(2);
-        reservationDao.remove(reservation);
+        reservationDao.transactionProcess(reservation, "remove");
+        //reservationDao.remove(reservation);
         List<Reservation> reservations = reservationDao.getAll();
         assertFalse(reservations.contains(reservation));
     }
