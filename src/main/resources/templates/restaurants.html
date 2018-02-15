@@ -68,7 +68,7 @@
     <div id="restaurants" class="row list-group restaurantListContainer">
         <div class="item col-xs-4 col-lg-3" th:each="restaurant, iter : ${restaurants}">
             <div class="thumbnail">
-                <img class="group list-group-image" src="http://placehold.it/400x250/000/fff"/>
+                <img class="group list-group-image" th:src="${restaurant.getImageReference()}"/>
                 <div class="caption">
                     <h2 class="group inner list-group-item-heading">
                         <a th:href="@{~/restaurants/} + ${restaurant.getId()}" th:text="${restaurant.getName()}"></a>

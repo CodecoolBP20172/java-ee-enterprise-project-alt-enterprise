@@ -36,6 +36,7 @@ public class JsonHandler {
             currentRestaurant.put("description", restaurant.getDescription());
             currentRestaurant.put("location", restaurant.getLocation());
             currentRestaurant.put("capacity", Integer.toString((int)restaurant.getCapacity()));
+            currentRestaurant.put("imageReference", restaurant.getImageReference());
             model.add(currentRestaurant);
         }
 

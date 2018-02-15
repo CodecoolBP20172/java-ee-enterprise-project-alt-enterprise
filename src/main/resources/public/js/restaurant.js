@@ -34,14 +34,19 @@ $(document).ready(function(){
         let targetDiv = $(".restaurantListContainer");
         targetDiv.empty();
         for (let i = 0; i < response.length; i++) {
-            targetDiv.append(buildRestaurantSubContainer (response[i].name, response[i].id, response[i].description, response[i].location));
+            targetDiv.append(buildRestaurantSubContainer (
+                response[i].name,
+                response[i].id,
+                response[i].description,
+                response[i].location,
+                response[i].imageReference));
         }
     }
 
-    function buildRestaurantSubContainer (restName, restId, restDescription, restLocation) {
+    function buildRestaurantSubContainer (restName, restId, restDescription, restLocation, restImage) {
             let wrapper = $('<div>', {"class":"item col-xs-4 col-lg-3"});
             let wrapperSubDiv = $('<div>',{"class":"thumbnail"});
-            let restaurantImage = $('<img>', {"class": "group list-group-image"}).attr("src", "http://placehold.it/400x250/000/fff");
+            let restaurantImage = $('<img>', {"class": "group list-group-image"}).attr("src", restImage);
             let captionContainer = $('<div/>', {"class": "caption"});
             let restaurantTitleContainer = $('<h2>', {"class":"group inner list-group-item-heading"});
             let restaurantTitle = $('<a>').attr("href", '@{~/restaurants/}' + restId).text(restName);
