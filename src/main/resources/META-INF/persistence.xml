@@ -14,9 +14,25 @@
         <property name="javax.persistence.schema-generation.scripts.create-target" value="src/main/resources/META-INF/create-schema.ddl"/>
         <property name="javax.persistence.schema-generation.scripts.drop-target" value="src/main/resources/META-INF/drop-schema.ddl"/>
         <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
-        <property name="javax.persistence.jdbc.user" value="randomcodecooler"/>
-        <property name="javax.persistence.jdbc.password" value="nagyonbiztonsagos"/>
+        <property name="javax.persistence.jdbc.user" value="asd"/>
+        <property name="javax.persistence.jdbc.password" value="asd"/>
         <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/restaurantDB"/>
+    </properties>
+</persistence-unit>
+
+<persistence-unit name="testRestaurantPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+    <properties>
+        <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL94Dialect"/>
+        <property name="hibernate.hbm2dll.auto" value="create-drop"/>
+        <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
+        <property name="javax.persistence.schema-generation.scripts.action" value="drop-and-create"/>
+        <property name="javax.persistence.schema-generation.scripts.create-target" value="src/main/resources/META-INF/create-schema.ddl"/>
+        <property name="javax.persistence.schema-generation.scripts.drop-target" value="src/main/resources/META-INF/drop-schema.ddl"/>
+        <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+        <property name="javax.persistence.jdbc.user" value="soma"/>
+        <property name="javax.persistence.jdbc.password" value="futurebreedmachine"/>
+        <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/testrestaurantdb"/>
         <!--<property name="javax.persistence.sql-load-script-source" value="insert.sql"/>-->
     </properties>
 </persistence-unit>

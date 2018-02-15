@@ -35,9 +35,9 @@ public class RestApp {
 
         Date date = new Date();
 
-        Food f = new Food(1500, "Melák Menü", "szenya, rántotthus, rántottsajt", "király");
-        Food f2 = new Food(200, "buja burger", "burger", "jó");
-        Food f3 = new Food(4000, "Tele Tál Falafel", "minden ami blefér", "ragya");
+        Food f = new Food("Melák Menü", 1500, "szenya, rántotthus, rántottsajt", "király");
+        Food f2 = new Food("buja burger", 200, "burger", "jó");
+        Food f3 = new Food("Tele Tál Falafel", 4000, "minden ami blefér", "ragya");
 
         List<Food> list = new ArrayList<>();
         list.add(f);
@@ -74,8 +74,8 @@ public class RestApp {
     }
 
     public static void main(String[] args) {
-        EntityManager em = DatabaseUtility.getEntityManager();
         UserService userService = new UserService();
+        EntityManager em = DatabaseUtility.getEntityManager("restaurantPU");
         populateDb(em);
 
 

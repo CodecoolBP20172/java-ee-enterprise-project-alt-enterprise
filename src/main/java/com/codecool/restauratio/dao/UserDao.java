@@ -13,7 +13,12 @@ public class UserDao {
     private EntityTransaction transaction;
 
     public UserDao() {
-        this.em = DatabaseUtility.getEntityManager();
+        this.em = DatabaseUtility.getEntityManager("restaurantPU");
+        this.transaction = em.getTransaction();
+    }
+
+    UserDao(EntityManager em) {
+        this.em = em;
         this.transaction = em.getTransaction();
     }
 
@@ -40,7 +45,6 @@ public class UserDao {
             transaction.begin();
             em.persist(user);
             transaction.commit();
-            System.out.println("user persisted in dao");
         } catch (Exception e) {
             e.printStackTrace();
             throw new ConnectToDBFailed(e.getMessage());
@@ -49,7 +53,9 @@ public class UserDao {
 
     public void remove(User user) throws ConnectToDBFailed {
         try {
+            transaction.begin();
             em.remove(user);
+            transaction.commit();
         } catch (Exception e) {
             e.printStackTrace();
             throw new ConnectToDBFailed(e.getMessage());

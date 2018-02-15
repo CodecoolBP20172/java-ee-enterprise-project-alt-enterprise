@@ -5,11 +5,22 @@ import com.codecool.restauratio.models.Order;
 import com.codecool.restauratio.utils.DatabaseUtility;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import java.util.List;
 
 public class OrderDao {
-    private static EntityManager em = DatabaseUtility.getEntityManager();
+    private EntityManager em;
+    private EntityTransaction transaction;
 
+    public OrderDao() {
+        this.em  = DatabaseUtility.getEntityManager("restaurantPU");
+        this.transaction = em.getTransaction();
+    }
+
+    public OrderDao(EntityManager em) {
+        this.em = em;
+        this.transaction = em.getTransaction();
+    }
 
     public List<Order> getAll() throws ConnectToDBFailed {
         try {
@@ -31,7 +42,9 @@ public class OrderDao {
 
     public void add(Order order) throws ConnectToDBFailed {
         try {
+            transaction.begin();
             em.persist(order);
+            transaction.commit();
         } catch (Exception e) {
             e.printStackTrace();
             throw new ConnectToDBFailed(e.getMessage());
@@ -40,7 +53,9 @@ public class OrderDao {
 
     public void remove(Order order) throws ConnectToDBFailed {
         try {
+            transaction.begin();
             em.remove(order);
+            transaction.commit();
         } catch (Exception e) {
             e.printStackTrace();
             throw new ConnectToDBFailed(e.getMessage());

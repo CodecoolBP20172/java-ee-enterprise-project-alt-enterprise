@@ -10,8 +10,18 @@ import javax.persistence.TypedQuery;
 import java.util.List;
 
 public class FoodDao {
-    private static EntityManager em = DatabaseUtility.getEntityManager();
-    private static EntityTransaction transaction = em.getTransaction();
+    private EntityManager em;
+    private EntityTransaction transaction;
+
+    public FoodDao() {
+        this.em  = DatabaseUtility.getEntityManager("restaurantPU");
+        this.transaction = em.getTransaction();
+    }
+
+    FoodDao(EntityManager em) {
+        this.em = em;
+        this.transaction = em.getTransaction();
+    }
 
     public List<Food> getAll() throws ConnectToDBFailed {
         try {
@@ -22,7 +32,7 @@ public class FoodDao {
         }
     }
 
-    public Food getById(long id) throws ConnectToDBFailed {
+    public Food getById(int id) throws ConnectToDBFailed {
         try {
             TypedQuery<Food> query = em.createNamedQuery("getFoodById", Food.class);
             query.setParameter("id", id);
@@ -47,7 +57,9 @@ public class FoodDao {
 
     public void remove(Food food) throws ConnectToDBFailed {
         try {
+            transaction.begin();
             em.remove(food);
+            transaction.commit();
         } catch (Exception e) {
             e.printStackTrace();
             throw new ConnectToDBFailed(e.getMessage());
