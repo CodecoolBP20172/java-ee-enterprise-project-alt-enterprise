@@ -4,27 +4,25 @@ package com.codecool.restauratio.dao;
 import com.codecool.restauratio.customException.ConnectToDBFailed;
 import com.codecool.restauratio.dao.transactionAnnotation.TransactionAnnotation;
 import com.codecool.restauratio.models.Restaurant;
-import com.codecool.restauratio.models.users.User;
 import com.codecool.restauratio.utils.DatabaseUtility;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
-import java.lang.reflect.Method;
+import javax.persistence.Query;
 import java.util.List;
 
-public class RestaurantDao extends Dao{
+public class RestaurantDao extends Dao {
 
     private EntityManager em;
 
     public RestaurantDao() {
-        this.em  = DatabaseUtility.getEntityManager("restaurantPU");
+        this.em = DatabaseUtility.getEntityManager("restaurantPU");
     }
 
-    public RestaurantDao(EntityManager em) {
+    RestaurantDao(EntityManager em) {
         this.em = em;
     }
 
-    public void transactionProcess(Restaurant restaurant, String name) throws ConnectToDBFailed, NullPointerException, NoSuchMethodException {
+    public void transactionProcess(Restaurant restaurant, String name) throws ConnectToDBFailed, NullPointerException {
         super.transactionProcess(restaurant, name, this, em);
     }
 
@@ -47,7 +45,7 @@ public class RestaurantDao extends Dao{
     }
 
     @TransactionAnnotation
-    void add(Restaurant restaurant) throws ConnectToDBFailed {
+    void add(Restaurant restaurant) {
         em.persist(restaurant);
     }
 
@@ -55,4 +53,22 @@ public class RestaurantDao extends Dao{
     void remove(Restaurant restaurant) throws ConnectToDBFailed {
         em.remove(restaurant);
     }
+
+    public List<Restaurant> getByLocation(String location) throws ConnectToDBFailed {
+        try {
+            Query query = em.createNamedQuery("getRestaurantsByLocation");
+            query.setParameter("location", location);
+            return (List<Restaurant>) query.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ConnectToDBFailed(e.getMessage());
+        }
+    }
+
+    public List<String> getAllLocations() {
+        Query query = em.createNamedQuery("getRestaurantsAllDistinctLocation");
+        return (List<String>) query.getResultList();
+    }
+
+
 }

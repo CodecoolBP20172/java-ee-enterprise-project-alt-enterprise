@@ -41,7 +41,7 @@ public class OrderDaoTest {
                 "1037 Lajos Utca 27.",
                 testFoodList,
                 15,
-                testOwner);
+                testOwner, "imageReference");
         //initializing user address (user input originally)
         String testAddress = "1037 Lajos Utca 28.";
         //initializing food list for order

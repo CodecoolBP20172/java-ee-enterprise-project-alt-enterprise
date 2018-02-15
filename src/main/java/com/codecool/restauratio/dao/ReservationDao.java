@@ -45,7 +45,7 @@ public class ReservationDao extends Dao{
     }
 
     @TransactionAnnotation
-    void add(Reservation reservation) throws ConnectToDBFailed {
+    public void add(Reservation reservation) throws ConnectToDBFailed {
             em.persist(reservation);
     }
 

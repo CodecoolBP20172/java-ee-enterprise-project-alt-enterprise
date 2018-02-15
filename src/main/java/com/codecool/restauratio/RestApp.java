@@ -49,9 +49,9 @@ public class RestApp {
         list3.add(f2);
         list3.add(f3);
 
-        Restaurant r = new Restaurant("Halászcsárda", "good", "here", list, 100, user1);
-        Restaurant r2 = new Restaurant("Csirkés", "pretty", "there", list2, 50, user2);
-        Restaurant r3 = new Restaurant("Titiz", "bad", "where", list3, 10, user2);
+        Restaurant r = new Restaurant("Halászcsárda", "good", "here", list, 100, user1, "/img/halasz_image.jpg");
+        Restaurant r2 = new Restaurant("Csirkés", "pretty", "Mány", list2, 50, user2, "/img/csirkes_image.jpeg");
+        Restaurant r3 = new Restaurant("Titiz", "bad", "Mány", list3, 10, user2, "/img/titiz_image.jpg");
 
         Order o1 = new Order(date, "here", list, user1, r);
         Order o2 = new Order(date, "there", list3, user2, r2);
@@ -95,19 +95,22 @@ public class RestApp {
             }
         });
 
+        // LOGIN ROUTES
+
         get("/login", (request, response) -> new ThymeleafTemplateEngine().render( LoginController.renderLogin( request, response, true ) ));
 
         get("/register", (request, response) -> new ThymeleafTemplateEngine().render( LoginController.renderRegister( request, response, true ) ));
 
         post("/user/register", (Request req, Response res) -> {
 
-            if(!userService.isUserExist(req.queryParams("username"))){
+            if(!userService.doesUserExist(req.queryParams("username"))){
 
                 int userId = userService.registerUser(req.queryParams("username"), req.queryParams("password"), false, false);
                 req.session().attribute("id",userId);
+                req.session().attribute("username",req.queryParams("username"));
                 res.redirect("/");
             }else{
-                res.redirect("/user/register");
+                res.redirect("/register?inuse=true");
             }
             return null;
         });
@@ -120,12 +123,27 @@ public class RestApp {
             if(userService.login(username, password)){
 
                 req.session().attribute("id",userService.getUserId(username));
+                req.session().attribute("username", username);
                 System.out.println("sessionId: " + req.session().attribute("id"));
                 res.redirect("/");
             }else{
-                res.redirect("/user/login");
+                res.redirect("/login?incorrect=true");
             }
             return null;
         });
+
+        get("/logout", (Request req, Response res) -> {
+            req.session().removeAttribute("id");
+            req.session().removeAttribute("username");
+            res.redirect("/");
+            return null;
+        });
+
+        post("/api/get_restaurant_by_location", RestaurantController::restaurantBrowseByLocation);
+
+        // RESTAURANT ROUTE
+
+        get( "/restaurants/:restId", (request, response) -> new ThymeleafTemplateEngine().render( RestaurantController.renderRestaurant(request, response, request.params( ":restId" )) ));
+
     }
 }

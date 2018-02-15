@@ -33,6 +33,9 @@
         <div class="jumbotron text-center">
             <h1 class="form-signin-heading">Please login to your account</h1>
             <a href="/"><h3>Back to Home</h3></a>
+            <div th:if="${incorrect}" class="alert alert-danger">
+                <h2>Username or password is incorrect!</h2>
+            </div>
         </div>
         <div class="well well-sm">
             <input type="text" class="form-control" name="username" placeholder="Username" required="" autofocus=""/>
@@ -48,6 +51,9 @@
         <div class="jumbotron text-center">
             <h1 class="form-signin-heading">Create your account</h1>
             <a href="/"><h3>Back to Home</h3></a>
+            <div th:if="${inuse}" class="alert alert-danger">
+                <h2>Username already in use</h2>
+            </div>
         </div>
         <input type="text" class="form-control" name="username" placeholder="Username" required="" autofocus=""/>
         <input type="password" class="form-control" name="password" placeholder="Password" required=""/>

@@ -1,15 +1,12 @@
 package com.codecool.restauratio.controller;
 
 import com.codecool.restauratio.customException.ConnectToDBFailed;
-import com.codecool.restauratio.dao.RestaurantDao;
-import com.codecool.restauratio.models.Restaurant;
 import com.codecool.restauratio.services.RestaurantService;
+import com.codecool.restauratio.utils.JsonHandler;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
-
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class RestaurantController {
@@ -18,9 +15,29 @@ public class RestaurantController {
 
     public static ModelAndView renderRestaurants(Request req, Response res) throws ConnectToDBFailed {
         Map<String, Object> params = new HashMap<>();
+
+        params.put("username", req.session().attribute("username"));
+        params.put("loggedin", req.session().attribute("id") != null);
         params.put("restaurants", restService.getRestaurants());
+        params.put("locations", restService.getLocations());
         // to be loaded with restaurant object
         return new ModelAndView(params, "restaurants");
     }
 
+    public static  ModelAndView renderRestaurant(Request req, Response res, String restaurantId) throws ConnectToDBFailed {
+        Map<String, Object> params = new HashMap<>();
+        int formattedRestaurantId = Integer.parseInt(restaurantId);
+        params.put("restaurant", restService.getRestaurantId(formattedRestaurantId));
+        return new ModelAndView(params, "restaurant");
+    }
+
+    public static void makeReservationAtRestaurant(Request req, Response res) throws ConnectToDBFailed {
+
+    }
+
+    public static String restaurantBrowseByLocation(Request request, Response response) {
+        Map<String, String> data = JsonHandler.parseJson(request);
+        String targetLocation = data.get("location");
+        return restService.restaurantLocationBrowser(targetLocation);
+    }
 }

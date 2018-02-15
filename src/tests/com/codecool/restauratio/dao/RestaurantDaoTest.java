@@ -40,7 +40,7 @@ public class RestaurantDaoTest {
                 "1037 Lajos Utca 27.",
                 testFoodList,
                 15,
-                testOwner);
+                testOwner, "imageReference");
 
         // persisting testdata
         transaction.begin();
@@ -89,7 +89,7 @@ public class RestaurantDaoTest {
                 "1037 Lajos Utca 27.",
                 testFoodList,
                 15,
-                testOwner);
+                testOwner, "imageReference");
         restaurantDao.transactionProcess(testRestaurant, "remove");
         //restaurantDao.remove(testRestaurant);
         assertFalse(restaurantDao.getAll().contains(testRestaurant));

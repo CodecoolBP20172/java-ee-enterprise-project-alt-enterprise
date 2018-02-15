@@ -19,7 +19,9 @@ public class RestaurantTest {
     static void setUp() {
         Food FoodMock = mock(Food.class);
         User userMock = mock(User.class);
-        restaurant = new Restaurant("restaurant", "description", "address", new ArrayList<>(Collections.singletonList(FoodMock)), 2, userMock);
+        restaurant = new Restaurant("restaurant", "description", "address",
+                                    new ArrayList<>(Collections.singletonList(FoodMock)),
+                                    2, userMock, "imageReference");
     }
 
     @Test

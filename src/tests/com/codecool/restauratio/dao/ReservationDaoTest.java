@@ -37,7 +37,7 @@ public class ReservationDaoTest {
         User testOwner = new User("testOwner", "testOwnerPw", false, true);
         //initializing test restaurant
         Restaurant testRestaurant = new Restaurant("testRestaurant", "testRestaurantDescription", "testAddress",
-                testFoodList, 15, testOwner);
+                testFoodList, 15, testOwner, "imageReference");
         //initializing test user who reserves
         User testUser = new User("testOrderUser", "testOrderUserPw", false, false);
         //initializing test reservations

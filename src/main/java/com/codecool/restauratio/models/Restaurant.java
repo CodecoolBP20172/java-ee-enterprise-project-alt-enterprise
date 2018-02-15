@@ -11,6 +11,12 @@ import java.util.List;
         @NamedQuery(
                 name = "getAllRestaurants",
                 query = "SELECT r FROM Restaurant r"),
+        @NamedQuery(
+                name = "getRestaurantsByLocation",
+                query = "SELECT r FROM Restaurant r WHERE r.location =:location"),
+        @NamedQuery(
+                name = "getRestaurantsAllDistinctLocation",
+                query = "SELECT DISTINCT r.location FROM Restaurant r")
 })
 public class Restaurant {
     @Id
@@ -19,6 +25,7 @@ public class Restaurant {
     private String name;
     private String description;
     private String location;
+    private String imageReference;
 
     @ManyToMany
     @JoinTable(
@@ -50,13 +57,14 @@ public class Restaurant {
     protected Restaurant() {
     }
 
-    public Restaurant(String name, String description, String location, List<Food> menu, int capacity, User owner) {
+    public Restaurant(String name, String description, String location, List<Food> menu, int capacity, User owner, String imageReference) {
         setName(name);
         setDescription(description);
         setLocation(location);
         setMenu(menu);
         setCapacity(capacity);
         setOwner(owner);
+        setImageReference(imageReference);
         this.isAvailable = true;
         this.ratings = new ArrayList<>();
         this.reviews = new ArrayList<>();
@@ -115,6 +123,10 @@ public class Restaurant {
     public long getCapacity() {
         return capacity;
     }
+
+    public String getImageReference() { return imageReference; }
+
+    public void setImageReference(String imageReference) { this.imageReference = imageReference; }
 
     public void setOwner(User owner) {
         this.owner = owner;
