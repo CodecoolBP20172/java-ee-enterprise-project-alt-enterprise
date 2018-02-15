@@ -21,7 +21,7 @@ public class RestaurantService {
     ReservationDao reservDao = new ReservationDao();
 
 
-    void makeReservation (int numberOfPPL, long restaurantId, int userId) throws ConnectToDBFailed {
+    void makeReservation (int numberOfPPL, int restaurantId, int userId) throws ConnectToDBFailed {
         Date date = new Date();
         Restaurant reservationTargetRestaurant = restDao.getById(restaurantId);
         User reservationUser = usDao.getById(userId);

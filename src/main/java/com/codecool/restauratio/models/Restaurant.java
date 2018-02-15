@@ -21,7 +21,7 @@ import java.util.List;
 public class Restaurant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private int id;
     private String name;
     private String description;
     private String location;
@@ -76,7 +76,7 @@ public class Restaurant {
         }
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
@@ -144,7 +144,7 @@ public class Restaurant {
         this.reviews.add(review);
     }
 
-    public int getAverageRating() {
+    public float getAverageRating() {
         if (ratings.size() == 0) {
             return 0;
         }

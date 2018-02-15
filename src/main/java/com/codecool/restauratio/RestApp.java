@@ -10,7 +10,6 @@ import com.codecool.restauratio.services.UserService;
 import com.codecool.restauratio.utils.DatabaseUtility;
 import com.codecool.restauratio.models.Reservation;
 import com.codecool.restauratio.models.users.User;
-import com.codecool.restauratio.utils.JsonHandler;
 import org.eclipse.jetty.http.HttpStatus;
 import spark.Request;
 import spark.Response;
@@ -21,7 +20,6 @@ import javax.persistence.EntityTransaction;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import static spark.Spark.*;
 import static spark.debug.DebugScreen.enableDebugScreen;
@@ -37,9 +35,9 @@ public class RestApp {
 
         Date date = new Date();
 
-        Food f = new Food(1500, "Melák Menü", "szenya, rántotthus, rántottsajt", "király");
-        Food f2 = new Food(200, "buja burger", "burger", "jó");
-        Food f3 = new Food(4000, "Tele Tál Falafel", "minden ami blefér", "ragya");
+        Food f = new Food("Melák Menü", 1500, "szenya, rántotthus, rántottsajt", "király");
+        Food f2 = new Food("buja burger", 200, "burger", "jó");
+        Food f3 = new Food("Tele Tál Falafel", 4000, "minden ami blefér", "ragya");
 
         List<Food> list = new ArrayList<>();
         list.add(f);
@@ -76,8 +74,8 @@ public class RestApp {
     }
 
     public static void main(String[] args) {
-        EntityManager em = DatabaseUtility.getEntityManager();
         UserService userService = new UserService();
+        EntityManager em = DatabaseUtility.getEntityManager("restaurantPU");
         populateDb(em);
 
 
@@ -105,7 +103,7 @@ public class RestApp {
 
         post("/user/register", (Request req, Response res) -> {
 
-            if(!userService.isUserExist(req.queryParams("username"))){
+            if(!userService.doesUserExist(req.queryParams("username"))){
 
                 int userId = userService.registerUser(req.queryParams("username"), req.queryParams("password"), false, false);
                 req.session().attribute("id",userId);

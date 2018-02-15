@@ -14,9 +14,9 @@ public class UserService {
     private UserDao userDao = new UserDao();
 
     // returns with the id of the created user
-    public int registerUser(String userName, String psw, boolean isAdmin, boolean isOwner) throws ConnectToDBFailed, FailedDataVertification {
+    public int registerUser(String userName, String psw, boolean isAdmin, boolean isOwner) throws ConnectToDBFailed, FailedDataVertification, NoSuchMethodException {
         User user = new User(userName, psw, isAdmin, isOwner);
-        userDao.add(user);
+        userDao.transactionProcess(user, "add");
         System.out.println("user registered in service");
 //        User testUser = userDao.getById(user.getUserId());
 //        if(testUser.getUserId() == user.getUserId()) {
@@ -24,7 +24,7 @@ public class UserService {
 //        } else {
 //            throw new FailedDataVertification("User id in memory and in the database are not the same");
 //        }
-        return (int)user.getUserId();
+        return user.getUserId();
     }
 
     // returns userId if the credential verification is successful else throws an exception
@@ -40,38 +40,41 @@ public class UserService {
 
     // returns the id of the created restaurant pared with this user
     private int newRestaurant(String name, String description, String location, List<Food> menu, int capacity, int userId, String imageReference) throws ConnectToDBFailed, FailedDataVertification {
-        User owner = userDao.getById((long) userId);
+        User owner = userDao.getById(userId);
         Restaurant restaurant = new Restaurant(name, description, location, menu, capacity, owner, imageReference);
         RestaurantDao restaurantDao = new RestaurantDao();
-        restaurantDao.add(restaurant);
+        restaurantDao.transactionProcess(restaurant, "add");
         Restaurant test = restaurantDao.getById(restaurant.getId());
-        if(test.getId() == restaurant.getId()) {
-            return (int) restaurant.getId();
+        if (test.getId() == restaurant.getId()) {
+            return restaurant.getId();
         } else {
             throw new FailedDataVertification("Restaurant id in memory and in database are not the same");
         }
     }
 
     public int getUserId(String username) throws ConnectToDBFailed, FailedDataVertification {
-        for (User user: userDao.getAll()){
-            if (user.getUserName().equals(username)){
-                return (int)user.getUserId();
+        for (User user : userDao.getAll()) {
+            if (user.getUserName().equals(username)) {
+                return user.getUserId();
             }
         }
         throw new FailedDataVertification("Username or password incorrect");
     }
 
     // returns a boolean that indicates whether the user exists or not
-    public boolean isUserExist(String username) throws ConnectToDBFailed {
-        for (User user : userDao.getAll()){
-            if (user.getUserName().equals(username)){
+    public boolean doesUserExist(String username) throws ConnectToDBFailed {
+        for (User user : userDao.getAll()) {
+            if (user.getUserName().equals(username)) {
                 return true;
             }
         }
         return false;
     }
 
-    private boolean changePassword(int useriD, String newPsw, String newPsw2){ return true;}
+    private boolean changePassword(int useriD, String newPsw, String newPsw2) {
+        return true;
+    }
 
-    private void deleteRestaurant(int userId, int restaurantId) {}
+    private void deleteRestaurant(int userId, int restaurantId) {
+    }
 }

@@ -1,20 +1,48 @@
 package com.codecool.restauratio.dao;
 
 import com.codecool.restauratio.customException.ConnectToDBFailed;
+import com.codecool.restauratio.dao.transactionAnnotation.TransactionAnnotation;
 import com.codecool.restauratio.models.users.User;
 import com.codecool.restauratio.utils.DatabaseUtility;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
+import java.lang.reflect.Method;
 import java.util.List;
 
-public class UserDao {
+public class UserDao extends Dao{
     private EntityManager em;
-    private EntityTransaction transaction;
 
     public UserDao() {
-        this.em = DatabaseUtility.getEntityManager();
-        this.transaction = em.getTransaction();
+        em = DatabaseUtility.getEntityManager("restaurantPU");
+    }
+
+    UserDao(EntityManager em) {
+        this.em = em;
+    }
+
+//
+//    public void transactionProcess(User user, String name) throws ConnectToDBFailed, NullPointerException {
+//        Class obj = this.getClass();
+//        Method m;
+//        if(methodFinder(obj, name) != null) {
+//            m = methodFinder(obj, name);
+//        } else {
+//            throw new NullPointerException("Method was not found");
+//        }
+//
+//        try {
+//            transaction.begin();
+//            m.invoke(this, user);
+//            transaction.commit();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            throw new ConnectToDBFailed(e.getMessage());
+//        }
+//    }
+
+
+    public void transactionProcess(User user, String name) throws ConnectToDBFailed, NullPointerException, NoSuchMethodException {
+        super.transactionProcess(user, name, this, em);
     }
 
     public List<User> getAll() throws ConnectToDBFailed {
@@ -26,7 +54,7 @@ public class UserDao {
         }
     }
 
-    public User getById(long userId) throws ConnectToDBFailed {
+    public User getById(int userId) throws ConnectToDBFailed {
         try {
             return em.find(User.class, userId);
         } catch (Exception e) {
@@ -35,24 +63,13 @@ public class UserDao {
         }
     }
 
-    public void add(User user) throws ConnectToDBFailed {
-        try {
-            transaction.begin();
-            em.persist(user);
-            transaction.commit();
-            System.out.println("user persisted in dao");
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new ConnectToDBFailed(e.getMessage());
-        }
+    @TransactionAnnotation
+    void add(User user) throws ConnectToDBFailed {
+        em.persist(user);
     }
 
-    public void remove(User user) throws ConnectToDBFailed {
-        try {
-            em.remove(user);
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new ConnectToDBFailed(e.getMessage());
-        }
+    @TransactionAnnotation
+    void remove(User user) throws ConnectToDBFailed {
+        em.remove(user);
     }
 }
