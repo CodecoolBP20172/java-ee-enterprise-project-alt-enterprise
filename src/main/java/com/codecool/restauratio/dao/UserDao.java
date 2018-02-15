@@ -1,25 +1,67 @@
 package com.codecool.restauratio.dao;
 
 import com.codecool.restauratio.customException.ConnectToDBFailed;
+import com.codecool.restauratio.dao.transactionAnnotation.TransactionAnnotation;
 import com.codecool.restauratio.models.users.User;
 import com.codecool.restauratio.utils.DatabaseUtility;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import java.lang.reflect.Method;
 import java.util.List;
 
-public class UserDao {
+public class UserDao extends Dao{
     private EntityManager em;
     private EntityTransaction transaction;
 
     public UserDao() {
-        this.em = DatabaseUtility.getEntityManager("restaurantPU");
-        this.transaction = em.getTransaction();
+        super.setEm(DatabaseUtility.getEntityManager("restaurantPU"));
+        super.setTransaction(super.getEm().getTransaction());
+        em = super.getEm();
+        transaction = super.getTransaction();
     }
 
     UserDao(EntityManager em) {
+        super.setEm(em);
+        super.setTransaction(em.getTransaction());
         this.em = em;
         this.transaction = em.getTransaction();
+    }
+
+//    private Method methodFinder(Class obj, String name) {
+//        for (Method method : obj.getDeclaredMethods()) {
+//            if (!method.isAnnotationPresent(TransactionAnnotation.class)) {
+//                continue;
+//            }
+//            if (method.isAnnotationPresent(TransactionAnnotation.class) & method.getName().equals(name)) {
+//                return method;
+//            }
+//        }
+//        return null;
+//    }
+//
+//    public void transactionProcess(User user, String name) throws ConnectToDBFailed, NullPointerException {
+//        Class obj = this.getClass();
+//        Method m;
+//        if(methodFinder(obj, name) != null) {
+//            m = methodFinder(obj, name);
+//        } else {
+//            throw new NullPointerException("Method was not found");
+//        }
+//
+//        try {
+//            transaction.begin();
+//            m.invoke(this, user);
+//            transaction.commit();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            throw new ConnectToDBFailed(e.getMessage());
+//        }
+//    }
+
+
+    public void transactionProcess(User user, String name) throws ConnectToDBFailed, NullPointerException {
+        this.transactionProcess(user, name, this);
     }
 
     public List<User> getAll() throws ConnectToDBFailed {
@@ -31,7 +73,7 @@ public class UserDao {
         }
     }
 
-    public User getById(long userId) throws ConnectToDBFailed {
+    public User getById(int userId) throws ConnectToDBFailed {
         try {
             return em.find(User.class, userId);
         } catch (Exception e) {
@@ -40,25 +82,13 @@ public class UserDao {
         }
     }
 
+    @TransactionAnnotation
     public void add(User user) throws ConnectToDBFailed {
-        try {
-            transaction.begin();
-            em.persist(user);
-            transaction.commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new ConnectToDBFailed(e.getMessage());
-        }
+        em.persist(user);
     }
 
+    @TransactionAnnotation
     public void remove(User user) throws ConnectToDBFailed {
-        try {
-            transaction.begin();
-            em.remove(user);
-            transaction.commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new ConnectToDBFailed(e.getMessage());
-        }
+        em.remove(user);
     }
 }

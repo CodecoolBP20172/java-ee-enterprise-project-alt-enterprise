@@ -53,7 +53,8 @@ class UserDaoTest {
     @Test
     void add() throws ConnectToDBFailed {
         User user = new User("user", "iamasimpleuser", false, false);
-        userDao.add(user);
+        userDao.transactionProcess(user, "add");
+        //userDao.add(user);
         List<User> users = userDao.getAll();
         assertTrue(users.contains(user));
     }
@@ -61,7 +62,8 @@ class UserDaoTest {
     @Test
     void remove() throws ConnectToDBFailed {
         User owner = userDao.getById(2);
-        userDao.remove(owner);
+        userDao.transactionProcess(owner, "remove");
+        //userDao.remove(owner);
         List<User> foods = userDao.getAll();
         assertFalse(foods.contains(owner));
     }
