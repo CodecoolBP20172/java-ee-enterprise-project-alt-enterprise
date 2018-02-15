@@ -14,6 +14,9 @@ import java.util.List;
         @NamedQuery(
                 name = "getRestaurantsByLocation",
                 query = "SELECT r FROM Restaurant r WHERE r.location =:location"),
+        @NamedQuery(
+                name = "getRestaurantsAllDistinctLocation",
+                query = "SELECT DISTINCT r.location FROM Restaurant r")
 })
 public class Restaurant {
     @Id

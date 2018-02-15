@@ -19,7 +19,6 @@ public class RestaurantService {
     RestaurantDao restDao = new RestaurantDao();
     UserDao usDao = new UserDao();
     ReservationDao reservDao = new ReservationDao();
-    JsonHandler ajaxHandler = new JsonHandler();
 
 
     void makeReservation (int numberOfPPL, long restaurantId, int userId) throws ConnectToDBFailed {
@@ -56,7 +55,10 @@ public class RestaurantService {
 
     public Restaurant getRestaurantId(int id) throws ConnectToDBFailed {
         return restDao.getById(id);
+    }
 
+    public List<String> getLocations () {
+        return restDao.getAllLocations();
     }
 
 }
