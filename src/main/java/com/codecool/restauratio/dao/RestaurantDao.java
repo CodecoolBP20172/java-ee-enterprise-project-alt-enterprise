@@ -6,6 +6,8 @@ import com.codecool.restauratio.models.Restaurant;
 import com.codecool.restauratio.utils.DatabaseUtility;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import java.util.ArrayList;
 import java.util.List;
 
 public class RestaurantDao {
@@ -28,6 +30,23 @@ public class RestaurantDao {
             e.printStackTrace();
             throw new ConnectToDBFailed(e.getMessage());
         }
+    }
+
+    public List<Restaurant> getByLocation(String location) throws ConnectToDBFailed {
+        try {
+            Query query = em.createNamedQuery("getRestaurantsByLocation");
+            query.setParameter("location", location);
+            return (List<Restaurant>) query.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ConnectToDBFailed(e.getMessage());
+        }
+    }
+
+    public List<String> getAllLocations () {
+        List <String> locationList = new ArrayList<>();
+        Query query = em.createNamedQuery("getRestaurantsAllDistinctLocation");
+        return (List<String>) query.getResultList();
     }
 
     public void add(Restaurant restaurant) throws ConnectToDBFailed {

@@ -39,9 +39,9 @@ public class UserService {
     }
 
     // returns the id of the created restaurant pared with this user
-    private int newRestaurant(String name, String description, String location, List<Food> menu, int capacity, int userId) throws ConnectToDBFailed, FailedDataVertification {
+    private int newRestaurant(String name, String description, String location, List<Food> menu, int capacity, int userId, String imageReference) throws ConnectToDBFailed, FailedDataVertification {
         User owner = userDao.getById((long) userId);
-        Restaurant restaurant = new Restaurant(name, description, location, menu, capacity, owner);
+        Restaurant restaurant = new Restaurant(name, description, location, menu, capacity, owner, imageReference);
         RestaurantDao restaurantDao = new RestaurantDao();
         restaurantDao.add(restaurant);
         Restaurant test = restaurantDao.getById(restaurant.getId());

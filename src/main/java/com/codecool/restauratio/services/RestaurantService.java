@@ -7,9 +7,12 @@ import com.codecool.restauratio.dao.UserDao;
 import com.codecool.restauratio.models.Reservation;
 import com.codecool.restauratio.models.Restaurant;
 import com.codecool.restauratio.models.users.User;
+import com.codecool.restauratio.utils.JsonHandler;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class RestaurantService {
 
@@ -26,7 +29,7 @@ public class RestaurantService {
         reservDao.add(currentReservation);
     }
 
-    public List getRestaurants () {
+    public List<Restaurant> getRestaurants () {
         List <Restaurant> restaurantList = null;
         try {
             restaurantList = restDao.getAll();
@@ -35,8 +38,27 @@ public class RestaurantService {
             System.out.println("Connection to db failed");
             return restaurantList;
         }
+    }
 
 
+    public String restaurantLocationBrowser (String location) {
+        List<Restaurant> restaurantList;
+        try {
+            restaurantList = restDao.getByLocation(location);
+        } catch (ConnectToDBFailed e) {
+            System.out.println("Connection to db failed");
+            return null;
+        }
+
+        return JsonHandler.toJson(JsonHandler.restaurantModel(restaurantList));
+    }
+
+    public Restaurant getRestaurantId(int id) throws ConnectToDBFailed {
+        return restDao.getById(id);
+    }
+
+    public List<String> getLocations () {
+        return restDao.getAllLocations();
     }
 
 }
