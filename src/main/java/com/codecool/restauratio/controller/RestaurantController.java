@@ -1,15 +1,12 @@
 package com.codecool.restauratio.controller;
 
 import com.codecool.restauratio.customException.ConnectToDBFailed;
-import com.codecool.restauratio.dao.RestaurantDao;
-import com.codecool.restauratio.models.Restaurant;
 import com.codecool.restauratio.services.RestaurantService;
+import com.codecool.restauratio.utils.JsonHandler;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
-
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class RestaurantController {
@@ -30,4 +27,10 @@ public class RestaurantController {
 
     }
 
+    public static String restaurantBrowseByLocation(Request request, Response response) {
+        System.out.println(request);
+        Map<String, String> data = JsonHandler.parseJson(request);
+        String targetLocation = data.get("location");
+        return restService.restaurantLocationBrowser(targetLocation);
+    }
 }
