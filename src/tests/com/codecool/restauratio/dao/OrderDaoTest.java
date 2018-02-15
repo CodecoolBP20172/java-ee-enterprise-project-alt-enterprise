@@ -20,7 +20,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class OrderDaoTest {
+public class OrderDaoTest {
     private static EntityManager em;
     private static OrderDao orderDao;
 

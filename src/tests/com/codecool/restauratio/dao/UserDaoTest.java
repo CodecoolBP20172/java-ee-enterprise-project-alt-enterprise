@@ -14,7 +14,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class UserDaoTest {
+public class UserDaoTest {
     private static EntityManager em;
     private static UserDao userDao;
 

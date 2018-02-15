@@ -22,7 +22,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ReservationDaoTest {
+public class ReservationDaoTest {
     private static EntityManager em;
     private static ReservationDao reservationDao;
 

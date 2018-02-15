@@ -20,17 +20,6 @@ public class UserDao extends Dao{
         this.em = em;
     }
 
-    private Method methodFinder(Class obj, String name) {
-        for (Method method : obj.getDeclaredMethods()) {
-            if (!method.isAnnotationPresent(TransactionAnnotation.class)) {
-                continue;
-            }
-            if (method.isAnnotationPresent(TransactionAnnotation.class) & method.getName().equals(name)) {
-                return method;
-            }
-        }
-        return null;
-    }
 //
 //    public void transactionProcess(User user, String name) throws ConnectToDBFailed, NullPointerException {
 //        Class obj = this.getClass();
@@ -53,9 +42,7 @@ public class UserDao extends Dao{
 
 
     public void transactionProcess(User user, String name) throws ConnectToDBFailed, NullPointerException, NoSuchMethodException {
-        Method m = null;
-        m = methodFinder(this.getClass(), name);
-        super.transactionProcess(user, m, this, em);
+        super.transactionProcess(user, name, this, em);
     }
 
     public List<User> getAll() throws ConnectToDBFailed {
@@ -77,12 +64,12 @@ public class UserDao extends Dao{
     }
 
     @TransactionAnnotation
-    public void add(User user) throws ConnectToDBFailed {
+    void add(User user) throws ConnectToDBFailed {
         em.persist(user);
     }
 
     @TransactionAnnotation
-    public void remove(User user) throws ConnectToDBFailed {
+    void remove(User user) throws ConnectToDBFailed {
         em.remove(user);
     }
 }

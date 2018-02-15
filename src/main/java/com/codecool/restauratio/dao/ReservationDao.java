@@ -22,22 +22,8 @@ public class ReservationDao extends Dao{
         this.em = em;
     }
 
-    private Method methodFinder(Class obj, String name) {
-        for (Method method : obj.getDeclaredMethods()) {
-            if (!method.isAnnotationPresent(TransactionAnnotation.class)) {
-                continue;
-            }
-            if (method.isAnnotationPresent(TransactionAnnotation.class) & method.getName().equals(name)) {
-                return method;
-            }
-        }
-        return null;
-    }
-
     public void transactionProcess(Reservation reservation, String name) throws ConnectToDBFailed, NullPointerException, NoSuchMethodException {
-        Method m = null;
-        m = methodFinder(this.getClass(), name);
-        super.transactionProcess(reservation, m, this, em);
+        super.transactionProcess(reservation, name, this, em);
     }
 
     public List<Reservation> getAll() throws ConnectToDBFailed {
@@ -59,12 +45,12 @@ public class ReservationDao extends Dao{
     }
 
     @TransactionAnnotation
-    public void add(Reservation reservation) throws ConnectToDBFailed {
+    void add(Reservation reservation) throws ConnectToDBFailed {
             em.persist(reservation);
     }
 
     @TransactionAnnotation
-    public void remove(Reservation reservation) throws ConnectToDBFailed {
+    void remove(Reservation reservation) throws ConnectToDBFailed {
             em.remove(reservation);
     }
 

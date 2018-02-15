@@ -14,9 +14,9 @@ public class UserService {
     private UserDao userDao = new UserDao();
 
     // returns with the id of the created user
-    public int registerUser(String userName, String psw, boolean isAdmin, boolean isOwner) throws ConnectToDBFailed, FailedDataVertification {
+    public int registerUser(String userName, String psw, boolean isAdmin, boolean isOwner) throws ConnectToDBFailed, FailedDataVertification, NoSuchMethodException {
         User user = new User(userName, psw, isAdmin, isOwner);
-        userDao.add(user);
+        userDao.transactionProcess(user, "add");
         System.out.println("user registered in service");
 //        User testUser = userDao.getById(user.getUserId());
 //        if(testUser.getUserId() == user.getUserId()) {
@@ -39,11 +39,11 @@ public class UserService {
     }
 
     // returns the id of the created restaurant pared with this user
-    private int newRestaurant(String name, String description, String location, List<Food> menu, int capacity, int userId) throws ConnectToDBFailed, FailedDataVertification {
+    private int newRestaurant(String name, String description, String location, List<Food> menu, int capacity, int userId) throws ConnectToDBFailed, FailedDataVertification, NoSuchMethodException {
         User owner = userDao.getById(userId);
         Restaurant restaurant = new Restaurant(name, description, location, menu, capacity, owner);
         RestaurantDao restaurantDao = new RestaurantDao();
-        restaurantDao.add(restaurant);
+        restaurantDao.transactionProcess(restaurant, "add");
         Restaurant test = restaurantDao.getById(restaurant.getId());
         if(test.getId() == restaurant.getId()) {
             return (int) restaurant.getId();

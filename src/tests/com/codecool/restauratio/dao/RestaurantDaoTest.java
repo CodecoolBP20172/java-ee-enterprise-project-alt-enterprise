@@ -18,7 +18,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class RestaurantDaoTest {
+public class RestaurantDaoTest {
     private static EntityManager em;
     private static RestaurantDao restaurantDao;
     private static Restaurant testRestaurant;

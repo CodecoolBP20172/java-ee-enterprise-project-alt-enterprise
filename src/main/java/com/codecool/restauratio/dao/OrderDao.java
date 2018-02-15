@@ -22,22 +22,8 @@ public class OrderDao extends Dao{
         this.em = em;
     }
 
-    private Method methodFinder(Class obj, String name) {
-        for (Method method : obj.getDeclaredMethods()) {
-            if (!method.isAnnotationPresent(TransactionAnnotation.class)) {
-                continue;
-            }
-            if (method.isAnnotationPresent(TransactionAnnotation.class) & method.getName().equals(name)) {
-                return method;
-            }
-        }
-        return null;
-    }
-
     public void transactionProcess(Order order, String name) throws ConnectToDBFailed, NullPointerException, NoSuchMethodException {
-        Method m = null;
-        m = methodFinder(this.getClass(), name);
-        super.transactionProcess(order, m, this, em);
+        super.transactionProcess(order, name, this, em);
     }
 
     public List<Order> getAll() throws ConnectToDBFailed {
@@ -59,12 +45,12 @@ public class OrderDao extends Dao{
     }
 
     @TransactionAnnotation
-    public void add(Order order) throws ConnectToDBFailed {
+    void add(Order order) throws ConnectToDBFailed {
             em.persist(order);
     }
 
     @TransactionAnnotation
-    public void remove(Order order) throws ConnectToDBFailed {
+    void remove(Order order) throws ConnectToDBFailed {
             em.remove(order);
     }
 }

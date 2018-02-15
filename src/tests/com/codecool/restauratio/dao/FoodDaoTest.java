@@ -14,7 +14,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class FoodDaoTest {
+public class FoodDaoTest {
     private static EntityManager em;
     private static FoodDao foodDao;
 
