@@ -30,7 +30,7 @@ public class RestaurantService {
         reservDao.add(currentReservation);
     }
 
-    public List getRestaurants () {
+    public List<Restaurant> getRestaurants () {
         List <Restaurant> restaurantList = null;
         try {
             restaurantList = restDao.getAll();
@@ -40,6 +40,7 @@ public class RestaurantService {
             return restaurantList;
         }
     }
+
 
     public String restaurantLocationBrowser (String location) {
         List<Restaurant> restaurantList;
@@ -51,6 +52,11 @@ public class RestaurantService {
         }
 
         return JsonHandler.toJson(JsonHandler.restaurantModel(restaurantList));
+    }
+
+    public Restaurant getRestaurantId(int id) throws ConnectToDBFailed {
+        return restDao.getById(id);
+
     }
 
 }

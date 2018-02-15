@@ -23,6 +23,13 @@ public class RestaurantController {
         return new ModelAndView(params, "restaurants");
     }
 
+    public static  ModelAndView renderRestaurant(Request req, Response res, String restaurantId) throws ConnectToDBFailed {
+        Map<String, Object> params = new HashMap<>();
+        int formattedRestaurantId = Integer.parseInt(restaurantId);
+        params.put("restaurant", restService.getRestaurantId(formattedRestaurantId));
+        return new ModelAndView(params, "restaurant");
+    }
+
     public static void makeReservationAtRestaurant(Request req, Response res) throws ConnectToDBFailed {
 
     }
