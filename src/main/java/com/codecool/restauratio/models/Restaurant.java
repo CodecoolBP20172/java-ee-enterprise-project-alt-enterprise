@@ -132,7 +132,7 @@ public class Restaurant {
         this.reviews.add(review);
     }
 
-    public int getAverageRating() {
+    public float getAverageRating() {
         if (ratings.size() == 0) {
             return 0;
         }
