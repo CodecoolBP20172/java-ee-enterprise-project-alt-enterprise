@@ -1,8 +1,9 @@
-package com.codecool.restauratio.dao;
+package com.codecool.restauratio;
 
+import com.codecool.restauratio.dao.*;
+import com.codecool.restauratio.models.RestaurantTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
 
 
 @RunWith(Suite.class)
@@ -11,6 +12,7 @@ import org.junit.runners.Suite.SuiteClasses;
         OrderDaoTest.class,
         ReservationDaoTest.class,
         RestaurantDaoTest.class,
-        UserDaoTest.class })
+        UserDaoTest.class,
+        RestaurantTest.class })
 public class TestSuit {
 }

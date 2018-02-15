@@ -12,7 +12,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
-class RestaurantTest {
+public class RestaurantTest {
     private static Restaurant restaurant;
 
     @BeforeAll
