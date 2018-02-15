@@ -52,7 +52,7 @@ public class RestApp {
         list3.add(f3);
 
         Restaurant r = new Restaurant("Halászcsárda", "good", "here", list, 100, user1);
-        Restaurant r2 = new Restaurant("Csirkés", "pretty", "there", list2, 50, user2);
+        Restaurant r2 = new Restaurant("Csirkés", "pretty", "Mány", list2, 50, user2);
         Restaurant r3 = new Restaurant("Titiz", "bad", "Mány", list3, 10, user2);
 
         Order o1 = new Order(date, "here", list, user1, r);
@@ -142,6 +142,7 @@ public class RestApp {
         });
 
         post("/api/get_restaurant_by_location", RestaurantController::restaurantBrowseByLocation);
+
         // RESTAURANT ROUTE
 
         get( "/restaurants/:restId", (request, response) -> new ThymeleafTemplateEngine().render( RestaurantController.renderRestaurant(request, response, request.params( ":restId" )) ));

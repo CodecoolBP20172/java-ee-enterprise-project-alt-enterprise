@@ -31,9 +31,10 @@ public class JsonHandler {
         List<Map> model = new ArrayList<>();
         for (Restaurant restaurant : restaurantList) {
             Map<String, String> currentRestaurant = new HashMap<>();
+            currentRestaurant.put("id", Integer.toString((int)restaurant.getId()));
             currentRestaurant.put("name", restaurant.getName());
             currentRestaurant.put("description", restaurant.getDescription());
-            currentRestaurant.put("location", restaurant.getDescription());
+            currentRestaurant.put("location", restaurant.getLocation());
             currentRestaurant.put("capacity", Integer.toString((int)restaurant.getCapacity()));
             model.add(currentRestaurant);
         }

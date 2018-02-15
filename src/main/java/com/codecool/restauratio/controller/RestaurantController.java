@@ -19,6 +19,7 @@ public class RestaurantController {
         params.put("username", req.session().attribute("username"));
         params.put("loggedin", req.session().attribute("id") != null);
         params.put("restaurants", restService.getRestaurants());
+        params.put("locations", restService.getLocations());
         // to be loaded with restaurant object
         return new ModelAndView(params, "restaurants");
     }
@@ -35,7 +36,6 @@ public class RestaurantController {
     }
 
     public static String restaurantBrowseByLocation(Request request, Response response) {
-        System.out.println(request);
         Map<String, String> data = JsonHandler.parseJson(request);
         String targetLocation = data.get("location");
         return restService.restaurantLocationBrowser(targetLocation);
