@@ -1,64 +1,52 @@
 package com.codecool.restauratio.services;
 
 import com.codecool.restauratio.customException.ConnectToDBFailed;
-import com.codecool.restauratio.dao.ReservationDao;
-import com.codecool.restauratio.dao.RestaurantDao;
-import com.codecool.restauratio.dao.UserDao;
 import com.codecool.restauratio.models.Reservation;
 import com.codecool.restauratio.models.Restaurant;
 import com.codecool.restauratio.models.users.User;
-import com.codecool.restauratio.utils.JsonHandler;
+import com.codecool.restauratio.repository.ReservationRepository;
+import com.codecool.restauratio.repository.RestaurantRepository;
+import com.codecool.restauratio.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+@Service
 public class RestaurantService {
 
-    RestaurantDao restDao = new RestaurantDao();
-    UserDao usDao = new UserDao();
-    ReservationDao reservDao = new ReservationDao();
+    @Autowired
+    private RestaurantRepository restaurantRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private ReservationRepository reservationRepository;
 
-
+    //TODO
     void makeReservation (int numberOfPPL, int restaurantId, int userId) throws ConnectToDBFailed {
         Date date = new Date();
-        Restaurant reservationTargetRestaurant = restDao.getById(restaurantId);
-        User reservationUser = usDao.getById(userId);
+        Restaurant reservationTargetRestaurant = restaurantRepository.findOne(restaurantId);
+        User reservationUser = userRepository.findOne(userId);
         Reservation currentReservation = new Reservation(date, numberOfPPL, reservationTargetRestaurant, reservationUser);
-        reservDao.add(currentReservation);
+        reservationRepository.save(currentReservation);
     }
 
     public List<Restaurant> getRestaurants () {
-        List <Restaurant> restaurantList = null;
-        try {
-            restaurantList = restDao.getAll();
-            return restaurantList;
-        } catch (ConnectToDBFailed e) {
-            System.out.println("Connection to db failed");
-            return restaurantList;
-        }
+        return restaurantRepository.findAll();
     }
 
 
-    public String restaurantLocationBrowser (String location) {
-        List<Restaurant> restaurantList;
-        try {
-            restaurantList = restDao.getByLocation(location);
-        } catch (ConnectToDBFailed e) {
-            System.out.println("Connection to db failed");
-            return null;
-        }
-
-        return JsonHandler.toJson(JsonHandler.restaurantModel(restaurantList));
+    public List<Restaurant> restaurantLocationBrowser (String location) {
+        return restaurantRepository.getRestaurantByLocation(location);
     }
 
-    public Restaurant getRestaurantId(int id) throws ConnectToDBFailed {
-        return restDao.getById(id);
+    public Restaurant getRestaurantId(int id) {
+        return restaurantRepository.findOne(id);
     }
 
     public List<String> getLocations () {
-        return restDao.getAllLocations();
+        return restaurantRepository.getRestaurantLocations();
     }
 
 }
