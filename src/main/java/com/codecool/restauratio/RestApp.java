@@ -1,19 +1,12 @@
 package com.codecool.restauratio;
 
-import com.codecool.restauratio.controller.LoginController;
-import com.codecool.restauratio.controller.RestaurantController;
-import com.codecool.restauratio.customException.ConnectToDBFailed;
 import com.codecool.restauratio.models.Food;
 import com.codecool.restauratio.models.Order;
 import com.codecool.restauratio.models.Restaurant;
-import com.codecool.restauratio.services.UserService;
-import com.codecool.restauratio.utils.DatabaseUtility;
 import com.codecool.restauratio.models.Reservation;
 import com.codecool.restauratio.models.users.User;
-import org.eclipse.jetty.http.HttpStatus;
-import spark.Request;
-import spark.Response;
-import spark.template.thymeleaf.ThymeleafTemplateEngine;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -21,9 +14,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static spark.Spark.*;
-import static spark.debug.DebugScreen.enableDebugScreen;
-
+@SpringBootApplication
 public class RestApp {
 
     public static void populateDb(EntityManager em) {
@@ -74,29 +65,13 @@ public class RestApp {
     }
 
     public static void main(String[] args) {
-        UserService userService = new UserService();
-        EntityManager em = DatabaseUtility.getEntityManager("restaurantPU");
-        populateDb(em);
+        SpringApplication.run(RestApp.class, args);
 
-
-        enableDebugScreen();
-
-        exception(Exception.class, (e, req, res) -> e.printStackTrace());
-        staticFileLocation("/public");
-        port(8888);
-
-
-        get("/", (req, res) -> {
-            try {
-                return new ThymeleafTemplateEngine().render(RestaurantController.renderRestaurants(req, res));
-            }
-        });
-
-        post("/api/get_restaurant_by_location", RestaurantController::restaurantBrowseByLocation);
+//        post("/api/get_restaurant_by_location", RestaurantController::restaurantBrowseByLocation);
 
         // RESTAURANT ROUTE
 
-        get( "/restaurants/:restId", (request, response) -> new ThymeleafTemplateEngine().render( RestaurantController.renderRestaurant(request, response, request.params( ":restId" )) ));
+//        get( "/restaurants/:restId", (request, response) -> new ThymeleafTemplateEngine().render( RestaurantController.renderRestaurant(request, response, request.params( ":restId" )) ));
 
     }
 }

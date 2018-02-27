@@ -26,6 +26,10 @@ public class UserService {
         userRepository.save(user);
         return user.getUserId();
     }
+    public int registerUser(User user) {
+        userRepository.save(user);
+        return user.getUserId();
+    }
 
     // returns userId if the credential verification is successful else throws an exception
     public boolean login(String userName, String psw) {

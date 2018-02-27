@@ -3,6 +3,7 @@ package com.codecool.restauratio.controller;
 import com.codecool.restauratio.customException.FailedDataVertification;
 import com.codecool.restauratio.services.UserService;
 import com.sun.net.httpserver.HttpServer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,10 +16,12 @@ import javax.servlet.http.HttpSession;
 
 @Controller
 public class LoginController {
+    @Autowired
+    private UserService userService;
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public static String renderLogin(@RequestParam(value = "incorrect", required = false) Boolean incorrect, Model model, Boolean isLogin) {
-        model.addAttribute("login", isLogin);
+    public String renderLogin(@RequestParam(value = "incorrect", required = false) Boolean incorrect, Model model) {
+        model.addAttribute("login", true);
         if (incorrect != null) {
             model.addAttribute("incorrect", incorrect);
         } else {
@@ -29,8 +32,8 @@ public class LoginController {
 
 
     @RequestMapping(value = "/register", method = RequestMethod.GET)
-    public static String renderRegister(@RequestParam(value = "inuse", required = false) Boolean inuse, Model model, Boolean isRegister) {
-        model.addAttribute("register", isRegister);
+    public String renderRegister(@RequestParam(value = "inuse", required = false) Boolean inuse, Model model, Boolean isRegister) {
+        model.addAttribute("register", true);
         if (inuse != null) {
             model.addAttribute("inuse", inuse);
         } else {
@@ -40,9 +43,8 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/user/register", method = RequestMethod.POST)
-    public static String registerUser(@RequestParam(value = "username") String username,
+    public String registerUser(@RequestParam(value = "username") String username,
                                       @RequestParam(value = "password") String password, HttpSession session) {
-        UserService userService = new UserService();
         if (!userService.doesUserExist(username)) {
             int userId = userService.registerUser(username, password, false, false);
             session.setAttribute("id", userId);
@@ -54,7 +56,7 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/user/login", method = RequestMethod.POST)
-    public static String loginUser(@RequestParam(value = "username") String username,
+    public String loginUser(@RequestParam(value = "username") String username,
                                    @RequestParam(value = "password") String password, HttpSession session) throws FailedDataVertification {
         UserService userService = new UserService();
         if (userService.login(username, password)) {
@@ -67,7 +69,7 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
-        public static String logoutUser(HttpSession session) {
+        public String logoutUser(HttpSession session) {
         session.removeAttribute("username");
         session.removeAttribute("id");
         return "/";

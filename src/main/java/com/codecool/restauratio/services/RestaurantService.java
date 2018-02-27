@@ -23,7 +23,12 @@ public class RestaurantService {
     @Autowired
     private ReservationRepository reservationRepository;
 
-    //TODO
+
+    void addRestaurant(Restaurant restaurant) {
+        restaurantRepository.save(restaurant);
+    }
+
+
     void makeReservation (int numberOfPPL, int restaurantId, int userId) throws ConnectToDBFailed {
         Date date = new Date();
         Restaurant reservationTargetRestaurant = restaurantRepository.findOne(restaurantId);
@@ -32,8 +37,12 @@ public class RestaurantService {
         reservationRepository.save(currentReservation);
     }
 
-    public List<Restaurant> getRestaurants () {
-        return restaurantRepository.findAll();
+    public List<Restaurant> getRestaurants () throws ConnectToDBFailed {
+        List<Restaurant> restaurants = restaurantRepository.findAll();
+        if (restaurants == null) {
+            throw new ConnectToDBFailed("Connection failed. Haha.");
+        }
+        return restaurants;
     }
 
 
@@ -45,8 +54,12 @@ public class RestaurantService {
         return restaurantRepository.findOne(id);
     }
 
-    public List<String> getLocations () {
-        return restaurantRepository.getRestaurantLocations();
+    public List<String> getLocations () throws ConnectToDBFailed {
+        List<String> locations = restaurantRepository.getRestaurantLocations();
+        if (locations == null) {
+            throw new ConnectToDBFailed("Connection failed. Haha.");
+        }
+        return locations;
     }
 
 }
