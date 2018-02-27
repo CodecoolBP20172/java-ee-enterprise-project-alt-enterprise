@@ -29,9 +29,7 @@ public class RestaurantController {
         return "restaurants";
     }
 
-}
-
-//    public static ModelAndView renderRestaurant(Request req, Response res, String restaurantId) throws ConnectToDBFailed {
+    //    public static ModelAndView renderRestaurant(Request req, Response res, String restaurantId) throws ConnectToDBFailed {
 //        Map<String, Object> params = new HashMap<>();
 //        int formattedRestaurantId = Integer.parseInt(restaurantId);
 //        params.put("restaurant", restService.getRestaurantId(formattedRestaurantId));
@@ -42,8 +40,5 @@ public class RestaurantController {
 //
 //    }
 //
-//    public static String restaurantBrowseByLocation(Request request, Response response) {
-//        Map<String, String> data = JsonHandler.parseJson(request);
-//        String targetLocation = data.get("location");
-//        return restService.restaurantLocationBrowser(targetLocation);
-//    }
+
+}

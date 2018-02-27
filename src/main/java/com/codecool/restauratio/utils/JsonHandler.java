@@ -3,7 +3,6 @@ package com.codecool.restauratio.utils;
 import com.codecool.restauratio.models.Restaurant;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import spark.Request;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -13,13 +12,13 @@ import java.util.Map;
 
 public class JsonHandler {
 
-    public static Map<String, String> parseJson(Request request) {
-        Gson gson = new Gson();
-        Type type = new TypeToken<Map<String, String>>() {
-        }.getType();
-        Map<String, String> out = gson.fromJson(request.body(), type);
-        return out;
-    }
+//    public static Map<String, String> parseJson(Request request) {
+//        Gson gson = new Gson();
+//        Type type = new TypeToken<Map<String, String>>() {
+//        }.getType();
+//        Map<String, String> out = gson.fromJson(request.body(), type);
+//        return out;
+//    }
 
     public static String toJson(Object object) {
         Gson gson = new Gson();

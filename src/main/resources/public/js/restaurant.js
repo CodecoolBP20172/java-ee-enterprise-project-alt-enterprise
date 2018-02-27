@@ -12,10 +12,10 @@ $(document).ready(function(){
     })
 
     $(".locationSorterButton").click(function requestRestaurantData (event) {
+        event.preventDefault();
         let data = {
             "location": $(event.target).html()
         };
-        console.log(data);
         $.ajax({
             type: "POST",
             url: "/api/get_restaurant_by_location",
