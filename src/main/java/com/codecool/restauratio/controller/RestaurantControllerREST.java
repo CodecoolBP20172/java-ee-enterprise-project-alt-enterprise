@@ -24,4 +24,6 @@ public class RestaurantControllerREST {
         return new ResponseEntity<>(restService.restaurantLocationBrowser(data.get("location")), HttpStatus.OK);
     }
 
+
+
 }
