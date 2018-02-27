@@ -89,54 +89,7 @@ public class RestApp {
         get("/", (req, res) -> {
             try {
                 return new ThymeleafTemplateEngine().render(RestaurantController.renderRestaurants(req, res));
-            } catch (ConnectToDBFailed e) {
-                res.status(HttpStatus.SERVICE_UNAVAILABLE_503);
-                return "<html><body><h1>" + res.raw().getStatus() + "</h1><p>SERVICE UNAVAILABLE</p></body></html>";
             }
-        });
-
-        // LOGIN ROUTES
-
-        get("/login", (request, response) -> new ThymeleafTemplateEngine().render( LoginController.renderLogin( request, response, true ) ));
-
-        get("/register", (request, response) -> new ThymeleafTemplateEngine().render( LoginController.renderRegister( request, response, true ) ));
-
-        post("/user/register", (Request req, Response res) -> {
-
-            if(!userService.doesUserExist(req.queryParams("username"))){
-
-                int userId = userService.registerUser(req.queryParams("username"), req.queryParams("password"), false, false);
-                req.session().attribute("id",userId);
-                req.session().attribute("username",req.queryParams("username"));
-                res.redirect("/");
-            }else{
-                res.redirect("/register?inuse=true");
-            }
-            return null;
-        });
-
-        post("/user/login", (Request req, Response res) -> {
-
-            String username = req.queryParams("username");
-            String password = req.queryParams("password");
-
-            if(userService.login(username, password)){
-
-                req.session().attribute("id",userService.getUserId(username));
-                req.session().attribute("username", username);
-                System.out.println("sessionId: " + req.session().attribute("id"));
-                res.redirect("/");
-            }else{
-                res.redirect("/login?incorrect=true");
-            }
-            return null;
-        });
-
-        get("/logout", (Request req, Response res) -> {
-            req.session().removeAttribute("id");
-            req.session().removeAttribute("username");
-            res.redirect("/");
-            return null;
         });
 
         post("/api/get_restaurant_by_location", RestaurantController::restaurantBrowseByLocation);
