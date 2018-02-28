@@ -21,8 +21,8 @@ public class RestApp {
 
         EntityTransaction transaction = em.getTransaction();
 
-        User user1 = new User("józsi", "hurka", true, false);
-        User user2 = new User("bodri", "mecska", true, true);
+        User user1 = new User("józsi", "hurka", "Józsi utca 21.",true, false);
+        User user2 = new User("bodri", "mecska", "Bodri utca 13.",true, true);
 
         Date date = new Date();
 
@@ -44,8 +44,8 @@ public class RestApp {
         Restaurant r2 = new Restaurant("Csirkés", "pretty", "Mány", list2, 50, user2, "/img/csirkes_image.jpeg");
         Restaurant r3 = new Restaurant("Titiz", "bad", "Mány", list3, 10, user2, "/img/titiz_image.jpg");
 
-        Order o1 = new Order(date, "here", list, user1, r);
-        Order o2 = new Order(date, "there", list3, user2, r2);
+        Order o1 = new Order(date, list, user1, r);
+        Order o2 = new Order(date, list3, user2, r2);
 
         Reservation reservation = new Reservation(date, 100, r, user2);
 

@@ -24,22 +24,25 @@ public class Order extends Request{
     )
 
     private List<Food> foodList;
+
     @ManyToOne
     @JoinColumn(name = "target_order_restaurant_id")
     private Restaurant orderRestaurant;
 
     @ManyToOne
     private User user;
+    private boolean isActive;
 
     protected Order() {
     }
 
-    public Order(Date date, String address, List<Food> foodList, User user, Restaurant restaurant) {
+    public Order(Date date, List<Food> foodList, User user, Restaurant restaurant) {
         super(date);
         setUser(user);
-        setAddress(address);
+        setAddress(user.getAddress());
         setOrderRestaurant(restaurant);
         setFoodList(foodList);
+        isActive = true;
 
     }
 
@@ -73,6 +76,14 @@ public class Order extends Request{
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 
     @Override

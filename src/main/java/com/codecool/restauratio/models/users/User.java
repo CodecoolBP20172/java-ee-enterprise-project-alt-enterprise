@@ -29,7 +29,8 @@ public class User {
     private boolean isAdmin;
     @Column(nullable = false)
     private boolean isOwner;
-
+    @Column(nullable = false)
+    private String address;
 
     @OneToMany(mappedBy = "owner")
     private List<Restaurant> restaurants;
@@ -44,9 +45,10 @@ public class User {
     protected User() {
     }
 
-    public User(String userName, String password, boolean isAdmin, boolean isOwner) {
+    public User(String userName, String password, String address, boolean isAdmin, boolean isOwner) {
         setUserName(userName);
         setPassword(BCrypt.hashpw(password, BCrypt.gensalt()));
+        setAddress(address);
         setAdmin(isAdmin);
         setOwner(isOwner);
         reservations = new ArrayList<>();
@@ -65,6 +67,14 @@ public class User {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public void setPassword(String password) {

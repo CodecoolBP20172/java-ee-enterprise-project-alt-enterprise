@@ -32,6 +32,9 @@ public class Food {
         setReview(review);
     }
 
+    public int getId() {
+        return id;
+    }
     public double getPrice() {
         return price;
     }
