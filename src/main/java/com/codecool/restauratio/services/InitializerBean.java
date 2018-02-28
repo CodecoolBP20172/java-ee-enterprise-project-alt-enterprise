@@ -1,10 +1,12 @@
 package com.codecool.restauratio.services;
 
 import com.codecool.restauratio.models.Food;
+import com.codecool.restauratio.models.Order;
 import com.codecool.restauratio.models.Reservation;
 import com.codecool.restauratio.models.Restaurant;
 import com.codecool.restauratio.models.users.User;
 import com.codecool.restauratio.repository.FoodRepository;
+import com.codecool.restauratio.repository.OrderRepository;
 import com.codecool.restauratio.repository.ReservationRepository;
 import org.springframework.stereotype.Component;
 
@@ -18,7 +20,8 @@ import java.util.List;
 public class InitializerBean {
 
     public InitializerBean(UserService userService, RestaurantService restaurantService,
-                           ReservationRepository reservRepo, FoodRepository foodRepo) throws ParseException {
+                           ReservationRepository reservRepo, OrderRepository orderRepo,
+                           FoodRepository foodRepo) throws ParseException {
 
         User user1 = new User("józsi", "József", "Bende", "hurka", "józsi@citromail.com", "codecool", true, false);
         User user2 = new User("bodri", "Bodri", "Nemecsek", "mecska", "bodri@gmail.com", "home", true, true);
@@ -53,5 +56,9 @@ public class InitializerBean {
         Date date = sdf.parse("2018-03-01 11:45");
         Reservation reservation = new Reservation(date, 4, r2, user1);
         reservRepo.save(reservation);
+
+        Date orderDate = sdf.parse("2018-03-02 20:00");
+        Order  order = new Order(orderDate, "codecool", list3, user1, r3);
+        orderRepo.save(order);
     }
 }
