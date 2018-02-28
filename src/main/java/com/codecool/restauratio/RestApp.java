@@ -47,7 +47,7 @@ public class RestApp {
         Order o1 = new Order(date, "here", list, user1, r);
         Order o2 = new Order(date, "there", list3, user2, r2);
 
-        Reservation reservation = new Reservation(date, 100, r, user2);
+        Reservation reservation = new Reservation(date, 100, "tojás",  r, user2);
 
         transaction.begin();
         em.persist(user1);

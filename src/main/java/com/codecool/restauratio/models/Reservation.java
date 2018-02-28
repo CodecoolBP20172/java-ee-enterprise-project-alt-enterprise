@@ -23,15 +23,18 @@ public class Reservation extends Request{
     @ManyToOne
     private User guest;
 
+    @Column(name = "comment")
+    private String comment;
 
     protected Reservation() {
     }
 
-    public Reservation(Date date, int numberOfPeople, Restaurant restaurant, User guest) {
+    public Reservation(Date date, int numberOfPeople, String comment, Restaurant restaurant, User guest) {
         super(date);
         setNumberOfPeople(numberOfPeople);
         setReservationRestaurant(restaurant);
         setGuest(guest);
+        this.comment = comment;
     }
 
 
