@@ -1,35 +1,35 @@
 package com.codecool.restauratio.services;
 
-import com.codecool.restauratio.customException.ConnectToDBFailed;
 import com.codecool.restauratio.customException.FailedDataVertification;
-import com.codecool.restauratio.dao.RestaurantDao;
-import com.codecool.restauratio.dao.UserDao;
-import com.codecool.restauratio.models.Food;
-import com.codecool.restauratio.models.Restaurant;
 import com.codecool.restauratio.models.users.User;
+import com.codecool.restauratio.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class UserService {
-    private UserDao userDao = new UserDao();
+
+    @Autowired
+    private UserRepository userRepository;
 
     // returns with the id of the created user
-    public int registerUser(String userName, String psw, boolean isAdmin, boolean isOwner) throws ConnectToDBFailed, FailedDataVertification, NoSuchMethodException {
+    public int registerUser(String userName, String psw, boolean isAdmin, boolean isOwner) {
         User user = new User(userName, psw, isAdmin, isOwner);
-        userDao.transactionProcess(user, "add");
-        System.out.println("user registered in service");
-//        User testUser = userDao.getById(user.getUserId());
-//        if(testUser.getUserId() == user.getUserId()) {
-//            return (int) user.getUserId();
-//        } else {
-//            throw new FailedDataVertification("User id in memory and in the database are not the same");
-//        }
+        userRepository.save(user);
+        return user.getUserId();
+    }
+
+    public int registerUser(User user) {
+        userRepository.save(user);
         return user.getUserId();
     }
 
     // returns userId if the credential verification is successful else throws an exception
-    public boolean login(String userName, String psw) throws ConnectToDBFailed, FailedDataVertification {
-        List<User> allUsers = userDao.getAll();
+    public boolean login(String userName, String psw) {
+        System.out.println(userRepository);
+        List<User> allUsers = userRepository.findAll();
         for (User currentUser : allUsers) {
             if (currentUser.getUserName().equals(userName) & currentUser.checkPassword(psw)) {
                 return true;
@@ -38,22 +38,8 @@ public class UserService {
         return false;
     }
 
-    // returns the id of the created restaurant pared with this user
-    private int newRestaurant(String name, String description, String location, List<Food> menu, int capacity, int userId, String imageReference) throws ConnectToDBFailed, FailedDataVertification {
-        User owner = userDao.getById(userId);
-        Restaurant restaurant = new Restaurant(name, description, location, menu, capacity, owner, imageReference);
-        RestaurantDao restaurantDao = new RestaurantDao();
-        restaurantDao.transactionProcess(restaurant, "add");
-        Restaurant test = restaurantDao.getById(restaurant.getId());
-        if (test.getId() == restaurant.getId()) {
-            return restaurant.getId();
-        } else {
-            throw new FailedDataVertification("Restaurant id in memory and in database are not the same");
-        }
-    }
-
-    public int getUserId(String username) throws ConnectToDBFailed, FailedDataVertification {
-        for (User user : userDao.getAll()) {
+    public int getUserId(String username) throws FailedDataVertification {
+        for (User user : userRepository.findAll()) {
             if (user.getUserName().equals(username)) {
                 return user.getUserId();
             }
@@ -62,19 +48,12 @@ public class UserService {
     }
 
     // returns a boolean that indicates whether the user exists or not
-    public boolean doesUserExist(String username) throws ConnectToDBFailed {
-        for (User user : userDao.getAll()) {
+    public boolean doesUserExist(String username) {
+        for (User user : userRepository.findAll()) {
             if (user.getUserName().equals(username)) {
                 return true;
             }
         }
         return false;
-    }
-
-    private boolean changePassword(int useriD, String newPsw, String newPsw2) {
-        return true;
-    }
-
-    private void deleteRestaurant(int userId, int restaurantId) {
     }
 }

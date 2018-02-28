@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+//TODO Remove named queries if necessary
 @NamedQueries({
         @NamedQuery(
                 name = "getAllRestaurants",

@@ -1,19 +1,12 @@
 package com.codecool.restauratio;
 
-import com.codecool.restauratio.controller.LoginController;
-import com.codecool.restauratio.controller.RestaurantController;
-import com.codecool.restauratio.customException.ConnectToDBFailed;
 import com.codecool.restauratio.models.Food;
 import com.codecool.restauratio.models.Order;
 import com.codecool.restauratio.models.Restaurant;
-import com.codecool.restauratio.services.UserService;
-import com.codecool.restauratio.utils.DatabaseUtility;
 import com.codecool.restauratio.models.Reservation;
 import com.codecool.restauratio.models.users.User;
-import org.eclipse.jetty.http.HttpStatus;
-import spark.Request;
-import spark.Response;
-import spark.template.thymeleaf.ThymeleafTemplateEngine;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -21,9 +14,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static spark.Spark.*;
-import static spark.debug.DebugScreen.enableDebugScreen;
-
+@SpringBootApplication
 public class RestApp {
 
     public static void populateDb(EntityManager em) {
@@ -74,76 +65,13 @@ public class RestApp {
     }
 
     public static void main(String[] args) {
-        UserService userService = new UserService();
-        EntityManager em = DatabaseUtility.getEntityManager("restaurantPU");
-        populateDb(em);
+        SpringApplication.run(RestApp.class, args);
 
-
-        enableDebugScreen();
-
-        exception(Exception.class, (e, req, res) -> e.printStackTrace());
-        staticFileLocation("/public");
-        port(8888);
-
-
-        get("/", (req, res) -> {
-            try {
-                return new ThymeleafTemplateEngine().render(RestaurantController.renderRestaurants(req, res));
-            } catch (ConnectToDBFailed e) {
-                res.status(HttpStatus.SERVICE_UNAVAILABLE_503);
-                return "<html><body><h1>" + res.raw().getStatus() + "</h1><p>SERVICE UNAVAILABLE</p></body></html>";
-            }
-        });
-
-        // LOGIN ROUTES
-
-        get("/login", (request, response) -> new ThymeleafTemplateEngine().render( LoginController.renderLogin( request, response, true ) ));
-
-        get("/register", (request, response) -> new ThymeleafTemplateEngine().render( LoginController.renderRegister( request, response, true ) ));
-
-        post("/user/register", (Request req, Response res) -> {
-
-            if(!userService.doesUserExist(req.queryParams("username"))){
-
-                int userId = userService.registerUser(req.queryParams("username"), req.queryParams("password"), false, false);
-                req.session().attribute("id",userId);
-                req.session().attribute("username",req.queryParams("username"));
-                res.redirect("/");
-            }else{
-                res.redirect("/register?inuse=true");
-            }
-            return null;
-        });
-
-        post("/user/login", (Request req, Response res) -> {
-
-            String username = req.queryParams("username");
-            String password = req.queryParams("password");
-
-            if(userService.login(username, password)){
-
-                req.session().attribute("id",userService.getUserId(username));
-                req.session().attribute("username", username);
-                System.out.println("sessionId: " + req.session().attribute("id"));
-                res.redirect("/");
-            }else{
-                res.redirect("/login?incorrect=true");
-            }
-            return null;
-        });
-
-        get("/logout", (Request req, Response res) -> {
-            req.session().removeAttribute("id");
-            req.session().removeAttribute("username");
-            res.redirect("/");
-            return null;
-        });
-
-        post("/api/get_restaurant_by_location", RestaurantController::restaurantBrowseByLocation);
+//        post("/api/get_restaurant_by_location", RestaurantController::restaurantBrowseByLocation);
 
         // RESTAURANT ROUTE
 
-        get( "/restaurants/:restId", (request, response) -> new ThymeleafTemplateEngine().render( RestaurantController.renderRestaurant(request, response, request.params( ":restId" )) ));
+//        get( "/restaurants/:restId", (request, response) -> new ThymeleafTemplateEngine().render( RestaurantController.renderRestaurant(request, response, request.params( ":restId" )) ));
 
     }
 }
