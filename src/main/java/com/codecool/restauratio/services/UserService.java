@@ -15,8 +15,8 @@ public class UserService {
     private UserRepository userRepository;
 
     // returns with the id of the created user
-    public int registerUser(String userName, String psw, boolean isAdmin, boolean isOwner) {
-        User user = new User(userName, psw, isAdmin, isOwner);
+    public int registerUser(String userName, String FirstName, String LastName, String psw, String email, boolean isAdmin, boolean isOwner) {
+        User user = new User(userName, FirstName, LastName, psw, email, isAdmin, isOwner);
         userRepository.save(user);
         return user.getUserId();
     }
@@ -28,7 +28,6 @@ public class UserService {
 
     // returns userId if the credential verification is successful else throws an exception
     public boolean login(String userName, String psw) {
-        System.out.println(userRepository);
         List<User> allUsers = userRepository.findAll();
         for (User currentUser : allUsers) {
             if (currentUser.getUserName().equals(userName) & currentUser.checkPassword(psw)) {
