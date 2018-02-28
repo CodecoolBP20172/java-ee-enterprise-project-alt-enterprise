@@ -19,6 +19,9 @@ $(document).ready(function(){
             }
         });
         $("#exampleModal").modal('hide');
+        $("#date-input").val('');
+        $("#comment-text").val('');
+
     });
 
 });

@@ -29,8 +29,7 @@ public class RestaurantService {
     }
 
 
-    public void makeReservation (int numberOfPPL, int restaurantId, int userId, String comment) throws ConnectToDBFailed {
-        Date date = new Date();
+    public void makeReservation (Date date, int numberOfPPL, int restaurantId, int userId, String comment) throws ConnectToDBFailed {
         Restaurant reservationTargetRestaurant = restaurantRepository.findOne(restaurantId);
         User reservationUser = userRepository.findOne(userId);
         Reservation currentReservation = new Reservation(date, numberOfPPL, comment, reservationTargetRestaurant, reservationUser);
