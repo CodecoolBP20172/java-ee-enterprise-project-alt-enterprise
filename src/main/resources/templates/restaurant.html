@@ -53,12 +53,59 @@
         </nav>
     </div>
 
-    <div class="restaurant_information" th:id="${restaurant.getId()}">
-        <p th:text="${restaurant.getName()}"></p>
-        <p th:text="${restaurant.getDescription()}"></p>
-        <p th:text="${restaurant.getLocation()}"></p>
-        <a href="#" class="btn btn-default" role="button">Make a reservation</a>
-        <a href="#" class="btn btn-default" role="button">Menu</a>
+    <div class="thumbnail">
+        <div class="container-fluid restaurantDiv restaurant_information" th:id="${restaurant.getId()}" >
+            <div class="row">
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                    <img th:src="${restaurant.getImageReference()}" class="img-thumbnail"/>
+                </div>
+                <div style="margin-top: 50px" class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                    <h4 th:text="'Restaurant name: ' + ${restaurant.getName()}">Name</h4>
+                    <h4 th:text="'Description: ' + ${restaurant.getDescription()}">Description</h4>
+                    <h4 th:text="'Location: ' + ${restaurant.getLocation()}">Location</h4>
+                    <h4 th:text="'Capacity: ' + ${restaurant.getCapacity()}">Capacity</h4>
+                </div>
+                <div style="margin-top: 100px" class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                    <a href="#" class="btn btn-default reservationButton" data-toggle="modal" data-target="#exampleModal" role="button">Make a reservation</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div>
+                            <label for="date-input">Date: </label><br/>
+                            <input type="date" id="date-input"/>
+                        </div><br/>
+                        <div class="form-group">
+                            <label for="sel1">Number of people:</label>
+                            <select class="form-control" id="sel1">
+                                <option th:each="item : ${new int[10]}" th:text="${itemStat.count}"></option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="comment-text" class="form-control-label">Comment:</label>
+                            <textarea class="form-control" id="comment-text"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary reservationCreator" th:attr="data-restaurant=${restaurant.getId()}">Make reservation</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class= "container" id="food_content" style="width: 75%; vertical-align: top">
@@ -85,52 +132,5 @@
         </div>
     </div>
 
-        <!--&lt;!&ndash; Table Constructor change table classes, you don't need it in your project &ndash;&gt;
-        <div style="width: 45%; display: inline-block; vertical-align: top">
-            <h2>Table Constructor</h2>
-            <p>
-                <label for="table-bordered">Style: bordered</label>
-                <select id="table-bordered" name="table-bordered">
-                    <option selected value="">No</option>
-                    <option value="table-bordered">Yes</option>
-                </select>
-            </p>
-            <p>
-                <label for="table-striped">Style: striped</label>
-                <select id="table-striped" name="table-striped">
-                    <option selected value="">No</option>
-                    <option value="table-striped">Yes</option>
-                </select>
-            </p>
-            <p>
-                <label for="table-hover">Style: hover</label>
-                <select id="table-hover" name="table-hover">
-                    <option value="">No</option>
-                    <option selected value="table-hover">Yes</option>
-                </select>
-            </p>
-            <p>
-                <label for="table-color">Style: color</label>
-                <select id="table-color" name="table-color">
-                    <option value="">Default</option>
-                    <option value="table-mc-red">Red</option>
-                    <option value="table-mc-pink">Pink</option>
-                    <option value="table-mc-purple">Purple</option>
-                    <option value="table-mc-deep-purple">Deep Purple</option>
-                    <option value="table-mc-indigo">Indigo</option>
-                    <option value="table-mc-blue">Blue</option>
-                    <option selected value="table-mc-light-blue">Light Blue</option>
-                    <option value="table-mc-cyan">Cyan</option>
-                    <option value="table-mc-teal">Teal</option>
-                    <option value="table-mc-green">Green</option>
-                    <option value="table-mc-light-green">Light Green</option>
-                    <option value="table-mc-lime">Lime</option>
-                    <option value="table-mc-yellow">Yellow</option>
-                    <option value="table-mc-amber">Amber</option>
-                    <option value="table-mc-orange">Orange</option>
-                    <option value="table-mc-deep-orange">Deep Orange</option>
-                </select>
-            </p>
-        </div>-->
 </body>
 </html>
