@@ -62,4 +62,16 @@ public class RestaurantService {
         return locations;
     }
 
+    public List<String> getDescriptions() throws ConnectToDBFailed {
+        List<String> descriptions = restaurantRepository.getRestaurantDescriptions();
+        if (descriptions == null) {
+            throw new ConnectToDBFailed("CONNECTION FAILED FAM. HAHA");
+        }
+        System.out.println(descriptions);
+        return descriptions;
+    }
+
+    public List<Restaurant> restaurantTypeBrowser(String description) {
+        return restaurantRepository.getRestaurantByDescription(description);
+    }
 }

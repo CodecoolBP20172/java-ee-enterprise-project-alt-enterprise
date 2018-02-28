@@ -24,6 +24,11 @@ public class RestaurantControllerREST {
         return new ResponseEntity<>(restService.restaurantLocationBrowser(data.get("location")), HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/api/get_restaurant_by_type", method = RequestMethod.POST)
+    public ResponseEntity<List<Restaurant>> restaurantBrowseByType(@RequestBody Map<String, String> data) {
+        return new ResponseEntity<>(restService.restaurantTypeBrowser(data.get("description")), HttpStatus.OK);
+    }
+
 
 
 }

@@ -23,6 +23,7 @@ public class RestaurantController {
         model.addAttribute("loggedin", session.getAttribute("id") != null);
         model.addAttribute("restaurants", restService.getRestaurants());
         model.addAttribute("locations", restService.getLocations());
+        model.addAttribute("descriptions", restService.getDescriptions());
 //        catch (ConnectToDBFailed e) {
 //            HttpStatus.);
 //            return "<html><body><h1>" + res.raw().getStatus() + "</h1><p>SERVICE UNAVAILABLE</p></body></html>";
