@@ -15,12 +15,6 @@ public class UserService {
     private UserRepository userRepository;
 
     // returns with the id of the created user
-    public int registerUser(String userName, String FirstName, String LastName, String psw, String email, boolean isAdmin, boolean isOwner) {
-        User user = new User(userName, FirstName, LastName, psw, email, isAdmin, isOwner);
-        userRepository.save(user);
-        return user.getUserId();
-    }
-
     public int registerUser(User user) {
         userRepository.save(user);
         return user.getUserId();
