@@ -19,12 +19,13 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
           integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"/>
 
+    <link rel="stylesheet" href="/css/custom.css"/>
+
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
             crossorigin="anonymous"></script>
 
-    <!--<script src="/js/restaurant.js" defer="true"></script>-->
 
 </head>
 <body>
@@ -114,13 +115,31 @@
         </div>
 
         <div class="tab-pane fade" id="orderView">
-            <form id="tab3">
-                <label for="orders">My orders</label>
-                <input id="orders" type="text" class="input-xlarge form-control"/>
-                <div>
-                    <button class="btn btn-primary">Update</button>
-                </div>
-            </form>
+            <div id="tab3">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Address</th>
+                        <th>Restaurant</th>
+                        <th>Foods</th>
+                        <th>Full Price</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="order : ${orders}">
+                        <td th:text="${order.getDate()}">...</td>
+                        <td th:text="${order.getAddress()}">...</td>
+                        <td><a th:href="@{~/restaurants/} + ${order.getOrderRestaurant().getId()}" th:text="${order.getOrderRestaurant().getName()}"></a></td>
+                        <td>
+                            <li th:each = "food : ${order.getFoodList()}" th:text="${food.getName() + '  ' +  food.getPrice()}">...</li>
+                        </td>
+                        <td th:text="${order.getFullPrice()}">...</td>
+                        <td><a>Cancel</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
