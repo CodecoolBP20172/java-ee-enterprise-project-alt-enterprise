@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Restauráció - Restaurants</title>
+    <meta charset="utf-8"/>
+    <meta name="author" content="Codecool"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <!-- Latest compiled and minified Jquery -->
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"/>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+
+    <!--<script src="/js/restaurant.js" defer="true"></script>-->
+
+</head>
+<body>
+<div>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/">Restauráció Renessaince</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="/">Home</a></li>
+                <li><a href="/">Restaurants</a></li>
+            </ul>
+            <form class="navbar-form navbar-left" action="/action_page.php">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Search"/>
+                </div>
+                <button type="submit" class="btn btn-default">Submit</button>
+
+            </form>
+            <ul class="nav navbar-nav navbar-right">
+                <li th:if="${!loggedin}"><a href="/register"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                <li th:if="${!loggedin}"><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                <li th:if="${loggedin}"><a href="#"><span class="glyphicon glyphicon-user" th:text="${user.getUserName()}"></span></a></li>
+                <li th:if="${loggedin}"><a href="/logout"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+</div>
+
+    <div class="well">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#userInformations" data-toggle="tab">Profile settings</a></li>
+            <li><a href="#reservationview" data-toggle="tab">Reservations</a></li>
+            <li><a href="#orderview" data-toggle="tab">Orders</a></li>
+        </ul>
+        <div id="myTabContent" class="tab-content">
+            <div class="tab-pane active in" id="userInformations">
+                <div id="tab" class="form-group">
+                    <label for="username">Username</label>
+                    <input id="username" name="username" type="text" class="input-xlarge form-control" th:value="${user.getUserName()}"/><br/>
+                    <label for="firstName">First Name</label>
+                    <input id="firstName" name="firstName" type="text" class="input-xlarge form-control" th:value="${user.getFirstName()}"/><br/>
+                    <label for="lastName">Last Name</label>
+                    <input id="lastName" name="lastName" type="text" class="input-xlarge form-control" th:value="${user.getLastName()}"/><br/>
+                    <label for="email">Email</label>
+                    <input id="email" name="email" type="email" class="input-xlarge form-control" th:value="${user.getEmail()}"/><br/>
+                    <label for="address">Address</label>
+                    <textarea id="address" name="address" rows="3" class="input-xlarge form-control" th:value="${user.getAddress()}"></textarea>
+                    <div>
+                        <button class="btn btn-primary">Update</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="reservationview">
+                <form id="tab2">
+                    <label for="reservations">My reservations</label>
+                    <input id="reservations" type="text" class="input-xlarge form-control"/>
+                    <div>
+                        <button class="btn btn-primary">Update</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="tab-pane fade" id="orderview">
+                <form id="tab3">
+                    <label for="orders">My orders</label>
+                    <input id="orders" type="text" class="input-xlarge form-control"/>
+                    <div>
+                        <button class="btn btn-primary">Update</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+</div>
+</body>
+</html>
