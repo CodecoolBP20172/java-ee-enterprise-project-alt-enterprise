@@ -23,13 +23,18 @@ public class User {
     private int id;
     @Column(unique = true, nullable = false)
     private String userName;
+    @Column(nullable = false)
+    private String FirstName;
+    @Column(nullable = false)
+    private String LastName;
     @Column(unique = true, nullable = false)
     private String password;
+    @Column(unique = true, nullable = false)
+    private String email;
     @Column(nullable = false)
     private boolean isAdmin;
     @Column(nullable = false)
     private boolean isOwner;
-
 
     @OneToMany(mappedBy = "owner")
     private List<Restaurant> restaurants;
@@ -44,15 +49,19 @@ public class User {
     protected User() {
     }
 
-    public User(String userName, String password, boolean isAdmin, boolean isOwner) {
-        setUserName(userName);
-        setPassword(BCrypt.hashpw(password, BCrypt.gensalt()));
-        setAdmin(isAdmin);
-        setOwner(isOwner);
+    public User(String userName, String FirstName,
+                String LastName, String password, String email,
+                boolean isAdmin, boolean isOwner) {
+        this.userName = userName;
+        this.FirstName = FirstName;
+        this.LastName = LastName;
+        this.password = password;
+        this.email= email;
+        this.isAdmin = isAdmin;
+        this.isOwner = isOwner;
         reservations = new ArrayList<>();
-        if (isOwner) {
-            restaurants = new ArrayList<>();
-        }
+        restaurants = new ArrayList<>();
+        orders = new ArrayList<>();
     }
 
     public int getUserId(){
@@ -69,6 +78,18 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getFirstName() {
+        return FirstName;
+    }
+
+    public String getLastName() {
+        return LastName;
+    }
+
+    public String getEmail() {
+        return email;
     }
 
     public String getPassword() {
