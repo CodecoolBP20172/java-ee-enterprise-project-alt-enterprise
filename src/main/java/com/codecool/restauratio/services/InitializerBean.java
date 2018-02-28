@@ -14,8 +14,8 @@ public class InitializerBean {
 
     public InitializerBean(UserService userService, RestaurantService restaurantService, FoodRepository foodrepo) {
 
-        User user1 = new User("józsi", "József", "Bende", "hurka", "józsi@citromail.com", true, false);
-        User user2 = new User("bodri", "Bodri", "Nemecsek", "mecska", "bodri@gmail.com", true, true);
+        User user1 = new User("józsi", "József", "Bende", "hurka", "józsi@citromail.com", "codecool", true, false);
+        User user2 = new User("bodri", "Bodri", "Nemecsek", "mecska", "bodri@gmail.com", "home", true, true);
 
         Food f = new Food("Melák Menü", 1500, "szenya, rántotthus, rántottsajt", "király");
         Food f2 = new Food("buja burger", 200, "burger", "jó");

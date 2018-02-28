@@ -1,6 +1,7 @@
 package com.codecool.restauratio.controller;
 
 import com.codecool.restauratio.customException.FailedDataVertification;
+import com.codecool.restauratio.models.users.User;
 import com.codecool.restauratio.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -40,13 +41,15 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/user/register", method = RequestMethod.POST)
-    public String registerUser(@RequestParam(value = "username") String username,
-                               @RequestParam(value = "password") String firstName,
-                               @RequestParam(value = "password") String lastName,
+    public String registerUser(@RequestParam(value = "userName") String username,
+                               @RequestParam(value = "firstName") String firstName,
+                               @RequestParam(value = "lastName") String lastName,
                                @RequestParam(value = "password") String password,
-                               @RequestParam(value = "password") String email, HttpSession session) {
+                               @RequestParam(value = "email") String email,
+                               @RequestParam(value = "address") String address,
+                               HttpSession session) {
         if (!userService.doesUserExist(username)) {
-            int userId = userService.registerUser(username, firstName, lastName, password, email, false, false);
+            int userId = userService.registerUser(new User(username, firstName, lastName, password, email, address, false, false));
             session.setAttribute("id", userId);
             session.setAttribute("username", username);
             return "redirect:/";

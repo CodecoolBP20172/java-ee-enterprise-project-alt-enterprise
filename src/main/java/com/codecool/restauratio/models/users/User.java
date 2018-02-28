@@ -32,6 +32,8 @@ public class User {
     @Column(unique = true, nullable = false)
     private String email;
     @Column(nullable = false)
+    private String address;
+    @Column(nullable = false)
     private boolean isAdmin;
     @Column(nullable = false)
     private boolean isOwner;
@@ -49,14 +51,15 @@ public class User {
     protected User() {
     }
 
-    public User(String userName, String FirstName,
-                String LastName, String password, String email,
+    public User(String userName, String FirstName, String LastName,
+                String password, String email, String address,
                 boolean isAdmin, boolean isOwner) {
         this.userName = userName;
         this.FirstName = FirstName;
         this.LastName = LastName;
-        this.password = password;
+        setPassword(BCrypt.hashpw(password, BCrypt.gensalt()));
         this.email= email;
+        this.address = address;
         this.isAdmin = isAdmin;
         this.isOwner = isOwner;
         reservations = new ArrayList<>();
@@ -92,6 +95,10 @@ public class User {
         return email;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
     public String getPassword() {
         return password;
     }
@@ -120,10 +127,13 @@ public class User {
         this.reservations.add(res);
     }
 
+    public void addOrder(Order order) {
+        this.orders.add(order);
+    }
+
+
     public void addRestaurant(Restaurant rest) {
-        if (restaurants != null) {
             this.restaurants.add(rest);
-        }
     }
 
     @Override
