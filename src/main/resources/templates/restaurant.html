@@ -22,6 +22,9 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
             crossorigin="anonymous"></script>
+
+    <script src="/js/restaurantPage.js" defer="true"></script>
+
 </head>
 <body>
     <div>
@@ -50,7 +53,7 @@
         </nav>
     </div>
 
-    <div>
+    <div class="restaurant_information" th:id="${restaurant.getId()}">
         <p th:text="${restaurant.getName()}"></p>
         <p th:text="${restaurant.getDescription()}"></p>
         <p th:text="${restaurant.getLocation()}"></p>
@@ -58,5 +61,76 @@
         <a href="#" class="btn btn-default" role="button">Menu</a>
     </div>
 
+    <div class= "container" id="food_content" style="width: 75%; vertical-align: top">
+        <h1>Menu</h1>
+        <div class="table-responsive-vertical shadow-z-1">
+            <table id="table" class="table table-hover table-mc-pink">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Ingredients</th>
+                    <th>Price</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody th:each="food, iter : ${restaurant.getMenu()}">
+                    <tr>
+                        <td data-title="Name" th:text="${food.getName()}"></td>
+                        <td data-title="Ingerdients" th:text="${food.getIngredients()}"></td>
+                        <td data-title="Price" th:text="${food.getIngredients()}"></td>
+                        <td th:if="${loggedin}" class="add_food_to_cart" data-title="Actions" th:attr="data-user_id=${session.id}" th:id="${food.getId()}"> <button>Add to Cart</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+        <!--&lt;!&ndash; Table Constructor change table classes, you don't need it in your project &ndash;&gt;
+        <div style="width: 45%; display: inline-block; vertical-align: top">
+            <h2>Table Constructor</h2>
+            <p>
+                <label for="table-bordered">Style: bordered</label>
+                <select id="table-bordered" name="table-bordered">
+                    <option selected value="">No</option>
+                    <option value="table-bordered">Yes</option>
+                </select>
+            </p>
+            <p>
+                <label for="table-striped">Style: striped</label>
+                <select id="table-striped" name="table-striped">
+                    <option selected value="">No</option>
+                    <option value="table-striped">Yes</option>
+                </select>
+            </p>
+            <p>
+                <label for="table-hover">Style: hover</label>
+                <select id="table-hover" name="table-hover">
+                    <option value="">No</option>
+                    <option selected value="table-hover">Yes</option>
+                </select>
+            </p>
+            <p>
+                <label for="table-color">Style: color</label>
+                <select id="table-color" name="table-color">
+                    <option value="">Default</option>
+                    <option value="table-mc-red">Red</option>
+                    <option value="table-mc-pink">Pink</option>
+                    <option value="table-mc-purple">Purple</option>
+                    <option value="table-mc-deep-purple">Deep Purple</option>
+                    <option value="table-mc-indigo">Indigo</option>
+                    <option value="table-mc-blue">Blue</option>
+                    <option selected value="table-mc-light-blue">Light Blue</option>
+                    <option value="table-mc-cyan">Cyan</option>
+                    <option value="table-mc-teal">Teal</option>
+                    <option value="table-mc-green">Green</option>
+                    <option value="table-mc-light-green">Light Green</option>
+                    <option value="table-mc-lime">Lime</option>
+                    <option value="table-mc-yellow">Yellow</option>
+                    <option value="table-mc-amber">Amber</option>
+                    <option value="table-mc-orange">Orange</option>
+                    <option value="table-mc-deep-orange">Deep Orange</option>
+                </select>
+            </p>
+        </div>-->
 </body>
 </html>
