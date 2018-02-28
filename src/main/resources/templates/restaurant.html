@@ -50,12 +50,23 @@
         </nav>
     </div>
 
-    <div>
-        <p th:text="${restaurant.getName()}"></p>
-        <p th:text="${restaurant.getDescription()}"></p>
-        <p th:text="${restaurant.getLocation()}"></p>
-        <a href="#" class="btn btn-default" role="button">Make a reservation</a>
-        <a href="#" class="btn btn-default" role="button">Menu</a>
+    <div class="thumbnail">
+        <div class="container-fluid restaurantDiv" th:id="'restaurantDiv' + ${restaurant.getId()}" >
+            <div class="row">
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                    <img th:src="${restaurant.getImageReference()}" class="img-thumbnail"/>
+                </div>
+                <div style="margin-top: 50px" class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                    <h4 th:text="'Restaurant name: ' + ${restaurant.getName()}">Name</h4>
+                    <h4 th:text="'Description: ' + ${restaurant.getDescription()}">Description</h4>
+                    <h4 th:text="'Location: ' + ${restaurant.getLocation()}">Location</h4>
+                    <h4 th:text="'Capacity: ' + ${restaurant.getCapacity()}">Capacity</h4>
+                </div>
+                <div style="margin-top: 100px" class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                    <a href="#" class="btn btn-default reservationButton" role="button">Make a reservation</a>
+                </div>
+            </div>
+        </div>
     </div>
 
 </body>
