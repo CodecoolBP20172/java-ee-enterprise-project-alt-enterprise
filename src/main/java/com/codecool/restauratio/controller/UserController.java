@@ -36,11 +36,11 @@ public class UserController {
         }
         User user = userRepository.findOne(id);
         List<Reservation> reservations = reservationRepository.findAllByUser(user.getUserId());
-        List<Order> orders = orderRepository.getAllByUser(user);
+        List<Order> orders = orderRepository.findAllByUser(user.getUserId());
         model.addAttribute("user", user);
         model.addAttribute("reservations", reservations);
         model.addAttribute("orders", orders);
-        model.addAttribute("loggedin", true);
+        model.addAttribute("loggedIn", true);
         return "userpage";
     }
 }
