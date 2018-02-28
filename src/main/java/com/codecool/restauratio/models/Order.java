@@ -75,6 +75,14 @@ public class Order extends Request{
         this.user = user;
     }
 
+    public double getFullPrice() {
+        double fullPrice = 0;
+        for (Food food: foodList) {
+            fullPrice += food.getPrice();
+        }
+        return fullPrice;
+    }
+
     @Override
     public String toString() {
         return "Order = " +
