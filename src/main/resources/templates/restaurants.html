@@ -48,7 +48,12 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li th:if="${!loggedin}"><a href="/register"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
                     <li th:if="${!loggedin}"><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-                    <li th:if="${loggedin}"><a th:href="@{~/user/} + ${session.id}"><span class="glyphicon glyphicon-user" th:text="${username}"></span></a></li>
+                    <li th:if="${loggedin}">
+                        <a th:href="@{~/user/} + ${session.id}">
+                            <span class="glyphicon glyphicon-user"></span>
+                            <span th:text="${username}"></span>
+                        </a>
+                    </li>
                     <li th:if="${loggedin}"><a href="/logout"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
                 </ul>
             </div>
