@@ -22,6 +22,9 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
             crossorigin="anonymous"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+    <script src="/js/restaurantPage.js" defer="true"></script>
 </head>
 <body>
     <div>
@@ -63,7 +66,43 @@
                     <h4 th:text="'Capacity: ' + ${restaurant.getCapacity()}">Capacity</h4>
                 </div>
                 <div style="margin-top: 100px" class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                    <a href="#" class="btn btn-default reservationButton" role="button">Make a reservation</a>
+                    <a href="#" class="btn btn-default reservationButton" data-toggle="modal" data-target="#exampleModal" role="button">Make a reservation</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div>
+                            <label for="date-input">Date: </label><br/>
+                            <input type="date" id="date-input"/>
+                        </div><br/>
+                        <div class="form-group">
+                            <label for="sel1">Number of people:</label>
+                            <select class="form-control" id="sel1">
+                                <option th:each="item : ${new int[10]}" th:text="${itemStat.count}"></option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="comment-text" class="form-control-label">Comment:</label>
+                            <textarea class="form-control" id="comment-text"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Make reservation</button>
                 </div>
             </div>
         </div>
