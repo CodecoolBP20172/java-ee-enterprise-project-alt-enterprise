@@ -2,15 +2,12 @@ package com.codecool.restauratio.controller;
 
 import com.codecool.restauratio.customException.FailedDataVertification;
 import com.codecool.restauratio.services.UserService;
-import com.sun.net.httpserver.HttpServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.bind.support.SessionStatus;
 
 import javax.servlet.http.HttpSession;
 
@@ -44,9 +41,12 @@ public class LoginController {
 
     @RequestMapping(value = "/user/register", method = RequestMethod.POST)
     public String registerUser(@RequestParam(value = "username") String username,
-                                      @RequestParam(value = "password") String password, HttpSession session) {
+                               @RequestParam(value = "password") String firstName,
+                               @RequestParam(value = "password") String lastName,
+                               @RequestParam(value = "password") String password,
+                               @RequestParam(value = "password") String email, HttpSession session) {
         if (!userService.doesUserExist(username)) {
-            int userId = userService.registerUser(username, password, false, false);
+            int userId = userService.registerUser(username, firstName, lastName, password, email, false, false);
             session.setAttribute("id", userId);
             session.setAttribute("username", username);
             return "redirect:/";
@@ -57,7 +57,7 @@ public class LoginController {
 
     @RequestMapping(value = "/user/login", method = RequestMethod.POST)
     public String loginUser(@RequestParam(value = "username") String username,
-                                   @RequestParam(value = "password") String password, HttpSession session, Model model) throws FailedDataVertification {
+                            @RequestParam(value = "password") String password, HttpSession session, Model model) throws FailedDataVertification {
         if (userService.login(username, password)) {
             session.setAttribute("id", userService.getUserId(username));
             session.setAttribute("username", username);
@@ -69,7 +69,7 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
-        public String logoutUser(HttpSession session, Model model) {
+    public String logoutUser(HttpSession session, Model model) {
         session.removeAttribute("username");
         session.removeAttribute("id");
         model.addAttribute("loggedin", false);
