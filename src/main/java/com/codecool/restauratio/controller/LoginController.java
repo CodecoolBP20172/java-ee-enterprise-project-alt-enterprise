@@ -49,7 +49,7 @@ public class LoginController {
             int userId = userService.registerUser(username, password, false, false);
             session.setAttribute("id", userId);
             session.setAttribute("username", username);
-            return "redirect:restaurants";
+            return "redirect:/";
         } else {
             return "redirect:/register?inuse=true";
         }
@@ -57,21 +57,22 @@ public class LoginController {
 
     @RequestMapping(value = "/user/login", method = RequestMethod.POST)
     public String loginUser(@RequestParam(value = "username") String username,
-                                   @RequestParam(value = "password") String password, HttpSession session) throws FailedDataVertification {
-        UserService userService = new UserService();
+                                   @RequestParam(value = "password") String password, HttpSession session, Model model) throws FailedDataVertification {
         if (userService.login(username, password)) {
             session.setAttribute("id", userService.getUserId(username));
             session.setAttribute("username", username);
-            return "redirect:restaurants";
+            model.addAttribute("loggedin", true);
+            return "redirect:/";
         } else {
             return "redirect:/login?incorrect=true";
         }
     }
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
-        public String logoutUser(HttpSession session) {
+        public String logoutUser(HttpSession session, Model model) {
         session.removeAttribute("username");
         session.removeAttribute("id");
-        return "/";
+        model.addAttribute("loggedin", false);
+        return "redirect:/";
     }
 }
