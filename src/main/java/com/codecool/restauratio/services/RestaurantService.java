@@ -66,7 +66,6 @@ public class RestaurantService {
         if (descriptions == null) {
             throw new ConnectToDBFailed("CONNECTION FAILED FAM. HAHA");
         }
-        System.out.println(descriptions);
         return descriptions;
     }
 
