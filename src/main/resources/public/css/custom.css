@@ -1,0 +1,5 @@
+.form-control, .btn-block {
+    width: 25%;
+    min-width: 100px;
+    margin: auto auto 10px;
+}
