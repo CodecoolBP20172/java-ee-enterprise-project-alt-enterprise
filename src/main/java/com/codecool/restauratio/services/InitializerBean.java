@@ -31,24 +31,27 @@ public class InitializerBean {
         Food f = new Food("Melák Menü", 1500, "szenya, rántotthus, rántottsajt", "király");
         Food f2 = new Food("buja burger", 200, "burger", "jó");
         Food f3 = new Food("Tele Tál Falafel", 4000, "minden ami blefér", "ragya");
+        Food f4 = new Food("BigKek", 2999, "Burger, meet, tomato, special sauce", "toppos");
+        Food f5 = new Food("Halászlé", 3888, "hal, lé", "adja");
         foodRepo.save(f);
         foodRepo.save(f2);
         foodRepo.save(f3);
+        foodRepo.save(f4);
+        foodRepo.save(f5);
 
         List<Food> list = new ArrayList<>();
-        list.add(f);
+        list.add(f5);
         List<Food> list2 = new ArrayList<>();
-        list2.add(f);
-        list2.add(f2);
+        list2.add(f4);
         List<Food> list3 = new ArrayList<>();
         list3.add(f);
         list3.add(f2);
         list3.add(f3);
 
-        Restaurant r = new Restaurant("Halászcsárda", "Regular", "here", list, 100, user1, "/img/halasz_image.jpg");
-        Restaurant r2 = new Restaurant("Csirkés", "Fast Food", "Mány", list2, 50, user2, "/img/csirkes_image2.jpeg");
-        Restaurant r3 = new Restaurant("Titiz", "Fast Food", "Mány", list3, 10, user2, "/img/titiz_image2.jpg");
-        Restaurant r4 = new Restaurant("Donaldé", "Fast Food", "Everywhere", list3, 10, user2, "/img/titiz_image2.jpg");
+        Restaurant r = new Restaurant("Halászcsárda", "Regular", "Gyula", list, 100, user1, "/img/halasz_image.jpg");
+        Restaurant r2 = new Restaurant("Csirkés", "Fast Food", "Mány", list3, 50, user2, "/img/csirkes_image2.jpeg");
+        Restaurant r3 = new Restaurant("Titiz", "Fast Food", "Mány", list2, 10, user2, "/img/titiz_image2.jpg");
+        Restaurant r4 = new Restaurant("Mal Donald", "Fast Food", "Sülysáp", list2, 10, user2, "/img/mcdonalds.jpg");
 
         userService.registerUser(user1);
         userService.registerUser(user2);
