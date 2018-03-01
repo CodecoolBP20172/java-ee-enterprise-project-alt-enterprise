@@ -24,24 +24,9 @@ public class RestaurantController {
         model.addAttribute("restaurants", restService.getRestaurants());
         model.addAttribute("locations", restService.getLocations());
         model.addAttribute("descriptions", restService.getDescriptions());
-//        catch (ConnectToDBFailed e) {
-//            HttpStatus.);
-//            return "<html><body><h1>" + res.raw().getStatus() + "</h1><p>SERVICE UNAVAILABLE</p></body></html>";
-//        }
         return "restaurants";
     }
 
-    //    public static ModelAndView renderRestaurant(Request req, Response res, String restaurantId) throws ConnectToDBFailed {
-//        Map<String, Object> params = new HashMap<>();
-//        int formattedRestaurantId = Integer.parseInt(restaurantId);
-//        params.put("restaurant", restService.getRestaurantId(formattedRestaurantId));
-//        return new ModelAndView(params, "restaurant");
-//    }
-//
-//    public static void makeReservationAtRestaurant(Request req, Response res) throws ConnectToDBFailed {
-//
-//    }
-//
     @RequestMapping(value = "/restaurants/{restId}", method = RequestMethod.GET)
     public String renderRestaurant(@PathVariable("restId") int restId, Model model, HttpSession session) {
         model.addAttribute("restaurant", restService.getRestaurantId(restId));

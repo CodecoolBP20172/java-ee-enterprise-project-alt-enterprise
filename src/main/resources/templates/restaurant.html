@@ -65,7 +65,7 @@
                     <h4 th:text="'Location: ' + ${restaurant.getLocation()}">Location</h4>
                     <h4 th:text="'Capacity: ' + ${restaurant.getCapacity()}">Capacity</h4>
                 </div>
-                <div style="margin-top: 100px" class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                <div th:if="${loggedin}" style="margin-top: 100px" class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                     <a href="#" class="btn btn-default reservationButton" data-toggle="modal" data-target="#exampleModal" role="button">Make a reservation</a>
                 </div>
             </div>
@@ -102,7 +102,11 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary reservationCreator" th:attr="data-restaurant=${restaurant.getId()}">Make reservation</button>
+                    <button type="button"
+                            class="btn btn-primary reservationCreator"
+                            th:attr="data-restaurant=${restaurant.getId()}">
+                        Make reservation
+                    </button>
                 </div>
             </div>
         </div>
@@ -117,15 +121,21 @@
                     <th>Name</th>
                     <th>Ingredients</th>
                     <th>Price</th>
-                    <th>Actions</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody th:each="food, iter : ${restaurant.getMenu()}">
                     <tr>
                         <td data-title="Name" th:text="${food.getName()}"></td>
                         <td data-title="Ingerdients" th:text="${food.getIngredients()}"></td>
-                        <td data-title="Price" th:text="${food.getIngredients()}"></td>
-                        <td th:if="${loggedin}" class="add_food_to_cart" data-title="Actions" th:attr="data-user_id=${session.id}" th:id="${food.getId()}"> <button>Add to Cart</button></td>
+                        <td data-title="Price" th:text="${food.getPrice()}"></td>
+                        <td th:if="${loggedin}"
+                            class="add_food_to_cart"
+                            data-title="Actions"
+                            th:attr="data-user_id=${session.id}"
+                            th:id="${food.getId()}">
+                            <button>Add to Cart</button>
+                        </td>
                     </tr>
                 </tbody>
             </table>

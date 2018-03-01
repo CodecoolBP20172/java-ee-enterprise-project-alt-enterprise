@@ -33,14 +33,8 @@ public class OrderService {
         User orderUser = userRepository.findOne(userId);
         Food foodToSave = foodRepository.findOne(foodId);
         Restaurant restaurantFromOrder = restaurantRepository.findOne(restaurantId);
-        System.out.println(orderToSave);
         if (orderToSave != null) {
             orderToSave.getFoodList().add(foodToSave);
-            if (orderToSave.getFoodList().size() > 3) {
-                decreaseOrderQuantity(1,1);
-                System.out.println("After mod");
-                System.out.println(orderToSave);
-            }
         } else {
             List<Food> foodListToSave = new ArrayList<>();
             foodListToSave.add(foodToSave);

@@ -35,7 +35,6 @@ public class RestaurantControllerREST {
     @RequestMapping(value = "/api/make_reservation", method = RequestMethod.POST)
     public ResponseEntity<String> makeReservation(@RequestBody Map<String, String> data, HttpSession session) throws ConnectToDBFailed {
         int userId = (int) session.getAttribute("id");
-        //System.out.println(userId);
         restService.makeReservation(Date.valueOf(data.get("date")),
                 Integer.valueOf(data.get("numOfPeople")), Integer.valueOf(data.get("restaurantId")), userId, data.get("comment"));
         return new ResponseEntity<>("success", HttpStatus.OK);

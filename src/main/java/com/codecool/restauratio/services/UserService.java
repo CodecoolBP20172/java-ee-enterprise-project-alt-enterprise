@@ -28,7 +28,6 @@ public class UserService {
 
     // returns userId if the credential verification is successful else throws an exception
     public boolean login(String userName, String psw) {
-        System.out.println(userRepository);
         List<User> allUsers = userRepository.findAll();
         for (User currentUser : allUsers) {
             if (currentUser.getUserName().equals(userName) & currentUser.checkPassword(psw)) {
