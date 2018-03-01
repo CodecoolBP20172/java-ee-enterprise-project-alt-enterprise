@@ -48,6 +48,10 @@ public class Food {
         this.name = name;
     }
 
+    public int getId() {
+        return id;
+    }
+
     public String getIngredients() {
         return ingredients;
     }
