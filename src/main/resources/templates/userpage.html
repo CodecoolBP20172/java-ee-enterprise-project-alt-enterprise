@@ -35,7 +35,7 @@
             </div>
             <ul class="nav navbar-nav">
                 <li class="active"><a href="/">Home</a></li>
-                <li><a href="/">Restaurants</a></li>
+                <li th:if="${loggedIn}"><a th:href="@{~/user/} + ${session.id}">Profile</a></li>
             </ul>
 
             <form class="navbar-form navbar-left" action="">
@@ -46,10 +46,6 @@
             </form>
 
             <ul class="nav navbar-nav navbar-right">
-                <li th:if="${!loggedIn}"><a href="/register"><span class="glyphicon glyphicon-user"></span> Sign Up</a>
-                </li>
-                <li th:if="${!loggedIn}"><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a>
-                </li>
                 <li th:if="${loggedIn}">
                     <a th:href="@{~/user/} + ${session.id}">
                         <span class="glyphicon glyphicon-user"></span>
