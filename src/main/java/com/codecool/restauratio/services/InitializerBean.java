@@ -14,8 +14,8 @@ public class InitializerBean {
 
     public InitializerBean(UserService userService, RestaurantService restaurantService, FoodRepository foodrepo) {
 
-        User user1 = new User("józsi", "hurka", true, false);
-        User user2 = new User("bodri", "mecska", true, true);
+        User user1 = new User("józsi", "hurka", "Józsi utca 21.", true, false);
+        User user2 = new User("bodri", "mecska", "Bordri utca 13.", true, true);
 
         Food f = new Food("Melák Menü", 1500, "szenya, rántotthus, rántottsajt", "király");
         Food f2 = new Food("buja burger", 200, "burger", "jó");
@@ -35,8 +35,8 @@ public class InitializerBean {
         list3.add(f3);
 
         Restaurant r = new Restaurant("Halászcsárda", "good", "here", list, 100, user1, "/img/halasz_image.jpg");
-        Restaurant r2 = new Restaurant("Csirkés", "pretty", "Mány", list2, 50, user2, "/img/csirkes_image.jpeg");
-        Restaurant r3 = new Restaurant("Titiz", "bad", "Mány", list3, 10, user2, "/img/titiz_image.jpg");
+        Restaurant r2 = new Restaurant("Csirkés", "pretty", "Mány", list2, 50, user2, "/img/csirkes_image2.jpeg");
+        Restaurant r3 = new Restaurant("Titiz", "bad", "Mány", list3, 10, user2, "/img/titiz_image2.jpg");
         userService.registerUser(user1);
         userService.registerUser(user2);
         restaurantService.addRestaurant(r);
