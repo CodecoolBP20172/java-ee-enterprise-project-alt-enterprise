@@ -1,6 +1,7 @@
 package com.codecool.restauratio.controller;
 
 import com.codecool.restauratio.models.Food;
+import com.codecool.restauratio.repository.OrderRepository;
 import com.codecool.restauratio.services.OrderService;
 import com.codecool.restauratio.services.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +24,15 @@ public class OrderControllerREST {
     @Autowired
     private OrderService orderService;
 
-    @RequestMapping(value = "/api/food/delete/", method = RequestMethod.POST)
+    @Autowired
+    private OrderRepository orderRepo;
+
+    @RequestMapping(value = "/api/remove_food_from_order", method = RequestMethod.POST)
     public ResponseEntity<List<Food>> deleteFoodFromOrder(@RequestBody Map<String, String> data) {
-        return new ResponseEntity<>(orderService.deleteFoodFromOrder(Integer.parseInt(data.get("orderId"))), HttpStatus.OK);
+        orderService.decreaseOrderQuantity(
+                Integer.parseInt(data.get("orderId")),
+                Integer.parseInt(data.get("foodId")));
+        return new ResponseEntity<>(orderRepo.getOne(Integer.parseInt(data.get("orderId"))).getFoodList(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/api/order_food", method = RequestMethod.POST)
@@ -37,14 +44,6 @@ public class OrderControllerREST {
                 Integer.parseInt(data.get("foodId")),
                 Integer.parseInt(data.get("restaurantId"))
         );
-        return new ResponseEntity<>("ok", HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "/api/delete_order_quantity", method = RequestMethod.POST)
-    public ResponseEntity<String> getOrderDataForQuantityModification(@RequestBody Map<String, String> data) {
-        orderService.decreaseOrderQuantity(
-                Integer.parseInt(data.get("orderId")),
-                Integer.parseInt(data.get("foodId")));
         return new ResponseEntity<>("ok", HttpStatus.OK);
     }
 }

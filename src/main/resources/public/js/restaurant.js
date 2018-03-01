@@ -31,6 +31,7 @@ $(document).ready(function(){
     });
 
     $(".typeSorterButton").click(function requestRestaurantTypeData (event) {
+        event.preventDefault();
         let data = {
             "description": $(event.target).html()
         };

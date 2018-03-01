@@ -26,6 +26,8 @@
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
             crossorigin="anonymous"></script>
 
+    <script src="/js/userPage.js" defer="true"></script>
+
 
 </head>
 <body>
@@ -138,18 +140,23 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="order : ${orders}">
+                <tr class="order_information" th:each="order : ${orders}" th:attr="data-orderid=${order.getId()}" >
                     <td th:text="${order.getDate()}">...</td>
                     <td th:text="${order.getAddress()}">...</td>
-                    <td><a th:href="@{~/restaurants/} + ${order.getOrderRestaurant().getId()}"
-                           th:text="${order.getOrderRestaurant().getName()}"></a></td>
+                    <td>
+                        <a th:href="@{~/restaurants/} + ${order.getOrderRestaurant().getId()}"
+                           th:text="${order.getOrderRestaurant().getName()}">
+                        </a>
+                    </td>
                     <td>
                         <div class="foodContainer" th:each="food : ${order.getFoodList()}">
                             <span th:text="${food.getName() + '  ' +  food.getPrice()}"></span>
-                            <a class="delete_food" th:attr="data-orderId=${order.getId()}, data-foodId=${food.getId()}" href="">Cancel</a>
+                            <button class="delete_food_button" th:attr="data-foodId=${food.getId()}">
+                                Remove Food
+                            </button>
                         </div>
                     </td>
-                    <td class="foodFullPrice" th:text="${order.getFullPrice()}">...</td>
+                    <td class="full_price_display" th:text="${order.getFullPrice()}">...</td>
                 </tr>
                 </tbody>
             </table>
