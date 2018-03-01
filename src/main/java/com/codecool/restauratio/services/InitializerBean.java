@@ -34,13 +34,16 @@ public class InitializerBean {
         list3.add(f2);
         list3.add(f3);
 
-        Restaurant r = new Restaurant("Halászcsárda", "good", "here", list, 100, user1, "/img/halasz_image.jpg");
-        Restaurant r2 = new Restaurant("Csirkés", "pretty", "Mány", list2, 50, user2, "/img/csirkes_image2.jpeg");
-        Restaurant r3 = new Restaurant("Titiz", "bad", "Mány", list3, 10, user2, "/img/titiz_image2.jpg");
+        Restaurant r = new Restaurant("Halászcsárda", "Regular", "here", list, 100, user1, "/img/halasz_image.jpg");
+        Restaurant r2 = new Restaurant("Csirkés", "Fast Food", "Mány", list2, 50, user2, "/img/csirkes_image2.jpeg");
+        Restaurant r3 = new Restaurant("Titiz", "Fast Food", "Mány", list3, 10, user2, "/img/titiz_image2.jpg");
+        Restaurant r4 = new Restaurant("Donaldé", "Fast Food", "Everywhere", list3, 10, user2, "/img/titiz_image2.jpg");
+
         userService.registerUser(user1);
         userService.registerUser(user2);
         restaurantService.addRestaurant(r);
         restaurantService.addRestaurant(r2);
         restaurantService.addRestaurant(r3);
+        restaurantService.addRestaurant(r4);
     }
 }

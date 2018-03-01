@@ -67,11 +67,5 @@ public class RestApp {
     public static void main(String[] args) {
         SpringApplication.run(RestApp.class, args);
 
-//        post("/api/get_restaurant_by_location", RestaurantController::restaurantBrowseByLocation);
-
-        // RESTAURANT ROUTE
-
-//        get( "/restaurants/:restId", (request, response) -> new ThymeleafTemplateEngine().render( RestaurantController.renderRestaurant(request, response, request.params( ":restId" )) ));
-
     }
 }

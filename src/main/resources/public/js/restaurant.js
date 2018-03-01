@@ -30,6 +30,23 @@ $(document).ready(function(){
         });
     });
 
+    $(".typeSorterButton").click(function requestRestaurantTypeData (event) {
+        let data = {
+            "description": $(event.target).html()
+        };
+        $.ajax({
+            type: "POST",
+            url: "/api/get_restaurant_by_type",
+            data: JSON.stringify(data),
+            dataType: "json",
+            contentType:  "application/json",
+            success: function (response) {
+               populateDomWithRestaurantData(response);
+               console.log(response)
+            }
+        });
+    });
+
     function populateDomWithRestaurantData (response) {
         let targetDiv = $(".restaurantListContainer");
         targetDiv.empty();
@@ -64,7 +81,5 @@ $(document).ready(function(){
 
             return wrapper;
     }
-
-
 
 });
