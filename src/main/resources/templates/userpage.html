@@ -34,8 +34,10 @@
                 <a class="navbar-brand" href="/">Restauráció Renaissance</a>
             </div>
             <ul class="nav navbar-nav">
-                <li class="active"><a href="/">Home</a></li>
-                <li th:if="${loggedIn}"><a th:href="@{~/user/} + ${session.id}">Profile</a></li>
+                <li><a href="/">Home</a></li>
+                <li th:if="${loggedIn}" th:class="${view == 'profile'}? 'active'"><a th:href="@{~/user/} + ${session.id}">Profile</a></li>
+                <li th:if="${loggedIn}" th:class="${view == 'reservations'}? 'active'"><a th:href="@{~/user/} + ${session.id} + '/reservations'">Reservations</a></li>
+                <li th:if="${loggedIn}"  th:class="${view == 'orders'}? 'active'"><a th:href="@{~/user/} + ${session.id} + '/orders'">Orders</a></li>
             </ul>
 
             <form class="navbar-form navbar-left" action="">
@@ -61,13 +63,13 @@
 
 <div class="well">
     <ul class="nav nav-tabs">
-        <li class="active"><a href="#Profile" data-toggle="tab">Profile</a></li>
-        <li><a href="#reservationView" data-toggle="tab">Reservations</a></li>
-        <li><a href="#orderView" data-toggle="tab">Orders</a></li>
+        <li th:class="${view == 'profile'}? 'active'"><a href="#Profile" data-toggle="tab">Profile</a></li>
+        <li th:class="${view == 'reservations'}? 'active'"><a href="#reservationView" data-toggle="tab">Reservations</a></li>
+        <li th:class="${view == 'orders'}? 'active'"><a href="#orderView" data-toggle="tab">Orders</a></li>
     </ul>
 </div>
 <div id="myTabContent" class="tab-content">
-    <div class="tab-pane active in" id="Profile">
+    <div th:class="${view == 'profile'}? 'tab-pane active in' : 'tab-pane fade'" id="Profile">
         <div id="tab" class="col-md-9 col-lg-9">
             <table class="table table-user-information">
                 <tbody>
@@ -96,7 +98,7 @@
         </div>
     </div>
 
-    <div class="tab-pane fade" id="reservationView">
+    <div th:class="${view == 'reservations'}? 'tab-pane active in' : 'tab-pane fade'" id="reservationView">
         <div id="tab2">
             <table class="table">
                 <thead>
@@ -119,7 +121,7 @@
         </div>
     </div>
 
-    <div class="tab-pane fade" id="orderView">
+    <div th:class="${view == 'orders'}? 'tab-pane active in' : 'tab-pane fade'" id="orderView">
         <div id="tab3">
             <table class="table">
                 <thead>
