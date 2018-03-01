@@ -144,12 +144,12 @@
                     <td><a th:href="@{~/restaurants/} + ${order.getOrderRestaurant().getId()}"
                            th:text="${order.getOrderRestaurant().getName()}"></a></td>
                     <td>
-                        <div th:each="food : ${order.getFoodList()}">
+                        <div class="foodContainer" th:each="food : ${order.getFoodList()}">
                             <span th:text="${food.getName() + '  ' +  food.getPrice()}"></span>
-                            <a th:href="@{~/food/delete/} + ${food.getId()}">Cancel</a>
+                            <a class="delete_food" th:attr="data-orderId=${order.getId()}, data-foodId=${food.getId()}" href="">Cancel</a>
                         </div>
                     </td>
-                    <td th:text="${order.getFullPrice()}">...</td>
+                    <td class="foodFullPrice" th:text="${order.getFullPrice()}">...</td>
                 </tr>
                 </tbody>
             </table>
