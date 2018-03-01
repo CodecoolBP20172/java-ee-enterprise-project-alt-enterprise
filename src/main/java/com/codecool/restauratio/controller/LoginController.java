@@ -46,7 +46,7 @@ public class LoginController {
     public String registerUser(@RequestParam(value = "username") String username,
                                       @RequestParam(value = "password") String password, HttpSession session) {
         if (!userService.doesUserExist(username)) {
-            int userId = userService.registerUser(username, password, false, false);
+            int userId = userService.registerUser(username, password, "here",false, false);
             session.setAttribute("id", userId);
             session.setAttribute("username", username);
             return "redirect:/";
