@@ -21,22 +21,32 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     @Column(unique = true, nullable = false)
     private String userName;
+
     @Column(nullable = false)
     private String FirstName;
+
     @Column(nullable = false)
     private String LastName;
+
     @Column(unique = true, nullable = false)
     private String password;
+
     @Column(unique = true, nullable = false)
     private String email;
+
     @Column(nullable = false)
     private String address;
+
     @Column(nullable = false)
     private boolean isAdmin;
+
     @Column(nullable = false)
     private boolean isOwner;
+
+
 
     @OneToMany(mappedBy = "owner")
     private List<Restaurant> restaurants;
@@ -62,6 +72,7 @@ public class User {
         this.address = address;
         this.isAdmin = isAdmin;
         this.isOwner = isOwner;
+
         reservations = new ArrayList<>();
         restaurants = new ArrayList<>();
         orders = new ArrayList<>();
@@ -79,6 +90,14 @@ public class User {
         this.userName = userName;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
     public void setPassword(String password) {
         this.password = password;
     }
@@ -93,10 +112,6 @@ public class User {
 
     public String getEmail() {
         return email;
-    }
-
-    public String getAddress() {
-        return address;
     }
 
     public String getPassword() {

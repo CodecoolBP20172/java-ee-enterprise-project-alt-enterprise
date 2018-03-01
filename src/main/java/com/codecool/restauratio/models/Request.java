@@ -15,13 +15,7 @@ public abstract class Request {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "reservation_date")
     private Date date;
-
-    @ManyToOne
-    private User user;
-
-    @ManyToOne
-    private Restaurant restaurant;
-
+    
 
     public Request(Date date){
         this.date = date;

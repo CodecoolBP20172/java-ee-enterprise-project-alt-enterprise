@@ -22,6 +22,9 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
             crossorigin="anonymous"></script>
+
+    <script src="/js/restaurantPage.js" defer="true"></script>
+
 </head>
 <body>
     <div>
@@ -50,12 +53,94 @@
         </nav>
     </div>
 
-    <div>
-        <p th:text="${restaurant.getName()}"></p>
-        <p th:text="${restaurant.getDescription()}"></p>
-        <p th:text="${restaurant.getLocation()}"></p>
-        <a href="#" class="btn btn-default" role="button">Make a reservation</a>
-        <a href="#" class="btn btn-default" role="button">Menu</a>
+    <div class="thumbnail">
+        <div class="container-fluid restaurantDiv restaurant_information" th:id="${restaurant.getId()}" >
+            <div class="row">
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                    <img th:src="${restaurant.getImageReference()}" class="img-thumbnail"/>
+                </div>
+                <div style="margin-top: 50px" class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                    <h4 th:text="'Restaurant name: ' + ${restaurant.getName()}">Name</h4>
+                    <h4 th:text="'Description: ' + ${restaurant.getDescription()}">Description</h4>
+                    <h4 th:text="'Location: ' + ${restaurant.getLocation()}">Location</h4>
+                    <h4 th:text="'Capacity: ' + ${restaurant.getCapacity()}">Capacity</h4>
+                </div>
+                <div th:if="${loggedin}" style="margin-top: 100px" class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                    <a href="#" class="btn btn-default reservationButton" data-toggle="modal" data-target="#exampleModal" role="button">Make a reservation</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Reservation</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div>
+                            <label for="date-input">Date: </label><br/>
+                            <input type="date" id="date-input"/>
+                            <input type="time" id="time-input"/>
+                        </div><br/>
+                        <div class="form-group">
+                            <label for="sel1">Number of people:</label>
+                            <select class="form-control" id="sel1">
+                                <option th:each="item : ${new int[10]}" th:text="${itemStat.count}"></option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="comment-text" class="form-control-label">Comment:</label>
+                            <textarea class="form-control" id="comment-text"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button"
+                            class="btn btn-primary reservationCreator"
+                            th:attr="data-restaurant=${restaurant.getId()}">
+                        Make reservation
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class= "container" id="food_content" style="width: 75%; vertical-align: top">
+        <h1>Menu</h1>
+        <div class="table-responsive-vertical shadow-z-1">
+            <table id="table" class="table table-hover table-mc-pink">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Ingredients</th>
+                    <th>Price</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody th:each="food, iter : ${restaurant.getMenu()}">
+                    <tr>
+                        <td data-title="Name" th:text="${food.getName()}"></td>
+                        <td data-title="Ingerdients" th:text="${food.getIngredients()}"></td>
+                        <td data-title="Price" th:text="${food.getPrice()}"></td>
+                        <td th:if="${loggedin}"
+                            class="add_food_to_cart"
+                            data-title="Actions"
+                            th:attr="data-user_id=${session.id}"
+                            th:id="${food.getId()}">
+                            <button>Add to Cart</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 
 </body>

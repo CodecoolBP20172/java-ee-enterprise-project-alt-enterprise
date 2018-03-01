@@ -13,4 +13,9 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Integer>
 
     @Query("SELECT DISTINCT r.location FROM Restaurant r")
     List<String> getRestaurantLocations();
+
+    List<Restaurant> getRestaurantByDescription(String description);
+
+    @Query("SELECT DISTINCT r.description FROM Restaurant r ")
+    List<String> getRestaurantDescriptions();
 }

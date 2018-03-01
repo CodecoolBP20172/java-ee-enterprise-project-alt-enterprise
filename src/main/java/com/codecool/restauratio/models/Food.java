@@ -32,6 +32,9 @@ public class Food {
         setReview(review);
     }
 
+    public int getId() {
+        return id;
+    }
     public double getPrice() {
         return price;
     }
@@ -46,10 +49,6 @@ public class Food {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public int getId() {
-        return id;
     }
 
     public String getIngredients() {

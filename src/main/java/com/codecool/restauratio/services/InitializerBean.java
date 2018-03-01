@@ -23,8 +23,10 @@ public class InitializerBean {
                            ReservationRepository reservRepo, OrderRepository orderRepo,
                            FoodRepository foodRepo) throws ParseException {
 
+
         User user1 = new User("józsi", "József", "Bende", "hurka", "józsi@citromail.com", "codecool", true, false);
         User user2 = new User("bodri", "Bodri", "Nemecsek", "mecska", "bodri@gmail.com", "home", true, true);
+
 
         Food f = new Food("Melák Menü", 1500, "szenya, rántotthus, rántottsajt", "király");
         Food f2 = new Food("buja burger", 200, "burger", "jó");
@@ -43,9 +45,11 @@ public class InitializerBean {
         list3.add(f2);
         list3.add(f3);
 
-        Restaurant r = new Restaurant("Halászcsárda", "good", "here", list, 100, user1, "/img/halasz_image.jpg");
-        Restaurant r2 = new Restaurant("Csirkés", "pretty", "Mány", list2, 50, user2, "/img/csirkes_image.jpeg");
-        Restaurant r3 = new Restaurant("Titiz", "bad", "Mány", list3, 10, user2, "/img/titiz_image.jpg");
+        Restaurant r = new Restaurant("Halászcsárda", "Regular", "here", list, 100, user1, "/img/halasz_image.jpg");
+        Restaurant r2 = new Restaurant("Csirkés", "Fast Food", "Mány", list2, 50, user2, "/img/csirkes_image2.jpeg");
+        Restaurant r3 = new Restaurant("Titiz", "Fast Food", "Mány", list3, 10, user2, "/img/titiz_image2.jpg");
+        Restaurant r4 = new Restaurant("Donaldé", "Fast Food", "Everywhere", list3, 10, user2, "/img/titiz_image2.jpg");
+
         userService.registerUser(user1);
         userService.registerUser(user2);
         restaurantService.addRestaurant(r);
@@ -54,11 +58,12 @@ public class InitializerBean {
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         Date date = sdf.parse("2018-03-01 11:45");
-        Reservation reservation = new Reservation(date, 4, r2, user1);
+        Reservation reservation = new Reservation(date, 4, "it's good fam", r2, user1);
         reservRepo.save(reservation);
 
         Date orderDate = sdf.parse("2018-03-02 20:00");
         Order  order = new Order(orderDate, "codecool", list3, user1, r3);
         orderRepo.save(order);
+        restaurantService.addRestaurant(r4);
     }
 }

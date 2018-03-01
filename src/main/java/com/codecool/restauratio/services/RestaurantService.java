@@ -29,11 +29,10 @@ public class RestaurantService {
     }
 
 
-    void makeReservation (int numberOfPPL, int restaurantId, int userId) throws ConnectToDBFailed {
-        Date date = new Date();
+    public void makeReservation (Date date, int numberOfPPL, int restaurantId, int userId, String comment) throws ConnectToDBFailed {
         Restaurant reservationTargetRestaurant = restaurantRepository.findOne(restaurantId);
         User reservationUser = userRepository.findOne(userId);
-        Reservation currentReservation = new Reservation(date, numberOfPPL, reservationTargetRestaurant, reservationUser);
+        Reservation currentReservation = new Reservation(date, numberOfPPL, comment, reservationTargetRestaurant, reservationUser);
         reservationRepository.save(currentReservation);
     }
 
@@ -62,4 +61,15 @@ public class RestaurantService {
         return locations;
     }
 
+    public List<String> getDescriptions() throws ConnectToDBFailed {
+        List<String> descriptions = restaurantRepository.getRestaurantDescriptions();
+        if (descriptions == null) {
+            throw new ConnectToDBFailed("CONNECTION FAILED FAM. HAHA");
+        }
+        return descriptions;
+    }
+
+    public List<Restaurant> restaurantTypeBrowser(String description) {
+        return restaurantRepository.getRestaurantByDescription(description);
+    }
 }

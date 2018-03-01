@@ -64,7 +64,14 @@
             <div class="sidebar-nav">
                 <h6>Locations</h6>
                 <ul class="nav locationSorterButton" th:each="location, iter : ${locations}">
-                    <li><a href="#" th:text="${location}">Location</a></li>
+                    <li><a href="" th:text="${location}">Location</a></li>
+                    <li class="nav-divider"></li>
+                </ul>
+            </div>
+            <div class="sidebar-nav">
+                <h6>Type</h6>
+                <ul class="nav typeSorterButton" th:each="desc, iter : ${descriptions}">
+                    <li><a href="" th:text="${desc}">Type</a></li>
                     <li class="nav-divider"></li>
                 </ul>
             </div>
