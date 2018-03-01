@@ -38,7 +38,7 @@
                     <li class="active"><a href="/">Home</a></li>
                     <li><a href="/">Restaurants</a></li>
                 </ul>
-                <form class="navbar-form navbar-left" action="/action_page.php">
+                <form class="navbar-form navbar-left" action="">
                     <div class="form-group">
                         <input type="text" class="form-control" placeholder="Search"/>
                     </div>
@@ -51,7 +51,7 @@
                     <li th:if="${loggedin}">
                         <a th:href="@{~/user/} + ${session.id}">
                             <span class="glyphicon glyphicon-user"></span>
-                            <span th:text="${username}"></span>
+                            <span th:text="${session.username}"></span>
                         </a>
                     </li>
                     <li th:if="${loggedin}"><a href="/logout"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
