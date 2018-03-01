@@ -46,6 +46,16 @@ public class Order extends Request{
 
     }
 
+    public Order(Date date, String address, List<Food> foodList, User user, Restaurant restaurant) {
+        super(date);
+        setUser(user);
+        setAddress(address);
+        setOrderRestaurant(restaurant);
+        setFoodList(foodList);
+        isActive = true;
+
+    }
+
     public String getAddress() {
         return address;
     }
@@ -76,6 +86,14 @@ public class Order extends Request{
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public double getFullPrice() {
+        double fullPrice = 0;
+        for (Food food : foodList) {
+            fullPrice += food.getPrice();
+        }
+        return fullPrice;
     }
 
     public boolean isActive() {

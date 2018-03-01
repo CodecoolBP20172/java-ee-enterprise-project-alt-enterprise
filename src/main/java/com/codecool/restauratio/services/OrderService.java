@@ -1,6 +1,10 @@
 package com.codecool.restauratio.services;
 
 import com.codecool.restauratio.models.Food;
+
+import org.springframework.stereotype.Service;
+
+
 import com.codecool.restauratio.models.Order;
 import com.codecool.restauratio.models.Restaurant;
 import com.codecool.restauratio.models.users.User;
@@ -9,7 +13,6 @@ import com.codecool.restauratio.repository.OrderRepository;
 import com.codecool.restauratio.repository.RestaurantRepository;
 import com.codecool.restauratio.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,9 +21,9 @@ import java.util.List;
 @Service
 public class OrderService {
     //TODO Usage Driven Development
-
     @Autowired
     private UserRepository userRepository;
+
     @Autowired
     private OrderRepository orderRepository;
     @Autowired
@@ -41,6 +44,13 @@ public class OrderService {
             orderToSave = new Order(currentDate, foodListToSave, orderUser, restaurantFromOrder);
         }
         saveOrder(orderToSave);
+    }
+
+    public List<Food> deleteFoodFromOrder(int orderId) {
+        // delete food from order
+        // save order
+        // return updated orders foodlist
+        return null;
     }
 
     public void decreaseOrderQuantity (Integer orderId, Integer foodId) {

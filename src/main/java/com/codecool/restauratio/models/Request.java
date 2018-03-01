@@ -31,11 +31,11 @@ public abstract class Request {
         this.id = id;
     }
 
-    public Date getCreationDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setCreationDate(Date creationDate) {
-        this.date = creationDate;
+    public void setDate(Date date) {
+        this.date = date;
     }
 }
