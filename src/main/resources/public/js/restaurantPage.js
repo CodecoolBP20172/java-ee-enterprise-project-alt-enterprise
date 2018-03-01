@@ -26,6 +26,7 @@ $(document).ready(function(){
         event.preventDefault();
         let data = {
             "date": $("#date-input").val(),
+            "time": $("#time-input").val(),
             "numOfPeople": $("#sel1").find(":selected").text(),
             "comment": $("#comment-text").val(),
             "restaurantId": $(".reservationCreator").data("restaurant")

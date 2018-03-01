@@ -38,7 +38,8 @@ public class RestaurantControllerREST {
     public ResponseEntity<String> makeReservation(@RequestBody Map<String, String> data, HttpSession session) throws ConnectToDBFailed, ParseException {
         int userId = (int) session.getAttribute("id");
         String rawDate = data.get("date");
-        String formattedDate = rawDate.replace("T", " ");
+        String rawTime = data.get("time");
+        String formattedDate = rawDate + " " + rawTime;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         java.util.Date date = sdf.parse(formattedDate);
         restService.makeReservation(date,
