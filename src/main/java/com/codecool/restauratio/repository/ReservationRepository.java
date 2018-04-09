@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface ReservationRepository extends JpaRepository<Reservation, Integer> {
-    @Query("SELECT r FROM Reservation r WHERE guest_id = :userId")
-    List<Reservation> findAllByUser(@Param("userId") Integer userId);
+
+    List<Reservation> findAllByGuest(User guest);
+
 }

@@ -14,6 +14,11 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    // returns the user by the given id
+    public User getUserBy(int id) {
+        return userRepository.findOne(id);
+    }
+
     // returns with the id of the created user
     public int registerUser(User user) {
         userRepository.save(user);
@@ -49,4 +54,5 @@ public class UserService {
         }
         return false;
     }
+
 }

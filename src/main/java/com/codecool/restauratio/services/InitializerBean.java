@@ -20,19 +20,19 @@ import java.util.List;
 public class InitializerBean {
 
     public InitializerBean(UserService userService, RestaurantService restaurantService,
-                           ReservationRepository reservRepo, OrderRepository orderRepo,
+                           ReservationRepository reserveRepo, OrderRepository orderRepo,
                            FoodRepository foodRepo) throws ParseException {
 
 
-        User user1 = new User("józsi", "József", "Bende", "hurka", "józsi@citromail.com", "codecool", true, false);
-        User user2 = new User("bodri", "Bodri", "Nemecsek", "mecska", "bodri@gmail.com", "home", true, true);
+        User user1 = new User("józsi", "József", "Bende", "passwd", "józsi@citromail.com", "codecool", true, false);
+        User user2 = new User("Erni", "Ernő", "Nemecsek", "1212", "erni@gmail.com", "home", true, true);
 
 
-        Food f = new Food("Melák Menü", 1500, "szenya, rántotthus, rántottsajt", "király");
-        Food f2 = new Food("buja burger", 200, "burger", "jó");
-        Food f3 = new Food("Tele Tál Falafel", 4000, "minden ami blefér", "ragya");
-        Food f4 = new Food("BigKek", 2999, "Burger, meet, tomato, special sauce", "toppos");
-        Food f5 = new Food("Halászlé", 3888, "hal, lé", "adja");
+        Food f = new Food("Melák Menü", 1500, "szenya, rántott hús, rántott sajt", "király");
+        Food f2 = new Food("burger", 200, "burger", "Elmegy");
+        Food f3 = new Food("Tele Tál Falafel", 4000, "minden ami belefér", "so-so");
+        Food f4 = new Food("BigKek", 2999, "Burger, meet, tomato, special sauce", "top1");
+        Food f5 = new Food("Halászlé", 3888, "hal, lé", "Finom volt");
         foodRepo.save(f);
         foodRepo.save(f2);
         foodRepo.save(f3);
@@ -62,7 +62,7 @@ public class InitializerBean {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         Date date = sdf.parse("2018-03-01 11:45");
         Reservation reservation = new Reservation(date, 4, "it's good fam", r2, user1);
-        reservRepo.save(reservation);
+        reserveRepo.save(reservation);
 
         Date orderDate = sdf.parse("2018-03-02 20:00");
         Order  order = new Order(orderDate, "codecool", list3, user1, r3);

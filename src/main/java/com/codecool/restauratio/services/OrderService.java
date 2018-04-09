@@ -70,5 +70,7 @@ public class OrderService {
     }
 
 
-
+    public List<Order> findAllBy(User user) {
+        return orderRepository.findAllByUser(user);
+    }
 }
